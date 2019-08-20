@@ -1,67 +1,34 @@
 import React, { Component } from 'react';
 import './App.css';
-import Text from './components/text'
+import Validation from './Validation/Validation';
+import Char from './Char/Char';
 
 class App extends Component {
-
   state = {
-    texts: [
-      { id: 1, value: 'boom', count: 4 },
-      { id: 2, value: 'dog', count: 3 },
-      { id: 3, value: 'hellfire', count: 8 }
-    ],
-    inputValue: 'Another',
-    highestId: 3
+    userInput: ''
   }
 
-  removeHandler(id) {
-    const textIndex = this.state.texts.findIndex(text => {
-      return text.id === id;
-    })
-    const texts = [...this.state.texts];
-    texts.splice(textIndex, 1);
-    this.setState({ texts: texts });
+  inputChangedHandler = ( event ) => {
+    this.setState( { userInput: event.target.value } );
   }
 
-  addHandler() {
-    let text = {
-      id: this.state.highestId + 1,
-      value: this.state.inputValue,
-      count: this.state.inputValue.length
-    }
-    let texts = [...this.state.texts, text];
-    this.setState({
-      texts: texts,
-      highestId: this.state.highestId + 1,
-      inputValue: ''
-    })
-    document.querySelector('input').value = '';
+  deleteCharHandler = ( index ) => {
+    const text = this.state.userInput.split('');
+    text.splice(index, 1);
+    const updatedText = text.join('');
+    this.setState({userInput: updatedText});
   }
 
-  changeInputValue(input) {
-    this.setState({ inputValue: input.target.value });
-  }
-
-  render() {
-
-    let texts = (
-      <div>
-        {
-          this.state.texts.map(text => {
-            return <Text
-              key={text.id}
-              id={text.id}
-              value={text.value}
-              count={text.count}
-              click={() => this.removeHandler(text.id)}
-            />
-          })
-        }
-      </div>
-    )
+  render () {
+    const charList = this.state.userInput.split('').map((ch, index) => {
+      return <Char 
+        character={ch} 
+        key={index}
+        clicked={() => this.deleteCharHandler(index)} />;
+    });
 
     return (
-      <div >
+      <div className="App">
         <ol>
           <li>Create an input field (in App component) with a change listener which outputs the length of the entered text below it (e.g. in a paragraph).</li>
           <li>Create a new component (=> ValidationComponent) which receives the text length as a prop</li>
@@ -70,15 +37,15 @@ class App extends Component {
           <li>Render a list of CharComponents where each CharComponent receives a different letter of the entered text (in the initial input field) as a prop.</li>
           <li>When you click a CharComponent, it should be removed from the entered text.</li>
         </ol>
-        <br />
-        <div className="App">
-          {texts}
-          <input
-            type="text"
-            value={this.inputValue}
-            onChange={(event) => this.changeInputValue(event)} />
-          <button onClick={() => this.addHandler()}>Add</button>
-        </div>
+        <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
+        <hr />
+        <input
+          type="text"
+          onChange={this.inputChangedHandler}
+          value={this.state.userInput} />
+        <p>{this.state.userInput}</p>
+        <Validation inputLength={this.state.userInput.length} />
+        {charList}
       </div>
     );
   }
