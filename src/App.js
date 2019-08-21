@@ -8,21 +8,21 @@ class App extends Component {
     userInput: ''
   }
 
-  inputChangedHandler = ( event ) => {
-    this.setState( { userInput: event.target.value } );
+  inputChangedHandler = (event) => {
+    this.setState({ userInput: event.target.value });
   }
 
-  deleteCharHandler = ( index ) => {
+  deleteCharHandler = (index) => {
     const text = this.state.userInput.split('');
     text.splice(index, 1);
     const updatedText = text.join('');
-    this.setState({userInput: updatedText});
+    this.setState({ userInput: updatedText });
   }
 
-  render () {
+  render() {
     const charList = this.state.userInput.split('').map((ch, index) => {
-      return <Char 
-        character={ch} 
+      return <Char
+        character={ch}
         key={index}
         clicked={() => this.deleteCharHandler(index)} />;
     });
