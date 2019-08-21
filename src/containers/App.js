@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Person from '../components/person'
-import Car from '../components/car'
+import Persons from '../components/persons';
+import Control from '../components/control'
+import Car from '../components/car';
 
 class App extends Component {
 
@@ -30,26 +31,16 @@ class App extends Component {
     const person = {
       ...this.state.persons[personIndex]
     }
-    // alternatively
-    // const person = Object.assign({}, this.state.persons[personIndex]);
-
     person.name = event.target.value;
 
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
     this.setState({ persons: persons });
-
-    // or alternativelty with index
-    // const persons = this.state.persons;
-    // persons[index].name = event.target.value;
-    // this.setState({ persons: persons });
   }
 
   deletePersonHandler = (index) => {
     const persons = [...this.state.persons];
-    // alternative to ES6
-    // const persons = this.state.persons.slice();
     persons.splice(index, 1);
     this.setState({ persons: persons });
   }
@@ -60,26 +51,16 @@ class App extends Component {
 
     if (this.state.showPersons) {
       persons = (
-        <div>
-          {
-            this.state.persons.map((person, index) => {
-              return <Person
-                key={person.id}
-                name={person.name}
-                age={person.age}
-                // Better approach is to use id than index
-                change={(event) => this.changeNameHandler(event, person.id)}
-                click={() => this.deletePersonHandler(index)} />;
-            })
-          }
-        </div>
+        <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.changeNameHandler} />
       );
     }
 
     return (
       <div className="App" >
-        <h1>Test</h1>
-        <button onClick={this.togglePersonsHandler}>Toggle</button>
+        <Control toggle={this.togglePersonsHandler} />
         {persons}
         <Car />
       </div>
