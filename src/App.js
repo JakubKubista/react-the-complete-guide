@@ -56,6 +56,12 @@ class App extends Component {
 
   render() {
 
+    const style = {
+      backgroundColor: 'green',
+      padding: '5px 8px',
+      curson: 'pointer'
+    }
+
     let persons = null;
 
     if (this.state.showPersons) {
@@ -74,12 +80,14 @@ class App extends Component {
           }
         </div>
       );
+
+      style.backgroundColor = '#f115';
     }
 
     return (
       <div className="App" >
         <h1>Test</h1>
-        <button onClick={this.togglePersonsHandler}>Toggle</button>
+        <button style={style} onClick={this.togglePersonsHandler}>Toggle</button>
         {persons}
         <Car />
       </div>
