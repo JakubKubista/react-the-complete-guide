@@ -3,6 +3,7 @@ import './App.css';
 
 import Person from './components/person'
 import Car from './components/car'
+import ErrorBoundary from './error-handler/error-boundary'
 
 class App extends Component {
 
@@ -63,13 +64,15 @@ class App extends Component {
         <div>
           {
             this.state.persons.map((person, index) => {
-              return <Person
-                key={person.id}
-                name={person.name}
-                age={person.age}
-                // Better approach is to use id than index
-                change={(event) => this.changeNameHandler(event, person.id)}
-                click={() => this.deletePersonHandler(index)} />;
+              return <ErrorBoundary key={person.id}>
+                <Person
+                  key={person.id}
+                  name={person.name}
+                  age={person.age}
+                  // Better approach is to use id than index
+                  change={(event) => this.changeNameHandler(event, person.id)}
+                  click={() => this.deletePersonHandler(index)} />
+              </ErrorBoundary>;
             })
           }
         </div>
