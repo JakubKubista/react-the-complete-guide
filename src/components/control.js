@@ -1,7 +1,7 @@
 import React from 'react';
 import Aux from '../hoc/Aux';
 
-const Controls = props => {
+const controls = props => {
   // Better apporach than array is Auxiliary, but even better is React.Fragment
   return <Aux>
     <h1 key="h1">Test</h1>
@@ -15,5 +15,5 @@ const Controls = props => {
   //   ];
 };
 
-export default Controls;
+export default controls;
 

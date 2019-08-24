@@ -1,9 +1,12 @@
 import React from 'react';
-import './person.css';
+import PropTypes from 'prop-types';
+
 import Aux from '../../hoc/Aux'
 import withClassArguments from '../../hoc/WithClassArguments';
 
-const Person = props => {
+import './person.css';
+
+const person = props => {
   return (
     <Aux>
       <p> Name: {props.name}, Age: {props.age}</p>
@@ -13,4 +16,4 @@ const Person = props => {
     </Aux>
   );
 }
-export default withClassArguments(Person, "Person");
+export default withClassArguments(person, "Person");
