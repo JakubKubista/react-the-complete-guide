@@ -8,6 +8,12 @@ import Aux from '../hoc/Aux';
 import withClassArguments from '../hoc/WithClassArguments';
 
 class App extends Component {
+  constructor(props) {
+    // You can use this property only after super,
+    // which refers to parent class constructor
+    super(props);
+    console.log('[App.js] constructor');
+  }
 
   state = {
     persons: [
@@ -16,6 +22,7 @@ class App extends Component {
       { id: '3', name: 'Tim', age: 30 }
     ],
     note: 'some additionals',
+    count: 3,
     showPersons: true
   }
 
@@ -44,10 +51,18 @@ class App extends Component {
   deletePersonHandler = (index) => {
     const persons = [...this.state.persons];
     persons.splice(index, 1);
-    this.setState({ persons: persons });
+    // Following apporach guarantee, that you will change real previous state
+    // and not some older one, because in case of multiple setState functions
+    // could for example 'this.state.count + 1' cause a problem - BEST PRACTICE
+    this.setState((prevState, props) => {
+      return {
+        persons: persons,
+        count: prevState.count - 1
+      };
+    });
   }
-
   render() {
+    console.log('count:' + this.state.count)
 
     let persons = null;
 
