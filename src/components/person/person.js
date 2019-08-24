@@ -7,13 +7,13 @@ import withClassArguments from '../../hoc/WithClassArguments';
 import './person.css';
 
 const Person = props => {
-  let inputElRef = createRef();
+  const inputElRef = createRef(); // or useRef
 
   // If it would be a class component,
   // then it should looks like this:
   // constructor(props) {
   //   super(props);
-  //   this.inputElRef = createRef();
+  //   this.inputElRef = React.createRef();
   // }
 
   useEffect(() => {
