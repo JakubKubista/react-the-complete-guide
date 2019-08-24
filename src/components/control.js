@@ -1,12 +1,18 @@
 import React from 'react';
+import Aux from '../hoc/Aux';
 
 const Controls = props => {
-  return (
-    <div>
-      <h1>Test</h1>
-      <button onClick={props.toggle}>Toggle</button>
-    </div>
-  );
+  // Better apporach than array
+  return <Aux>
+    <h1 key="h1">Test</h1>
+    <button key="button" onClick={props.toggle}>Toggle</button>
+  </Aux>;
+
+  // We can deal with elements as with array, but it is not the best approach
+  // return [
+  //     <h1 key="h1">Test</h1>,
+  //     <button key="button" onClick={props.toggle}>Toggle</button>
+  //   ];
 };
 
 export default Controls;
