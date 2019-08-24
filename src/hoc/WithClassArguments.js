@@ -4,7 +4,7 @@ import React from 'react';
 const withClassArguments = (WrappedComponent, className) => {
   return props => (
     <div className={className}>
-      <WrappedComponent />
+      <WrappedComponent {...props} />
     </div>
   );
 };
