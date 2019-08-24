@@ -16,4 +16,14 @@ const person = props => {
     </Aux>
   );
 }
+
+// Works for class components as well.
+// Lower case of name propTypes.
+person.propTypes = {
+  name: PropTypes.string,
+  age: PropTypes.number,
+  change: PropTypes.func,
+  click: PropTypes.func
+}
+
 export default withClassArguments(person, "Person");
