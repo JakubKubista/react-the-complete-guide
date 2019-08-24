@@ -13,7 +13,7 @@ const Control = props => {
       console.log('[Control.js] cleanup Control')
     }
     // without any argument = change every time when is something changed
-    // with empty array it is only when component is created
+    // with empty array it is only when component is created - same like componentDidMount
   }, []);
 
 
