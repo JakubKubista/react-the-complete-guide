@@ -20,7 +20,8 @@ class App extends Component {
       { id: '3', name: 'Tim', age: 30 }
     ],
     note: 'some additionals',
-    showPersons: false
+    showPersons: false,
+    showControl: true
   }
 
   // [Creating, Updating props] Lifecycle Hook
@@ -63,6 +64,12 @@ class App extends Component {
     });
   }
 
+  toggleControlHandler = () => {
+    this.setState({
+      showControl: !this.state.showControl
+    });
+  }
+
   changeNameHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(person => {
       return person.id === id;
@@ -90,6 +97,7 @@ class App extends Component {
   render() {
     console.log('[App.js] render');
     let persons = null;
+    let control = null;
 
     if (this.state.showPersons) {
       persons = (
@@ -100,9 +108,18 @@ class App extends Component {
       );
     }
 
+    if (this.state.showControl) {
+      control = (
+        <Control
+          toggle={this.togglePersonsHandler}
+          personsLength={this.state.persons.length} />
+      );
+    }
+
     return (
       <div className="App" >
-        <Control toggle={this.togglePersonsHandler} />
+        <button onClick={this.toggleControlHandler}>Toggle Control</button>
+        {control}
         {persons}
         <Car />
       </div>
