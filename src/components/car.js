@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 class Car extends Component {
   state = {
@@ -21,13 +21,11 @@ class Car extends Component {
       cursor: 'pointer'
     }
 
-    return (
-      <div className="Car" >
-        <div style={style}>{this.state.cars[0].name}</div>
-        <div style={style}>{this.state.cars[1].name}</div>
-        <div style={style}>{this.state.cars[2].name}</div>
-      </div>
-    );
+    return <Fragment>
+      <div style={style}>{this.state.cars[0].name}</div>
+      <div style={style}>{this.state.cars[1].name}</div>
+      <div style={style}>{this.state.cars[2].name}</div>
+    </Fragment>;
   }
 }
 
