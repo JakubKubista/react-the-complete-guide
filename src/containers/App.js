@@ -4,7 +4,8 @@ import './App.css';
 import Persons from '../components/persons';
 import Control from '../components/control'
 import Car from '../components/car';
-import WithClass from '../hoc/WithClass';
+import Aux from '../hoc/Aux';
+import withClassArguments from '../hoc/WithClassArguments';
 
 class App extends Component {
 
@@ -60,13 +61,15 @@ class App extends Component {
     }
 
     return (
-      <WithClass classes="App" >
+      <Aux classes="App" >
         <Control toggle={this.togglePersonsHandler} />
         {persons}
         <Car />
-      </WithClass>
+      </Aux>
+      // Or is possible to use:
+      // <WithClass classes="App" >...</WithClass>
     );
   }
 }
 
-export default App;
+export default withClassArguments(App, "App");
