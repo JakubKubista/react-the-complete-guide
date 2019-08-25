@@ -5,8 +5,12 @@
   flex-flow: column;
   align-items: center;
   box-shadow: 0 2px 1px #CCC;
-  margin: 40px auto;
+  margin: 20px auto;
   padding: 10px 0;
   position: fixed;
   bottom: 0;
+}
+
+.BurgerControls p {
+  font-family: sans-serif;
 }
