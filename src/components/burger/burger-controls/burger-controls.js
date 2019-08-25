@@ -22,7 +22,8 @@ const BurgerControls = props => (
     ))}
     <button
       className={classes.OrderButton}
-      disabled={!props.purchasable}>ORDER NOW</button>
+      disabled={!props.purchasable}
+      onClick={props.order}>ORDER NOW</button>
   </div>
 );
 

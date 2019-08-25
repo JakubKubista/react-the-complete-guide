@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+
 import Aux from '../../hoc/aux';
+
 import Burger from '../../components/burger/burger';
 import BurgerControls from '../../components/burger/burger-controls/burger-controls';
+import Modal from '../../components/layout/modal/modal';
+import OrderSummary from '../../components/burger/order-summary/order-summary';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -11,6 +15,7 @@ const INGREDIENT_PRICES = {
 }
 
 class BurgerBuilder extends Component {
+
   state = {
     ingredients: {
       salad: 0,
@@ -19,12 +24,8 @@ class BurgerBuilder extends Component {
       meat: 0
     },
     price: 4,
-    purchasable: false
-  }
-  updatePurchase(ingredients) {
-    const sum = (Object.values(ingredients))
-      .reduce((a, b) => a + b, 0);
-    this.setState({ purchasable: sum > 0 });
+    purchasable: false,
+    purchasing: false
   }
 
   addIngredientHandler = type => {
@@ -39,7 +40,7 @@ class BurgerBuilder extends Component {
       price: updatedPrice,
       ingredients: updatedIngredients
     });
-    this.updatePurchase(updatedIngredients);
+    this.updatePurchasable(updatedIngredients);
   }
 
   removeIngredientHandler = type => {
@@ -55,7 +56,18 @@ class BurgerBuilder extends Component {
       price: updatedPrice,
       ingredients: updatedIngredients
     });
-    this.updatePurchase(updatedIngredients);
+    this.updatePurchasable(updatedIngredients);
+  }
+
+  updatePurchasable(ingredients) {
+    const sum = (Object.values(ingredients))
+      .reduce((a, b) => a + b, 0);
+    this.setState({ purchasable: sum > 0 });
+  }
+
+  updatePurchasing() {
+    const oldState = this.state.purchasing;
+    this.setState({ purchasing: !oldState });
   }
 
   render() {
@@ -69,13 +81,18 @@ class BurgerBuilder extends Component {
 
     return (
       <Aux>
+        <Modal show={this.state.purchasing}>
+          <OrderSummary ingredients={this.state.ingredients} />
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BurgerControls
           add={this.addIngredientHandler}
           remove={this.removeIngredientHandler}
           disabled={disabled}
           purchasable={this.state.purchasable}
-          price={this.state.price} />
+          purchasing={this.state.purchasing}
+          price={this.state.price}
+          order={() => this.updatePurchasing(this.state.purchasing)} />
       </Aux>
     );
   };
