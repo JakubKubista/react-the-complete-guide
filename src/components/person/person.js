@@ -17,7 +17,7 @@ const Person = props => {
   //   this.inputElRef = React.createRef();
   // }
 
-  useEffect(() => {
+  useEffect(() => { // Improvement: better to call at the top level (not in the loop etc.)
     // inputEl.focus();
     inputElRef.current.focus();
   }, [inputElRef]);
