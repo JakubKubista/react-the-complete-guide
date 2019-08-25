@@ -94,8 +94,8 @@ class App extends Component {
           <Control
             toggle={this.togglePersonsHandler} />
           {persons}
+          <Car />
         </AuthContext.Provider>
-        <Car />
       </Aux>
       // Or is possible to use:
       // <WithClass classes="App" >...</WithClass>
