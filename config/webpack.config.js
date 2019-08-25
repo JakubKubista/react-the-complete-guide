@@ -97,7 +97,6 @@ module.exports = function (webpackEnv) {
           // https://github.com/facebook/create-react-app/issues/2677
           ident: 'postcss',
           modules: true,
-          localIdentName: '[name]__[local]__[hash:base64:5]',
           plugins: () => [
             require('postcss-flexbugs-fixes'),
             require('postcss-preset-env')({
@@ -422,6 +421,8 @@ module.exports = function (webpackEnv) {
               exclude: cssModuleRegex,
               use: getStyleLoaders({
                 importLoaders: 1,
+                modules: true,
+                localIdentName: '[name]__[local]__[hash:base64:5]',
                 sourceMap: isEnvProduction && shouldUseSourceMap,
               }),
               // Don't consider CSS imports dead code even if the
@@ -438,6 +439,7 @@ module.exports = function (webpackEnv) {
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
                 modules: true,
+                localIdentName: '[name]__[local]__[hash:base64:5]',
                 getLocalIdent: getCSSModuleLocalIdent,
               }),
             },
@@ -450,6 +452,8 @@ module.exports = function (webpackEnv) {
               use: getStyleLoaders(
                 {
                   importLoaders: 2,
+                  modules: true,
+                  localIdentName: '[name]__[local]__[hash:base64:5]',
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                 },
                 'sass-loader'
@@ -469,6 +473,7 @@ module.exports = function (webpackEnv) {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                   modules: true,
+                  localIdentName: '[name]__[local]__[hash:base64:5]',
                   getLocalIdent: getCSSModuleLocalIdent,
                 },
                 'sass-loader'
