@@ -1,6 +1,6 @@
 // Import React because of JSX
 import React from 'react';
-import Person from './person/person'
+import Person from './person/person';
 
 const persons = props =>
   props.persons.map((person, index) => {

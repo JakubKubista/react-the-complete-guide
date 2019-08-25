@@ -1,8 +1,9 @@
 import React, { useEffect, createRef } from 'react';
 import PropTypes from 'prop-types';
 
-import Aux from '../../hoc/Aux'
-import withClassArguments from '../../hoc/WithClassArguments';
+import Aux from '../../patterns/hoc/aux'
+import withClassArguments from '../../patterns/hoc/with-class-arguments';
+import AuthContext from '../../patterns/context/auth-context';
 
 import './person.css';
 
@@ -23,6 +24,10 @@ const Person = props => {
 
   return (
     <Aux>
+      <AuthContext.Consumer>
+        {context =>
+          context.authenticated ? <p>Authenticated!</p> : <p>Please log in</p>}
+      </AuthContext.Consumer>
       <p> Name: {props.name}, Age: {props.age}</p>
       <p> {props.children} </p>
       <input

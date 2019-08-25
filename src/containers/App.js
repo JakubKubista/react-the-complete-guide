@@ -4,8 +4,10 @@ import './App.css';
 import Persons from '../components/persons';
 import Control from '../components/control'
 import Car from '../components/car';
-import Aux from '../hoc/Aux';
-import withClassArguments from '../hoc/WithClassArguments';
+
+import Aux from '../patterns/hoc/aux';
+import withClassArguments from '../patterns/hoc/with-class-arguments';
+import AuthContext from '../patterns/context/auth-context';
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +25,8 @@ class App extends Component {
     ],
     note: 'some additionals',
     count: 3,
-    showPersons: true
+    showPersons: true,
+    authenticated: false
   }
 
   togglePersonsHandler = () => {
@@ -61,6 +64,13 @@ class App extends Component {
       };
     });
   }
+
+  loginHandler = () => {
+    this.setState({
+      authenticated: true
+    })
+  }
+
   render() {
     console.log('count:' + this.state.count)
 
@@ -77,8 +87,14 @@ class App extends Component {
 
     return (
       <Aux classes="App" >
-        <Control toggle={this.togglePersonsHandler} />
-        {persons}
+        <AuthContext.Provider value={{
+          authenticated: this.state.authenticated,
+          login: this.loginHandler
+        }}>
+          <Control
+            toggle={this.togglePersonsHandler} />
+          {persons}
+        </AuthContext.Provider>
         <Car />
       </Aux>
       // Or is possible to use:
