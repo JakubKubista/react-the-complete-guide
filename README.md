@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+This project has been created by @JakubKubista via [React - The Complete Guide](https://www.udemy.com/react-the-complete-guide-incl-redux/).
+
 ## Available Scripts
 
 In the project directory, you can run:
