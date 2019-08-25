@@ -1,18 +1,16 @@
-import React from 'react';
-import Aux from '../patterns/hoc/aux';
+import React, { Fragment, useContext } from 'react';
 import AuthContext from '../patterns/context/auth-context'
 
-const controls = props => {
-  // Better apporach than array is Auxiliary, but even better is React.Fragment
-  return <Aux>
+const Controls = props => {
+  // Better than AuthContext.Consumer
+  const authContext = useContext(AuthContext);
+
+  // Better than array is Auxiliary, but even better is React.Fragment
+  return <Fragment>
     <h1 key="h1">Test</h1>
     <button key="button-1" onClick={props.toggle}>Toggle</button>
-    <AuthContext.Consumer>
-      {context =>
-        <button key="button-2" onClick={context.login}>Log in</button>
-      }
-    </AuthContext.Consumer>
-  </Aux>;
+    <button key="button-2" onClick={authContext.login}>Log in</button>
+  </Fragment>;
 
   // We can deal with elements as with array, but it is not the best approach
   // return [
@@ -21,5 +19,5 @@ const controls = props => {
   //   ];
 };
 
-export default controls;
+export default Controls;
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import Person from './person/person';
 
-const persons = props =>
+const Persons = props =>
   props.persons.map((person, index) => {
     return <Person
       key={person.id}
@@ -12,4 +12,4 @@ const persons = props =>
       change={(event) => props.changed(event, person.id)} />;
   });
 
-export default persons;
+export default Persons;
