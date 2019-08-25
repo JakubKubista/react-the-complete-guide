@@ -1,3 +1,7 @@
+# React - The Complete Guide
+
+Use separated branches step by step to learn awesome library [React](https://reactjs.org/docs).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 This project has been created with love by [JakubKubista](https://github.com/JakubKubista) via [React - The Complete Guide](https://www.udemy.com/react-the-complete-guide-incl-redux/).
