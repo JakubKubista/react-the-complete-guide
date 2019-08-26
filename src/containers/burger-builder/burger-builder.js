@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/aux';
 import BURGER from '../../constants/burger';
 
-import Burger from '../../components/burger/burger';
-import BurgerControls from '../../components/burger/burger-controls/burger-controls';
+import Burger from '../../components/burger-builder/burger/burger';
+import BurgerControls from '../../components/burger-builder/burger-controls/burger-controls';
 import Modal from '../../components/layout/modal/modal';
-import OrderSummary from '../../components/burger/order-summary/order-summary';
+import OrderSummary from '../../components/burger-builder/order-summary/order-summary';
 
 class BurgerBuilder extends Component {
 

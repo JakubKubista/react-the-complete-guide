@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './burger.scss';
-import BurgerIngredient from './burger-ingredient/burger-ingredient';
+import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 
 // Component was called after Order now button (Pure not)
 class Burger extends PureComponent {
