@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 
 import Aux from '../../hoc/aux';
+import BURGER from '../../constants/burger';
 
 import Burger from '../../components/burger/burger';
 import BurgerControls from '../../components/burger/burger-controls/burger-controls';
 import Modal from '../../components/layout/modal/modal';
 import OrderSummary from '../../components/burger/order-summary/order-summary';
-
-const INGREDIENT_PRICES = {
-  salad: 0.5,
-  cheese: 0.4,
-  meat: 1.3,
-  bacon: 0.7
-}
 
 class BurgerBuilder extends Component {
 
@@ -35,7 +29,7 @@ class BurgerBuilder extends Component {
     }
     updatedIngredients[type] = count + 1;
     const price = this.state.price;
-    const updatedPrice = price + INGREDIENT_PRICES[type];
+    const updatedPrice = price + BURGER.INGREDIENT_PRICES[type];
     this.setState({
       price: updatedPrice,
       ingredients: updatedIngredients
@@ -51,7 +45,7 @@ class BurgerBuilder extends Component {
     }
     updatedIngredients[type] = count - 1;
     const price = this.state.price;
-    const updatedPrice = price - INGREDIENT_PRICES[type];
+    const updatedPrice = price - BURGER.INGREDIENT_PRICES[type];
     this.setState({
       price: updatedPrice,
       ingredients: updatedIngredients
