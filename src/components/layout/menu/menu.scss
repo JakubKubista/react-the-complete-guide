@@ -3,45 +3,13 @@
   padding: 0;
   list-style: none;
   display: flex;
+  flex-flow: column;
   align-items: center;
   height: 100%;
 }
 
-.Menu li a {
-  color: #FFF;
-  text-decoration: none;
-  height: 100%;
-  padding: 16px 10px;
-  border-bottom: 4px solid transparent;
-  box-sizing: border-box;
-  display: block;
-}
-
-.Menu li a:hover,
-.Menu li a:active,
-.Menu li a.active,
-.Menu li .Active {
-  background-color: #8F5C2C;
-  border-bottom: 4px solid #40A4C8;
-  color: #FFF;
-}
-
-@media (max-width: 500px) {
+@media (min-width: 500px) {
   .Menu {
-    flex-flow: row;
-    width: auto;
-    display: block;
-  }
-  .Menu li a {
-    color: #8F5C2C;
-  }
-
-  .Menu li a:hover,
-  .Menu li a:active,
-  .Menu li a.active,
-  .Menu li .Active {
-    background-color: rgba(143, 92, 44, 0.1);
-    border-bottom: 4px solid #40A4C8;
-    color: #40A4C8;
+      flex-flow: row;
   }
 }

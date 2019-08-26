@@ -1,10 +1,12 @@
 import React from 'react';
 import classes from './menu.scss';
 
-const Menu = props => (
+import MenuItem from './menu-item/menu-item';
+
+const Menu = () => (
   <ul className={classes.Menu}>
-    <li><a href="/" className={classes.Active} >Burger Builder</a></li>
-    <li><a href="/">Ceckout</a></li>
+    <MenuItem link="/" active>Burger Builder</MenuItem>
+    <MenuItem link="/">Checkout</MenuItem>
   </ul>
 );
 
