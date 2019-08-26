@@ -1,14 +1,14 @@
 import React from 'react';
 import classes from './toolbar.scss';
 import Logo from '../logo/logo';
+import Menu from '../menu/menu';
 
 const Toolbar = props => (
   <header className={classes.Toolbar}>
     <div>MENU</div>
     <Logo />
     <nav>
-      <ul>Item</ul>
-      <ul>Item</ul>
+      <Menu />
     </nav>
   </header>
 );
