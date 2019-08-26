@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classes from './modal.scss';
 import Backdrop from '../backdrop/backdrop';
@@ -10,17 +10,32 @@ const style = show => {
   };
 };
 
-const Modal = props =>
-  <Fragment>
-    <Backdrop
-      show={props.show}
-      clickOut={props.modalClosed} />
-    <div
-      className={classes.Modal}
-      style={style(props.show)}>
-      {props.children}
-    </div>
-  </Fragment>;
+class Modal extends Component {
+
+  // More straightforward and less checks than PureComponent
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.show !== this.props.show;
+  }
+
+  componentDidUpdate() {
+    console.log('[Modal] componentDidUpdate')
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <Backdrop
+          show={this.props.show}
+          clickOut={this.props.modalClosed} />
+        <div
+          className={classes.Modal}
+          style={style(this.props.show)}>
+          {this.props.children}
+        </div>
+    </Fragment>
+    )
+  }
+}
 
   Modal.propTypes = {
     show: PropTypes.bool,

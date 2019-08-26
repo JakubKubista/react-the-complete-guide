@@ -1,42 +1,43 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import Button from '../../layout/button/button';
 
-const OrderSummary = props => {
+class OrderSummary extends Component {
+  componentDidUpdate() {
+    console.log('[OrderSummary] componentDidUpdate')
+  }
 
-  const liStyle = {
-    textTransform: 'capitalize'
+  render() {
+    const ingredientSummary = Object.keys(this.props.ingredients)
+      .map(ingredientKey => {
+        return (
+          <li
+            style={{textTransform: 'capitalize'}}
+            key={ingredientKey}>
+            <span>
+              {ingredientKey}
+            </span>: {this.props.ingredients[ingredientKey]}
+          </li>
+        )
+      });
+
+    return (
+      <Fragment>
+        <h3>Your Order</h3>
+        <p>A delicious burger with the following ingredients: </p>
+        <ul>
+          {ingredientSummary}
+        </ul>
+        <p><strong>Total Price: {this.props.price.toFixed(2)}</strong></p>
+        <p>Continue to Checkout?</p>
+        <Button
+          btnType="Danger"
+          click={this.props.cancel}>CANCEL</Button>
+        <Button
+          btnType="Success"
+          click={this.props.continue}>CONTINUE</Button>
+      </Fragment>
+    );
   };
-
-  const ingredientSummary = Object.keys(props.ingredients)
-    .map(ingredientKey => {
-      return (
-        <li
-          style={liStyle}
-          key={ingredientKey}>
-          <span>
-            {ingredientKey}
-          </span>: {props.ingredients[ingredientKey]}
-        </li>
-      )
-    });
-
-  return (
-    <Fragment>
-      <h3>Your Order</h3>
-      <p>A delicious burger with the following ingredients: </p>
-      <ul>
-        {ingredientSummary}
-      </ul>
-      <p><strong>Total Price: {props.price.toFixed(2)}</strong></p>
-      <p>Continue to Checkout?</p>
-      <Button
-        btnType="Danger"
-        click={props.cancel}>CANCEL</Button>
-      <Button
-        btnType="Success"
-        click={props.continue}>CONTINUE</Button>
-    </Fragment>
-  );
 };
 
 export default OrderSummary;
