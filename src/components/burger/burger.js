@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import classes from './burger.scss';
 import BurgerIngredient from './burger-ingredient/burger-ingredient';
@@ -36,5 +37,9 @@ const Burger = props => {
     </div>
   );
 };
+
+Burger.propTypes = {
+  ingredients: PropTypes.object
+}
 
 export default Burger;

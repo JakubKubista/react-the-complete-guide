@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classes from './burger-controls.scss';
 import BurgerControl from './burger-control/burger-control';
 
@@ -26,5 +27,12 @@ const BurgerControls = props => (
       onClick={props.order}>ORDER NOW</button>
   </div>
 );
+
+BurgerControls.propTypes = {
+  price: PropTypes.number,
+  purchasable: PropTypes.bool,
+  disabled: PropTypes.object,
+  order: PropTypes.func,
+}
 
 export default BurgerControls;
