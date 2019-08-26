@@ -25,3 +25,23 @@
   border-bottom: 4px solid #40A4C8;
   color: #FFF;
 }
+
+@media (max-width: 500px) {
+  .Menu {
+    flex-flow: row;
+    width: auto;
+    display: block;
+  }
+  .Menu li a {
+    color: #8F5C2C;
+  }
+
+  .Menu li a:hover,
+  .Menu li a:active,
+  .Menu li a.active,
+  .Menu li .Active {
+    background-color: rgba(143, 92, 44, 0.1);
+    border-bottom: 4px solid #40A4C8;
+    color: #40A4C8;
+  }
+}
