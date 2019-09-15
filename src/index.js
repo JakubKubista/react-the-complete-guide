@@ -6,6 +6,8 @@ import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
+axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // global error service handling
 
@@ -19,6 +21,7 @@ const intRequest = axios.interceptors.request.use(request => {
 });
 
 const intResponse = axios.interceptors.response.use(response => {
+  console.log(response)
   return response;
 }, error => {
   console.log(error);
