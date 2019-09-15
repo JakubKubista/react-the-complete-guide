@@ -5,9 +5,11 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
 
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
+
 // global error service handling
 
-axios.interceptors.request.use(request => {
+const intRequest = axios.interceptors.request.use(request => {
   console.log(request)
   // edit configuration (request element)
   return request;
@@ -16,13 +18,15 @@ axios.interceptors.request.use(request => {
   return Promise.reject(error);
 });
 
-axios.interceptors.response.use(response => {
-  console.log(response)
+const intResponse = axios.interceptors.response.use(response => {
   return response;
 }, error => {
   console.log(error);
   return Promise.reject(error);
 });
+
+//Removing Interceptors
+[intRequest, intResponse].forEach(el => axios.interceptors.request.eject(el));
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
