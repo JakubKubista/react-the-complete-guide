@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route, NavLink } from 'react-router-dom';
+import { Route, NavLink, Switch } from 'react-router-dom';
 
 import Posts from './Posts/Posts';
 import NewPost from './NewPost/NewPost';
@@ -24,7 +24,7 @@ class Blog extends Component {
                                 activeStyle={{
                                     color: '#fa923f',
                                     textDecoration: 'underline'
-                                }}>Home</NavLink></li>
+                                }}>Posts</NavLink></li>
                             <li><NavLink to={{
                                 pathname: '/new-post',
                                 hash: '#submit',
@@ -33,10 +33,15 @@ class Blog extends Component {
                         </ul>
                     </nav>
                 </header>
-                {/* exact = absolute path name of Route */}
+                {/*
+                    exact = absolute path name of Route
+                    switch = render only one of the routes
+                */}
                 <Route path="/" exact component={Posts} />
-                <Route path="/new-post" component={NewPost} />
-                <Route path="/:id" exact component={FullPost} />
+                <Switch>
+                    <Route path="/new-post" component={NewPost} />
+                    <Route path="/:id" exact component={FullPost} /> {/* or use /posts/:id instead of switch */}
+                </Switch>
             </div>
         );
     }
