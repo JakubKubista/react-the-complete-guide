@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-
 import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
-import Posts from './Posts/Posts';
-import NewPost from './NewPost/NewPost';
-
 import './Blog.css';
+import Posts from './Posts/Posts';
+// import NewPost from './NewPost/NewPost';
+import asyncComponent from '../../hoc/asyncComponent';
+
+
+const AsyncNewPost = asyncComponent(() => {
+    return import('./NewPost/NewPost');
+});
 
 class Blog extends Component {
     state = {
-        auth: false
+        auth: true
     }
 
     render () {
@@ -41,13 +45,16 @@ class Blog extends Component {
                 */}
                 <Switch>
                     {/* order of routes matters, because the first route consume others and so on */}
-                    {this.state.auth ? <Route path="/new-post" component={NewPost} /> : null}
+                    {this.state.auth ? <Route path="/new-post" component={AsyncNewPost} /> : null}
                     <Route path="/posts" component={Posts} />
                     {/* using more route levels than one like this in posts file */}
                     {/* or use /posts/:id instead of switch */}
                     {/*  <Route path="/:id" exact component={FullPost} /> */}
 
-                    <Redirect from="/" to="/posts" />
+                    {/* handling unknown routes (404) */}
+                    <Route render={() => <h1>Not found</h1>} />
+
+                    {/* <Redirect from="/" to="/posts" /> */}
                     {/* previous row is same as following */}
                     {/* <Route path="/posts" component={Posts} /> */}
                 </Switch>
