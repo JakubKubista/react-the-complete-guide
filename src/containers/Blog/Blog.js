@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route, NavLink, Switch } from 'react-router-dom';
+import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
 import Posts from './Posts/Posts';
 import NewPost from './NewPost/NewPost';
@@ -43,6 +43,10 @@ class Blog extends Component {
                     {/* using more route levels than one like this in posts file */}
                     {/* or use /posts/:id instead of switch */}
                     {/*  <Route path="/:id" exact component={FullPost} /> */}
+
+                    <Redirect from="/" to="/posts" />
+                    {/* previous row is same as following */}
+                    {/* <Route path="/posts" component={Posts} /> */}
                 </Switch>
             </div>
         );
