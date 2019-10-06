@@ -8,6 +8,9 @@ import NewPost from './NewPost/NewPost';
 import './Blog.css';
 
 class Blog extends Component {
+    state = {
+        auth: false
+    }
 
     render () {
         return (
@@ -38,7 +41,7 @@ class Blog extends Component {
                 */}
                 <Switch>
                     {/* order of routes matters, because the first route consume others and so on */}
-                    <Route path="/new-post" component={NewPost} />
+                    {this.state.auth ? <Route path="/new-post" component={NewPost} /> : null}
                     <Route path="/posts" component={Posts} />
                     {/* using more route levels than one like this in posts file */}
                     {/* or use /posts/:id instead of switch */}
