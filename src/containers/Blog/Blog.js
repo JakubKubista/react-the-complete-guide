@@ -4,7 +4,6 @@ import { Route, NavLink, Switch } from 'react-router-dom';
 
 import Posts from './Posts/Posts';
 import NewPost from './NewPost/NewPost';
-import FullPost from './FullPost/FullPost';
 
 import './Blog.css';
 
@@ -18,7 +17,7 @@ class Blog extends Component {
                         <ul>
                             {/* active is redundant and it's just for example*/}
                             <li><NavLink
-                                to="/"
+                                to="/posts/"
                                 exact
                                 activeClassName="my-active"
                                 activeStyle={{
@@ -37,10 +36,13 @@ class Blog extends Component {
                     exact = absolute path name of Route
                     switch = render only one of the routes
                 */}
-                <Route path="/" exact component={Posts} />
                 <Switch>
+                    {/* order of routes matters, because the first route consume others and so on */}
                     <Route path="/new-post" component={NewPost} />
-                    <Route path="/:id" exact component={FullPost} /> {/* or use /posts/:id instead of switch */}
+                    <Route path="/posts" component={Posts} />
+                    {/* using more route levels than one like this in posts file */}
+                    {/* or use /posts/:id instead of switch */}
+                    {/*  <Route path="/:id" exact component={FullPost} /> */}
                 </Switch>
             </div>
         );

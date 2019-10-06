@@ -10,7 +10,8 @@ class FullPost extends Component {
 
     updatePostHandler = () => {
         if (this.props.match.params.id) {
-            if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.match.params.id)) {
+            // + before variable is same as Number(variable)
+            if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== +this.props.match.params.id)) {
             axios.get('/posts/' + this.props.match.params.id)
                 .then(response => {
                     this.setState({
@@ -29,6 +30,10 @@ class FullPost extends Component {
     }
 
     componentDidMount() {
+        this.updatePostHandler();
+    }
+
+    componentDidUpdate() {
         this.updatePostHandler();
     }
 
