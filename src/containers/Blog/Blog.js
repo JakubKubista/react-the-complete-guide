@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 
-/*
-import Post from '../../components/Post/Post';
-import FullPost from '../../components/FullPost/FullPost';
-import NewPost from '../../components/NewPost/NewPost';
-*/
-
 import { Route, NavLink } from 'react-router-dom';
 
 import Posts from './Posts/Posts';
 import NewPost from './NewPost/NewPost';
+import FullPost from './FullPost/FullPost';
+
 import './Blog.css';
 
 class Blog extends Component {
@@ -37,21 +33,10 @@ class Blog extends Component {
                         </ul>
                     </nav>
                 </header>
-                {/*
-                <section>
-                    <FullPost id={this.state.selectedPostId} />
-                </section>
-                <section>
-                    <NewPost />
-                </section>
-                */}
                 {/* exact = absolute path name of Route */}
-                {/*
-                <Route path="/" exact render={() => <h1>Lel</h1>} />
-                <Route path="/" render={() => <h1>Lelee</h1>} />
-                */}
                 <Route path="/" exact component={Posts} />
                 <Route path="/new-post" component={NewPost} />
+                <Route path="/:id" exact component={FullPost} />
             </div>
         );
     }
