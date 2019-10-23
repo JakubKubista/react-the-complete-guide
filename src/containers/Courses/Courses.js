@@ -11,14 +11,22 @@ class Courses extends Component {
         ]
     }
 
+    selectCourse = (id) => {
+        // this.props.history.push({pathname: '/' + id})
+        console.log('id: '+id)
+        this.props.history.push('/courses/' + id)
+    }
+
     render () {
         return (
             <div>
-                <h1>Amazing Udemy Courses</h1>
                 <section className="Courses">
                     {
                         this.state.courses.map( course => {
-                            return <article className="Course" key={course.id}>{course.title}</article>;
+                            return <article
+                                className="Course"
+                                key={course.id}
+                                clicked={() => this.selectCourse(course.id)}>{course.title}</article>;
                         } )
                     }
                 </section>
