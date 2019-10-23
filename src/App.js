@@ -18,10 +18,10 @@ class App extends Component {
                 <NavLink to="/" exact>Task</NavLink>
               </li>
               <li>
-                <NavLink to="/users/">Users</NavLink>
+                <NavLink to="/users">Users</NavLink>
               </li>
               <li>
-                <NavLink to="/courses/">Courses</NavLink>
+                <NavLink to="/courses">Courses</NavLink>
               </li>
             </nav>
 
