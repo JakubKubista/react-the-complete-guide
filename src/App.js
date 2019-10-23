@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Switch, Route } from 'react-router-dom';
+
 import Courses from './containers/Courses/Courses';
 import Users from './containers/Users/Users';
 
@@ -17,6 +19,10 @@ class App extends Component {
           <li>Add a 404 error page and render it for any unknown routes</li>
           <li>Redirect requests to /all-courses to /courses (=> Your "Courses" page)</li>
         </ol>
+        <Switch>
+          <Route path="/users" component={Users} />
+          <Route path="/courses" component={Courses} />
+        </Switch>
       </div>
     );
   }
