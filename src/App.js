@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, NavLink } from 'react-router-dom';
 
 import Courses from './containers/Courses/Courses';
 import Users from './containers/Users/Users';
@@ -21,10 +21,21 @@ class App extends Component {
         </ol>
         <br />
         <BrowserRouter>
-          <Switch>
-            <Route path="/users" component={Users} />
-            <Route path="/courses" component={Courses} />
-          </Switch>
+          <div class="Menu">
+            <nav>
+              <li>
+                <NavLink to="/users/" active>Users</NavLink>
+              </li>
+              <li>
+                <NavLink to="/courses/">Courses</NavLink>
+              </li>
+            </nav>
+
+            <Switch>
+              <Route path="/users" component={Users} />
+              <Route path="/courses" component={Courses} />
+            </Switch>
+          </div>
         </BrowserRouter>
       </div>
     );
