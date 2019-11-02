@@ -1,0 +1,18 @@
+$checkout-summary-size: 500px;
+
+.CheckoutSummary {
+  text-align: center;
+  width: 80%;
+  margin: auto;
+}
+
+@media (min-width: 600px) {
+  .CheckoutSummary {
+    width: $checkout-summary-size;
+  }
+}
+
+.BudgerContainer {
+  width: 100%;
+  margin: auto;
+}
