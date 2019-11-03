@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 import Aux from '../../hoc/aux';
-import ErrorHandler from '../../hoc/errorHandler';
+import withErrorHandler from '../../hoc/errorHandler';
 import BURGER from '../../constants/burger';
 
 import Burger from '../../components/burger-builder/burger/burger';
@@ -155,4 +155,4 @@ class BurgerBuilder extends Component {
   };
 };
 
-export default ErrorHandler(BurgerBuilder, axios);
+export default withErrorHandler(BurgerBuilder, axios);
