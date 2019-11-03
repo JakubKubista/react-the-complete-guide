@@ -4,7 +4,7 @@ import classes from './order.scss';
 const Order = props => (
   <div className={classes.Order}>
     <p>Ingredients: Salad (1)</p>
-    <p>Price: <strong>USD 5.45</strong></p>
+    <p>Price: <b>USD 5.45</b></p>
   </div>
 );
 

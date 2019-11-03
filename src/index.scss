@@ -1,7 +1,11 @@
-$font-default: 'Open Sans', sans-serif;
+$font-default: sans-serif;
 
 body {
   margin: 0;
   padding: 0;
+  font-family: $font-default;
+}
+
+body a {
   font-family: $font-default;
 }
