@@ -9,7 +9,7 @@ export const MENU = {
   },
   ELEMENTS: {
     home: 'Burger Builder',
-    checkout: 'Checkout'
+    orders: 'Orders'
   }
 };
 

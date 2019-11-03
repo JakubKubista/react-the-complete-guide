@@ -5,8 +5,8 @@ import MenuItem from './menu-item/menu-item';
 
 const Menu = () => (
   <ul className={classes.Menu}>
-    <MenuItem link="/" active>{MENU.ELEMENTS.home}</MenuItem>
-    <MenuItem link="/">{MENU.ELEMENTS.checkout}</MenuItem>
+    <MenuItem link="/" exact>{MENU.ELEMENTS.home}</MenuItem>
+    <MenuItem link="/orders">{MENU.ELEMENTS.orders}</MenuItem>
   </ul>
 );
 
