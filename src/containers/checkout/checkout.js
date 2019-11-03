@@ -1,5 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+
+import ContactData from './contact-data/contact-data';
 import CheckoutSummary from '../../components/burger-builder/checkout-summary/checkout-summary';
 
 class Checkout extends Component {
@@ -41,6 +44,7 @@ class Checkout extends Component {
           ingredients={this.state.ingredients}
           cancel={this.checkoutCancelHandler}
           continue={this.checkoutContinueHandler} />
+          <Route path={this.props.match.path + '/contact-data'} component={ContactData} />
       </div>
     )
   }
