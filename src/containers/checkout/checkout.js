@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import CheckoutSummary from '../../components/burger-builder/checkout-summary/checkout-summary';
 
@@ -9,6 +10,20 @@ class Checkout extends Component {
       cheese: 1,
       bacon: 1
     }
+  }
+
+  componentDidMount() {
+    const query = new URLSearchParams(this.props.location.search);
+    const ingredients = {};
+
+    for (let param of query.entries()) {
+      // ['salad', 1]
+      ingredients[param[0]] = +param[1];
+    }
+
+    this.setState({
+      ingredients: ingredients
+    });
   }
 
   checkoutCancelHandler = () => {
