@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import axios from '../../../axios-orders';
 
@@ -9,11 +10,63 @@ import classes from './contact-data.scss';
 
 class ContactData extends Component {
   state = {
-    name: '',
-    emai: '',
-    address: {
-      street: '',
-      postalCode: ''
+    orderForm: {
+      name: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Name'
+        },
+        value: ''
+      },
+      email: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'email',
+          placeholder: 'E-mail'
+        },
+        value: ''
+      },
+      street: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Street'
+        },
+        value: ''
+      },
+      postalCode: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'ZIP Code'
+        },
+        value: ''
+      },
+      country: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Country'
+        },
+        value: ''
+      },
+      deliveryMethod: {
+        elementType: 'select',
+        elementConfig: {
+          options: [
+            {
+              value: 'fastest',
+              displayValue: 'Fastest'
+            },
+            {
+              value: 'cheapest',
+              displayValue: 'Cheapest'
+            }
+          ]
+        },
+        value: ''
+      }
     },
     loading: false
   }
@@ -53,12 +106,40 @@ class ContactData extends Component {
       });
   }
 
+  inputChangedHandler = (event, inputIdentifier) => {
+    const updatedOrderForm = {
+      ...this.state.orderForm
+    }
+
+    const updatedFormElement = {
+      ...updatedOrderForm[inputIdentifier]
+    }
+
+    updatedFormElement.value = event.target.value;
+    updatedOrderForm[inputIdentifier] = updatedFormElement;
+    this.setState({
+      orderForm: updatedOrderForm
+    })
+  }
+
   render () {
+    const formElementsArray = [];
+    for (let key in this.state.orderForm) {
+      formElementsArray.push({
+        id: key,
+        config: this.state.orderForm[key]
+      })
+    }
+
     let form = (<form>
-      <Input inputtype="input" type="text" name="name" placeholder="Name" />
-      <Input inputtype="input" type="email" name="email" placeholder="E-mail" />
-      <Input inputtype="input" type="text" name="street" placeholder="Street" />
-      <Input inputtype="input" type="text" name="postalCode" placeholder="Postal code" />
+      {formElementsArray.map(formElement => (
+        <Input
+          key={formElement.id}
+          elementType={formElement.config.elementType}
+          elementConfig={formElement.config.elementConfig}
+          value={formElement.config.value}
+          changed={(event) => this.inputChangedHandler(event, formElement.id)} />
+      ))}
       <br />
       <Button btnType="Success" click={this.orderHandler}>ORDER</Button>
     </form>
