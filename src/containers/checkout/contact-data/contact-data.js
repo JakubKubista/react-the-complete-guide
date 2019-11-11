@@ -95,6 +95,7 @@ class ContactData extends Component {
           ]
         },
         value: 'fastest',
+        validation: {},
         valid: true,
         touched: false
       }
@@ -137,7 +138,7 @@ class ContactData extends Component {
     let isValid = true;
 
     if (!rules) {
-      return isValid;
+      return true;
     }
 
     if (rules.required && isValid) {
