@@ -23,6 +23,8 @@ class Counter extends Component {
             case 'sub':
                 this.setState( ( prevState ) => { return { counter: prevState.counter - value } } )
                 break;
+            default:
+                return;
         }
     }
 
@@ -30,10 +32,10 @@ class Counter extends Component {
         return (
             <div>
                 <CounterOutput value={this.props.ctr} />
-                <CounterControl label="Increment" clicked={() => this.counterChangedHandler( 'inc' )} />
-                <CounterControl label="Decrement" clicked={() => this.counterChangedHandler( 'dec' )}  />
-                <CounterControl label="Add 5" clicked={() => this.counterChangedHandler( 'add', 5 )}  />
-                <CounterControl label="Subtract 5" clicked={() => this.counterChangedHandler( 'sub', 5 )}  />
+                <CounterControl label="Increment" clicked={this.props.onIncrementCounter} />
+                <CounterControl label="Decrement" clicked={this.props.onDecrementCounter}  />
+                <CounterControl label="Add 5" clicked={this.props.onAddCounter}  />
+                <CounterControl label="Subtract 5" clicked={this.props.onSubtractCounter}  />
             </div>
         );
     }
@@ -44,6 +46,15 @@ const mapStatetoProps = state => {
     return {
         ctr: state.counter
     };
-}
+};
 
-export default connect(mapStatetoProps)(Counter);
+const mapDispatchToProps = dispatch => {
+    return {
+        onIncrementCounter: () => dispatch({type: 'INCREMENT'}),
+        onDecrementCounter: () => dispatch({type: 'DECREMENT'}),
+        onAddCounter: () => dispatch({type: 'ADD', value: 5}),
+        onSubtractCounter: () => dispatch({type: 'SUBTRACT', value: 5})
+    }
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(Counter);
