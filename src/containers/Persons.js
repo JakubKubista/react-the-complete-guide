@@ -30,10 +30,10 @@ class Persons extends Component {
             <div>
                 <AddPerson personAdded={this.personAddedHandler} />
                 {this.state.persons.map(person => (
-                    <Person 
+                    <Person
                         key={person.id}
-                        name={person.name} 
-                        age={person.age} 
+                        name={person.name}
+                        age={person.age}
                         clicked={() => this.personDeletedHandler(person.id)}/>
                 ))}
             </div>
