@@ -1,9 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
+import axios from '../../axios-orders';
 import Aux from '../../hoc/aux';
 import withErrorHandler from '../../hoc/errorHandler';
 import BURGER from '../../constants/burger';
+import * as actionTypes from '../../store/actions/types';
 
 import Burger from '../../components/burger-builder/burger/burger';
 import BurgerControls from '../../components/burger-builder/burger-controls/burger-controls';
@@ -11,15 +14,11 @@ import Modal from '../../components/layout/modal/modal';
 import OrderSummary from '../../components/burger-builder/order-summary/order-summary';
 import Spinner from '../../components/layout/spinner/spinner';
 
-import axios from '../../axios-orders';
-
 class BurgerBuilder extends Component {
-
   state = {
     ingredients: null,
     price: 4,
     purchasable: false,
-    purchasing: false,
     loading: false,
     error: false
   }
@@ -59,17 +58,6 @@ class BurgerBuilder extends Component {
     const sum = (Object.values(ingredients))
       .reduce((a, b) => a + b, 0);
     this.setState({ purchasable: sum > 0 });
-  }
-
-  updatePurchasing() {
-    const oldState = this.state.purchasing;
-    this.setState({ purchasing: !oldState });
-  }
-
-  purchasingCancelHandler = () => {
-    this.setState({
-      purchasing: false
-    });
   }
 
   purchasingContinueHandler = () => {
@@ -128,15 +116,15 @@ class BurgerBuilder extends Component {
           remove={this.removeIngredientHandler}
           disabled={disabled}
           purchasable={this.state.purchasable}
-          purchasing={this.state.purchasing}
+          purchasing={this.props.purchasing}
           price={this.state.price}
-          order={() => this.updatePurchasing(this.state.purchasing)} />
+          order={this.props.onPurchasingOn} />
       </Aux>);
 
       orderSummary = <OrderSummary
         ingredients={this.state.ingredients}
         price={this.state.price}
-        cancel={this.purchasingCancelHandler}
+        cancel={this.props.onPurchasingOff}
         continue={this.purchasingContinueHandler} />
     }
 
@@ -145,7 +133,7 @@ class BurgerBuilder extends Component {
     return (
       <Aux>
         <Modal
-          show={this.state.purchasing}
+          show={this.props.purchasing}
           modalClosed={this.purchasingCancelHandler}>
           {orderSummary}
         </Modal>
@@ -155,4 +143,19 @@ class BurgerBuilder extends Component {
   };
 };
 
-export default withErrorHandler(BurgerBuilder, axios);
+const mapStateToProps = state => {
+  return {
+    purchasing: state.burgerBuilder.purchasing
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onPurchasingOn: () => dispatch({type: actionTypes.PURCHASING_ON}),
+    onPurchasingOff: () => dispatch({type: actionTypes.PURCHASING_OFF})
+  }
+};
+
+const BurgerBuilderConnected = connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder);
+
+export default withErrorHandler(BurgerBuilderConnected, axios);

@@ -1,0 +1,2 @@
+export const PURCHASING_ON = 'PURCHASING_ON';
+export const PURCHASING_OFF = 'PURCHASING_OFF';
