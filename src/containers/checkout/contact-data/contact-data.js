@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import axios from '../../../axios-orders';
 
+import {ORDER_FORM} from '../../../constants/checkout';
 import Button from '../../../components/layout/button/button';
 import Spinner from '../../../components/layout/spinner/spinner';
 import Input from '../../../components/layout/form/input/input';
@@ -10,95 +12,7 @@ import classes from './contact-data.scss';
 
 class ContactData extends Component {
   state = {
-    orderForm: {
-      name: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'Name'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
-      },
-      email: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'email',
-          placeholder: 'E-mail'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
-      },
-      street: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'Street'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
-      },
-      postalCode: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'ZIP Code'
-        },
-        value: '',
-        validation: {
-          required: true,
-          minLength: 5,
-          maxLength: 5,
-          type: 'number'
-        },
-        valid: false,
-        touched: false
-      },
-      country: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'Country'
-        },
-        value: '',
-        validation: {
-          required: true,
-          minLength: 3
-        },
-        valid: false,
-        touched: false
-      },
-      deliveryMethod: {
-        elementType: 'select',
-        elementConfig: {
-          options: [
-            {
-              value: 'fastest',
-              displayValue: 'Fastest'
-            },
-            {
-              value: 'cheapest',
-              displayValue: 'Cheapest'
-            }
-          ]
-        },
-        value: 'fastest',
-        validation: {},
-        valid: true
-      }
-    },
+    orderForm: ORDER_FORM,
     formIsValid: false,
     loading: false
   }
@@ -223,4 +137,11 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+  return {
+    ingredients: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.price
+  };
+};
+
+export default connect(mapStateToProps)(ContactData);
