@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import axios from '../../axios-orders';
 import Aux from '../../hoc/aux';
 import withErrorHandler from '../../hoc/errorHandler';
-import BURGER from '../../constants/burger';
+import {INGREDIENT_PRICES} from '../../constants/burger';
 import * as actionTypes from '../../store/actions/types';
 
 import Burger from '../../components/burger-builder/burger/burger';
@@ -16,7 +16,6 @@ import Spinner from '../../components/layout/spinner/spinner';
 
 class BurgerBuilder extends Component {
   state = {
-    price: 4,
     purchasable: false,
     loading: false,
     error: false
@@ -28,8 +27,8 @@ class BurgerBuilder extends Component {
       ...this.props.ingredients
     }
     updatedIngredients[type] = count + 1;
-    const price = this.state.price;
-    const updatedPrice = price + BURGER.INGREDIENT_PRICES[type];
+    const price = this.props.price;
+    const updatedPrice = price + INGREDIENT_PRICES[type];
     this.setState({
       price: updatedPrice,
       ingredients: updatedIngredients
@@ -44,8 +43,8 @@ class BurgerBuilder extends Component {
       ...this.props.ingredients
     }
     updatedIngredients[type] = count - 1;
-    const price = this.state.price;
-    const updatedPrice = price - BURGER.INGREDIENT_PRICES[type];
+    const price = this.props.price;
+    const updatedPrice = price - INGREDIENT_PRICES[type];
     this.setState({
       price: updatedPrice,
       ingredients: updatedIngredients
@@ -64,7 +63,7 @@ class BurgerBuilder extends Component {
     for (let i in this.props.ingredients) {
       queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingredients[i]));
     }
-    queryParams.push('price=' + this.state.price);
+    queryParams.push('price=' + this.props.price);
     const queryString = queryParams.join('&');
     this.props.history.push({
       pathname: '/checkout',
@@ -117,13 +116,13 @@ class BurgerBuilder extends Component {
           disabled={disabled}
           purchasable={this.state.purchasable}
           purchasing={this.props.purchasing}
-          price={this.state.price}
+          price={this.props.price}
           order={this.props.onPurchasingOn} />
       </Aux>);
 
       orderSummary = <OrderSummary
         ingredients={this.props.ingredients}
-        price={this.state.price}
+        price={this.props.price}
         cancel={this.props.onPurchasingOff}
         continue={this.purchasingContinueHandler} />
     }

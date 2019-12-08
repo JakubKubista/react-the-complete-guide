@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/types';
+import {INGREDIENT_PRICES} from '../../constants/burger';
 
 const initialState = {
   ingredients: {
@@ -19,7 +20,8 @@ const burgerBuilderReducer = (state = initialState, action) => {
         ingredients: {
           ...state.ingredients,
           [action.ingredientName]: state.ingredients[action.ingredientName] + 1
-        }
+        },
+        price: state.price + INGREDIENT_PRICES[action.ingredientName]
       }
     case actionTypes.INGREDIENT_REMOVE:
       return {
@@ -27,7 +29,8 @@ const burgerBuilderReducer = (state = initialState, action) => {
         ingredients: {
           ...state.ingredients,
           [action.ingredientName]: state.ingredients[action.ingredientName] - 1
-        }
+        },
+        price: state.price - INGREDIENT_PRICES[action.ingredientName]
       }
     case actionTypes.PURCHASING_ON:
       return {

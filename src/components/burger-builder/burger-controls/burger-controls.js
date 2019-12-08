@@ -2,18 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classes from './burger-controls.scss';
 import BurgerControl from './burger-control/burger-control';
-
-const controls = [
-  { label: 'Salad', type: 'salad' },
-  { label: 'Bacon', type: 'bacon' },
-  { label: 'Cheese', type: 'cheese' },
-  { label: 'Meat', type: 'meat' },
-]
+import {CONTROLS} from '../../../constants/burger';
 
 const BurgerControls = props => (
   <div className={classes.BurgerControls}>
     <p>Current Price: <strong>{props.price.toFixed(2)}</strong></p>
-    {controls.map(control => (
+    {CONTROLS.map(control => (
       <BurgerControl
         key={control.type}
         label={control.label}
