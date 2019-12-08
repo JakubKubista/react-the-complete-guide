@@ -26,16 +26,7 @@ class BurgerBuilder extends Component {
   }
 
   purchasingContinueHandler = () => {
-    const queryParams = [];
-    for (let i in this.props.ingredients) {
-      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingredients[i]));
-    }
-    queryParams.push('price=' + this.props.price);
-    const queryString = queryParams.join('&');
-    this.props.history.push({
-      pathname: '/checkout',
-      search: '?' + queryString
-    });
+    this.props.history.push('/checkout');
   }
 
   componentDidMount() {
@@ -59,10 +50,11 @@ class BurgerBuilder extends Component {
     const disabled = {
       ...this.props.ingredients
     }
-    // eslint-disable-next-line
+
     for (let key in disabled) {
       disabled[key] = disabled[key] <= 0;
     }
+
     let orderSummary = null;
 
     let burgerStyle = {
@@ -70,6 +62,7 @@ class BurgerBuilder extends Component {
       top: '100px',
       textAlign: 'center'
     };
+
     let burger = this.state.error ? <div style={burgerStyle} >Ingredients cannot be loaded!</div> : <Spinner />;
 
     if (this.props.ingredients) {
