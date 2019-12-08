@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/types';
 
 const initialState = {
   ingredients: {
-    salar: 0,
+    salad: 0,
     bacon: 0,
     cheese: 0,
     meat: 0
@@ -11,7 +11,7 @@ const initialState = {
   purchasing: false
 }
 
-const reducer = (state = initialState, action) => {
+const burgerBuilderReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.INGREDIENT_ADD:
       return {
@@ -44,4 +44,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default burgerBuilderReducer;
