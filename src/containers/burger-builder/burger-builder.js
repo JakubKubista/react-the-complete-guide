@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import axios from '../../axios-orders';
 import Aux from '../../hoc/aux';
 import withErrorHandler from '../../hoc/errorHandler';
-import {INGREDIENT_PRICES} from '../../constants/burger';
 import * as actionTypes from '../../store/actions/types';
 
 import Burger from '../../components/burger-builder/burger/burger';
@@ -16,46 +15,14 @@ import Spinner from '../../components/layout/spinner/spinner';
 
 class BurgerBuilder extends Component {
   state = {
-    purchasable: false,
     loading: false,
     error: false
   }
 
-  addIngredientHandler = type => {
-    const count = this.props.ingredients[type];
-    const updatedIngredients = {
-      ...this.props.ingredients
-    }
-    updatedIngredients[type] = count + 1;
-    const price = this.props.price;
-    const updatedPrice = price + INGREDIENT_PRICES[type];
-    this.setState({
-      price: updatedPrice,
-      ingredients: updatedIngredients
-    });
-    this.updatePurchasable(updatedIngredients);
-  }
-
-  removeIngredientHandler = type => {
-    const count = this.props.ingredients[type];
-    if (count <= 0) return;
-    const updatedIngredients = {
-      ...this.props.ingredients
-    }
-    updatedIngredients[type] = count - 1;
-    const price = this.props.price;
-    const updatedPrice = price - INGREDIENT_PRICES[type];
-    this.setState({
-      price: updatedPrice,
-      ingredients: updatedIngredients
-    });
-    this.updatePurchasable(updatedIngredients);
-  }
-
-  updatePurchasable(ingredients) {
-    const sum = (Object.values(ingredients))
+  isPurchasable() {
+    const sum = (Object.values(this.props.ingredients))
       .reduce((a, b) => a + b, 0);
-    this.setState({ purchasable: sum > 0 });
+    return sum > 0;
   }
 
   purchasingContinueHandler = () => {
@@ -114,7 +81,7 @@ class BurgerBuilder extends Component {
           add={this.props.onIngredientAdded}
           remove={this.props.onIngredientRemoved}
           disabled={disabled}
-          purchasable={this.state.purchasable}
+          purchasable={this.isPurchasable()}
           purchasing={this.props.purchasing}
           price={this.props.price}
           order={this.props.onPurchasingOn} />
