@@ -7,7 +7,10 @@ export const storeResultSync = (result) => {
     }
   }
 
-export const storeResult = (result) => dispatch => {
+export const storeResult = (result) => (dispatch, getState) => {
+  // Possibility of using getState to connect to previous state of store
+  // console.log('getState()');
+  // console.log(getState().ctr.counter);
   setTimeout( () => {
     dispatch(
       storeResultSync(result)
