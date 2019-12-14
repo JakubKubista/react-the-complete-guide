@@ -37,7 +37,14 @@ const ingredientRemove = (state, action) => {
 
 const ingredientSet = (state, action) => {
   const updatedStates = {
-    ingredients: action.ingredients,
+    // We cannot use ingredients: action.ingredients,
+    // because in this case it would be re-ordered ASC
+    ingredients: {
+      salad: action.ingredients.salad,
+      cheese: action.ingredients.cheese,
+      meat: action.ingredients.meat,
+      bacon: action.ingredients.bacon
+    },
     error: false
   }
   return updateObject(state, {...updatedStates});
