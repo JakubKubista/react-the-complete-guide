@@ -26,11 +26,19 @@ export const subtract = (value) => {
   }
 }
 
-export const storeResult = (result) => {
+export const storeResultSync = (result) => {
   return {
     type: actionTypes.STORE_RESULT,
     result
+    }
   }
+
+export const storeResult = (result) => dispatch => {
+  setTimeout( () => {
+    dispatch(
+      storeResultSync(result)
+    )
+  }, 2000);
 }
 
 export const deleteResult = (resultId) => {
