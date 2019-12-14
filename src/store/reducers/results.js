@@ -9,22 +9,29 @@ const initialState = {
   results: []
 }
 
-const reducer = (state = initialState, action) => {
-  let results = null;
+const storeResult = (state, action) => {
+  const results = state.results.concat({id: new Date(), value: action.result})
+  return updateObject(state, {results})
+}
 
+const deleteResult = (state, action) => {
+  // For case if id is index we can use methods like push, unshift,
+  // splice, but only as long as we are using copy of state.
+
+  // const newResults = [...state.results];
+  // newResults.splice(action.resultId, 1);
+  const results = state.results.filter(result => result.id !== action.resultId);
+  return updateObject(state, {results})
+}
+
+
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.STORE_RESULT:
-      results = state.results.concat({id: new Date(), value: action.result})
-      return updateObject(state, {results})
+      return storeResult(state, action);
 
     case actionTypes.DELETE_RESULT:
-      // For case if id is index we can use methods like push, unshift,
-      // splice, but only as long as we are using copy of state.
-
-      // const newResults = [...state.results];
-      // newResults.splice(action.resultId, 1);
-      results = state.results.filter(result => result.id !== action.resultId);
-      return updateObject(state, {results})
+      return deleteResult(state, action);
 
     default:
       return state;
