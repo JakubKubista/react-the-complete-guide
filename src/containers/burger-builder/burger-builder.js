@@ -14,6 +14,10 @@ import OrderSummary from '../../components/burger-builder/order-summary/order-su
 import Spinner from '../../components/layout/spinner/spinner';
 
 class BurgerBuilder extends Component {
+  componentDidMount() {
+    this.props.onIngredientInit();
+  }
+
   isPurchasable() {
     const sum = (Object.values(this.props.ingredients))
       .reduce((a, b) => a + b, 0);
@@ -22,10 +26,6 @@ class BurgerBuilder extends Component {
 
   purchasingContinueHandler = () => {
     this.props.history.push('/checkout');
-  }
-
-  componentDidMount() {
-    this.props.onIngredientInit();
   }
 
   render() {
