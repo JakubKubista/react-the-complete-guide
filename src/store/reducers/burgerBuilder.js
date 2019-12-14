@@ -19,18 +19,18 @@ const burgerBuilderReducer = (state = initialState, action) => {
         ...state,
         ingredients: {
           ...state.ingredients,
-          [action.ingredientName]: state.ingredients[action.ingredientName] + 1
+          [action.name]: state.ingredients[action.name] + 1
         },
-        price: state.price + INGREDIENT_PRICES[action.ingredientName]
+        price: state.price + INGREDIENT_PRICES[action.name]
       }
     case actionTypes.INGREDIENT_REMOVE:
       return {
         ...state,
         ingredients: {
           ...state.ingredients,
-          [action.ingredientName]: state.ingredients[action.ingredientName] - 1
+          [action.name]: state.ingredients[action.name] - 1
         },
-        price: state.price - INGREDIENT_PRICES[action.ingredientName]
+        price: state.price - INGREDIENT_PRICES[action.name]
       }
     case actionTypes.PURCHASING_ON:
       return {
