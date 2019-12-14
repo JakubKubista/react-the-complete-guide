@@ -1,4 +1,5 @@
 export {
+  ingredientInit,
   ingredientAdd,
   ingredientRemove,
   purchasingOn,

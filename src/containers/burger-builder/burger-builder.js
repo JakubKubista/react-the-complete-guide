@@ -14,11 +14,6 @@ import OrderSummary from '../../components/burger-builder/order-summary/order-su
 import Spinner from '../../components/layout/spinner/spinner';
 
 class BurgerBuilder extends Component {
-  state = {
-    loading: false,
-    error: false
-  }
-
   isPurchasable() {
     const sum = (Object.values(this.props.ingredients))
       .reduce((a, b) => a + b, 0);
@@ -30,20 +25,7 @@ class BurgerBuilder extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
-    // axios.get('https://react-guide-burger.firebaseio.com/ingredients.json')
-    //   .then(response => {
-    //     console.log(response);
-    //     this.setState({
-    //       ingredients: response.data
-    //     })
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //     this.setState({
-    //       error: true
-    //     })
-    //   })
+    this.props.onIngredientInit();
   }
 
   render() {
@@ -63,7 +45,7 @@ class BurgerBuilder extends Component {
       textAlign: 'center'
     };
 
-    let burger = this.state.error ? <div style={burgerStyle} >Ingredients cannot be loaded!</div> : <Spinner />;
+    let burger = this.props.error ? <div style={burgerStyle} >Ingredients cannot be loaded!</div> : <Spinner />;
 
     if (this.props.ingredients) {
       burger = (
@@ -87,8 +69,6 @@ class BurgerBuilder extends Component {
         continue={this.purchasingContinueHandler} />
     }
 
-    if (this.state.loading) orderSummary = <Spinner />;
-
     return (
       <Aux>
         <Modal
@@ -106,12 +86,14 @@ const mapStateToProps = state => {
   return {
     ingredients: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.price,
-    purchasing: state.burgerBuilder.purchasing
+    purchasing: state.burgerBuilder.purchasing,
+    error: state.burgerBuilder.error
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    onIngredientInit: () => dispatch(actionCreators.ingredientInit()),
     onIngredientAdded: (name) => dispatch(actionCreators.ingredientAdd(name)),
     onIngredientRemoved: (name) => dispatch(actionCreators.ingredientRemove(name)),
     onPurchasingOn: () => dispatch(actionCreators.purchasingOn()),
