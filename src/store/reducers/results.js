@@ -3,29 +3,29 @@
 // https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
 
 import * as actionTypes from '../actions/types';
+import { updateObject } from '../utility';
 
 const initialState = {
   results: []
 }
 
 const reducer = (state = initialState, action) => {
+  let results = null;
+
   switch (action.type) {
     case actionTypes.STORE_RESULT:
-      return {
-        ...state,
-        results: state.results.concat({id: new Date(), value: action.result})
-      }
+      results = state.results.concat({id: new Date(), value: action.result})
+      return updateObject(state, {results})
+
     case actionTypes.DELETE_RESULT:
       // For case if id is index we can use methods like push, unshift,
       // splice, but only as long as we are using copy of state.
 
       // const newResults = [...state.results];
       // newResults.splice(action.resultId, 1);
-      const newResults = state.results.filter(result => result.id !== action.resultId);
-      return {
-        ...state,
-        results: newResults
-      }
+      results = state.results.filter(result => result.id !== action.resultId);
+      return updateObject(state, {results})
+
     default:
       return state;
   }
