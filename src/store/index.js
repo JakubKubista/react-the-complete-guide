@@ -1,13 +1,22 @@
-import { createStore, combineReducers } from 'redux';
+import {
+  createStore,
+  combineReducers,
+  applyMiddleware,
+  compose }
+from 'redux';
+import thunk from 'redux-thunk';
+
 import burgerBuilderReducer from './reducers/burgerBuilder';
 
 const reducer = combineReducers({
   burgerBuilder: burgerBuilderReducer,
 })
 
-const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const store = createStore(
   reducer,
-  devTools
+  composeEnhancers(
+    applyMiddleware(thunk)
+  )
 );
