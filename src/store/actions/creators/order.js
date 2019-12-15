@@ -18,7 +18,7 @@ export const purchaseFail = (error) => {
 
 export const purchaseOrderStart = () => {
   return {
-    type: actionTypes.PURCHASE_INIT_START
+    type: actionTypes.PURCHASE_ORDER_START
   }
 };
 

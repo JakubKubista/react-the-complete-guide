@@ -30,7 +30,7 @@ const purchaseFail = (state) => {
 
 const orderReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.PURCHASE_INIT_START:
+    case actionTypes.PURCHASE_ORDER_START:
       return purchaseOrderStart(state, action);
 
     case actionTypes.PURCHASE_SUCCESS:
