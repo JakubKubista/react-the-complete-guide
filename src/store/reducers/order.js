@@ -3,7 +3,12 @@ import { updateObject } from '../../utils/index';
 
 const initialState = {
   orders: [],
-  loading: false
+  loading: false,
+  purchased: false
+}
+
+const purchaseInit = (state) => {
+  return updateObject(state, {purchased: false});
 }
 
 const purchaseOrderStart = (state) => {
@@ -19,6 +24,7 @@ const purchaseSuccess = (state, action) => {
   const updatedStates = {
     orders: state.orders.concat(order),
     loading: false,
+    purchased: true
   }
 
   return updateObject(state, {...updatedStates});
@@ -30,6 +36,9 @@ const purchaseFail = (state) => {
 
 const orderReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.PURCHASE_INIT:
+      return purchaseInit(state, action);
+
     case actionTypes.PURCHASE_ORDER_START:
       return purchaseOrderStart(state, action);
 

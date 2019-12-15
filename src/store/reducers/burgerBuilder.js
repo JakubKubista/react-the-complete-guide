@@ -45,6 +45,7 @@ const ingredientSet = (state, action) => {
       meat: action.ingredients.meat,
       bacon: action.ingredients.bacon
     },
+    price: 0,
     error: false
   }
   return updateObject(state, {...updatedStates});

@@ -30,7 +30,7 @@ class ContactData extends Component {
       customer: customer
     }
 
-    this.props.onOrderBurger(order);
+    this.props.onPurchaseOrder(order);
   }
 
   checkValidity(value, rules) {
@@ -133,7 +133,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderBurger: (orderData) => dispatch(actions.purchaseOrder(orderData))
+    onPurchaseOrder: (orderData) => dispatch(actions.purchaseOrder(orderData))
   }
 }
 

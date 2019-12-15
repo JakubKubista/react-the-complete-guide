@@ -1,18 +1,9 @@
 import * as actionTypes from '../types';
 import axios from '../../../axios-orders';
 
-export const purchaseSuccess = (orderId, orderData) => {
+export const purchaseInit = () => {
   return {
-    type: actionTypes.PURCHASE_SUCCESS,
-    orderId,
-    orderData
-  }
-};
-
-export const purchaseFail = (error) => {
-  return {
-    type: actionTypes.PURCHASE_FAIL,
-    error
+    type: actionTypes.PURCHASE_INIT
   }
 };
 
@@ -38,4 +29,19 @@ export const purchaseOrder = (orderData) => dispatch => {
       purchaseFail(error)
     )
   });
+};
+
+export const purchaseSuccess = (orderId, orderData) => {
+  return {
+    type: actionTypes.PURCHASE_SUCCESS,
+    orderId,
+    orderData
+  }
+};
+
+export const purchaseFail = (error) => {
+  return {
+    type: actionTypes.PURCHASE_FAIL,
+    error
+  }
 };
