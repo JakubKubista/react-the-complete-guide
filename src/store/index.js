@@ -7,10 +7,12 @@ from 'redux';
 import thunk from 'redux-thunk';
 
 import burgerBuilderReducer from './reducers/burgerBuilder';
+import orderReducer from './reducers/order';
 
 const reducer = combineReducers({
   burgerBuilder: burgerBuilderReducer,
-})
+  order: orderReducer
+});
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

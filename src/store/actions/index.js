@@ -3,5 +3,9 @@ export {
   ingredientAdd,
   ingredientRemove,
   purchasingOn,
-  purchasingOff
+  purchasingOff,
 } from './creators/burgerBuilder';
+
+export {
+  purchaseInit
+} from './creators/order';
