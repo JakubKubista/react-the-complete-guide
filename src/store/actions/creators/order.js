@@ -1,6 +1,8 @@
 import * as actionTypes from '../types';
 import axios from '../../../axios-orders';
 
+/* PURCHASE */
+
 export const purchaseInit = () => {
   return {
     type: actionTypes.PURCHASE_INIT
@@ -45,3 +47,51 @@ export const purchaseFail = (error) => {
     error
   }
 };
+
+/* ORDERS */
+
+export const ordersFetchInit = () => {
+  return {
+    type: actionTypes.ORDERS_FETCH_INIT,
+  }
+};
+
+export const ordersFetchSuccess = (orders) => {
+  return {
+    type: actionTypes.ORDERS_FETCH_SUCCESS,
+    orders
+  }
+};
+
+export const ordersFetchFail = (error) => {
+  return {
+    type: actionTypes.ORDERS_FETCH_FAIL,
+    error
+  }
+};
+
+export const ordersFetch = () => dispatch => {
+  dispatch(
+    ordersFetchInit()
+  );
+
+  axios.get('/orders.json')
+  .then(response => {
+    const fetchedOrders = [];
+    // eslint-disable-next-line no-unused-vars
+    for (let key in response.data) {
+      fetchedOrders.push({
+        id: key,
+        ...response.data[key]
+      });
+    }
+    dispatch(
+      ordersFetchSuccess(fetchedOrders)
+    )
+  })
+  .catch(error => {
+    dispatch(
+      ordersFetchFail(error)
+    )
+  })
+}

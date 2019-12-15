@@ -8,5 +8,6 @@ export {
 
 export {
   purchaseInit,
-  purchaseOrder
+  purchaseOrder,
+  ordersFetch
 } from './creators/order';
