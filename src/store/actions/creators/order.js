@@ -16,15 +16,15 @@ export const purchaseFail = (error) => {
   }
 };
 
-export const purchaseInitStart = () => {
+export const purchaseOrderStart = () => {
   return {
     type: actionTypes.PURCHASE_INIT_START
   }
 };
 
-export const purchaseInit = (orderData) => dispatch => {
+export const purchaseOrder = (orderData) => dispatch => {
   dispatch(
-    purchaseInitStart()
+    purchaseOrderStart()
   );
 
   axios.post('/orders.json', orderData)

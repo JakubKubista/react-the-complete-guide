@@ -7,5 +7,5 @@ export {
 } from './creators/burgerBuilder';
 
 export {
-  purchaseInit
+  purchaseOrder
 } from './creators/order';

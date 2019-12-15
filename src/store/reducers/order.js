@@ -6,7 +6,7 @@ const initialState = {
   loading: false
 }
 
-const purchaseInitStart = (state) => {
+const purchaseOrderStart = (state) => {
   return updateObject(state, {loading: true});
 }
 
@@ -31,7 +31,7 @@ const purchaseFail = (state) => {
 const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.PURCHASE_INIT_START:
-      return purchaseInitStart(state, action);
+      return purchaseOrderStart(state, action);
 
     case actionTypes.PURCHASE_SUCCESS:
       return purchaseSuccess(state, action);
