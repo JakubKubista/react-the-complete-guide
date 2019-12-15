@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ContactData from './contact-data/contact-data';
@@ -16,15 +16,25 @@ class Checkout extends Component {
   }
 
   render() {
+    let checkout = <Redirect to="/" />
+
+    if (this.props.ingredients) {
+      checkout = (
+        <div>
+          <CheckoutSummary
+            ingredients={this.props.ingredients}
+            cancel={this.checkoutCancelHandler}
+            continue={this.checkoutContinueHandler} />
+          <Route
+            path={this.props.match.path + '/contact-data'}
+            component={ContactData} />
+        </div>
+      );
+    }
+
     return (
       <div>
-        <CheckoutSummary
-          ingredients={this.props.ingredients}
-          cancel={this.checkoutCancelHandler}
-          continue={this.checkoutContinueHandler} />
-        <Route
-          path={this.props.match.path + '/contact-data'}
-          component={ContactData} />
+        {checkout}
       </div>
     )
   }
