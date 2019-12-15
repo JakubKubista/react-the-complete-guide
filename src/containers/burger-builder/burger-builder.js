@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import axios from '../../axios-orders';
 import Aux from '../../hoc/aux';
 import withErrorHandler from '../../hoc/errorHandler';
-import * as actionCreators from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 
 import Burger from '../../components/burger-builder/burger/burger';
 import BurgerControls from '../../components/burger-builder/burger-controls/burger-controls';
@@ -93,11 +93,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onIngredientInit: () => dispatch(actionCreators.ingredientInit()),
-    onIngredientAdded: (name) => dispatch(actionCreators.ingredientAdd(name)),
-    onIngredientRemoved: (name) => dispatch(actionCreators.ingredientRemove(name)),
-    onPurchasingOn: () => dispatch(actionCreators.purchasingOn()),
-    onPurchasingOff: () => dispatch(actionCreators.purchasingOff())
+    onIngredientInit: () => dispatch(actions.ingredientInit()),
+    onIngredientAdded: (name) => dispatch(actions.ingredientAdd(name)),
+    onIngredientRemoved: (name) => dispatch(actions.ingredientRemove(name)),
+    onPurchasingOn: () => dispatch(actions.purchasingOn()),
+    onPurchasingOff: () => dispatch(actions.purchasingOff())
   }
 };
 
