@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 import { createArrayOfFormElements } from '../../utils/index';
 import { BUTTONS } from '../../constants/labels';
-import { LOGIN_FORM } from '../../constants/auth';
+import { LOGIN_FORM } from '../../constants/login';
 import Input from '../../components/layout/form/input/input';
 import Button from '../../components/layout/button/button';
 
-class Auth extends Component {
+class Login extends Component {
   state = {
     loginForm: LOGIN_FORM
   }
@@ -37,4 +37,4 @@ class Auth extends Component {
   }
 }
 
-export default Auth;
+export default Login;

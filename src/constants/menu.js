@@ -12,11 +12,11 @@ export const MENU_ELEMENTS = {
   labels: {
     home: 'Burger Builder',
     orders: 'Orders',
-    auth: 'Login'
+    login: 'Login'
   },
   routes: {
     home: '/',
     orders: '/orders',
-    auth: '/auth'
+    login: '/login'
   }
 };
