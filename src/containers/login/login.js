@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { createArrayOfFormElements } from '../../utils/index';
+import { createArrayOfFormElements, updateValidatedForm, isFormValid } from '../../utils/index';
 import { BUTTONS } from '../../constants/labels';
 import { LOGIN_FORM } from '../../constants/login';
 import Input from '../../components/layout/form/input/input';
@@ -9,7 +9,21 @@ import classes from '../../assets/styles/default-form.scss';
 
 class Login extends Component {
   state = {
-    loginForm: LOGIN_FORM
+    loginForm: LOGIN_FORM,
+    validity: false
+  }
+
+  inputChangedHandler = (event, inputName) => {
+    const updatedForm = updateValidatedForm(
+      this.state.loginForm,
+      inputName,
+      event.target.value
+    );
+
+    this.setState({
+      loginForm: updatedForm,
+      validity: isFormValid(updatedForm)
+    })
   }
 
   render () {
@@ -28,7 +42,8 @@ class Login extends Component {
             touched={formElement.config.touched}
             changed={(event) => this.inputChangedHandler(event, formElement.id)} />
         ))}
-        <Button btnType="Success">{BUTTONS.submit}</Button>
+        <br />
+        <Button btnType="Success" disabled={!this.state.validity}>{BUTTONS.submit}</Button>
       </form>
     );
 

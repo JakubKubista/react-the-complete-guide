@@ -36,10 +36,10 @@ class ContactData extends Component {
     this.props.onPurchaseOrder(order);
   }
 
-  inputChangedHandler = (event, inputIdentifier) => {
+  inputChangedHandler = (event, inputName) => {
     const updatedForm = updateValidatedForm(
       this.state.orderForm,
-      inputIdentifier,
+      inputName,
       event.target.value
     );
 
