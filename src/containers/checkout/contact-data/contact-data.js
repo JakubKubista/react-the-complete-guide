@@ -13,7 +13,7 @@ import Button from '../../../components/layout/button/button';
 import Spinner from '../../../components/layout/spinner/spinner';
 import Input from '../../../components/layout/form/input/input';
 
-import classes from './contact-data.scss';
+import classes from '../../../assets/styles/default-form.scss';
 
 class ContactData extends Component {
   state = {
@@ -112,7 +112,7 @@ class ContactData extends Component {
     }
 
     return (
-      <div className={classes.ContactData}>
+      <div className={classes.DefaultForm}>
         <h4>{MESSAGES.enterContactData}</h4>
         {form}
       </div>

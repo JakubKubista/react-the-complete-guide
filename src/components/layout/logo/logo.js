@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { MESSAGES } from '../../../constants/labels';
-import burgerLogo from '../../../assets/burger-logo.png';
+import burgerLogo from '../../../assets/images/burger-logo.png';
 import classes from './logo.scss';
 
 const Logo = () => (

@@ -5,6 +5,7 @@ import { BUTTONS } from '../../constants/labels';
 import { LOGIN_FORM } from '../../constants/login';
 import Input from '../../components/layout/form/input/input';
 import Button from '../../components/layout/button/button';
+import classes from '../../assets/styles/default-form.scss';
 
 class Login extends Component {
   state = {
@@ -27,7 +28,7 @@ class Login extends Component {
     ));
 
     return (
-      <div>
+      <div className={classes.DefaultForm}>
         <form>
           {form}
           <Button btnType="Success">{BUTTONS.submit}</Button>
