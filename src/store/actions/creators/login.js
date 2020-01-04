@@ -23,7 +23,6 @@ export const authenticate = ({email, password, method}) => dispatch => {
 
   axios.post(url, authData)
   .then(response => {
-    console.log(response);
     dispatch(
       loginSuccess(response.data)
     )
@@ -48,6 +47,6 @@ export const loginSuccess = (loginData) => {
 export const loginFail = (error) => {
   return {
     type: actionTypes.LOGIN_FAIL,
-    error
+    error: error.response.data.error
   }
 };

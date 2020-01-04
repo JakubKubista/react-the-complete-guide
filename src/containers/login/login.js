@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import axios from '../../axios-service';
-import withErrorHandler from '../../hoc/errorHandler';
 import * as actions from '../../store/actions/index';
 import { createArrayOfFormElements, updateValidatedForm } from '../../utils/index';
 import { BUTTONS } from '../../constants/labels';
@@ -75,8 +73,15 @@ class Login extends Component {
       form = <Spinner />;
     }
 
+    let errorMessage = null;
+
+    if (this.props.error) {
+      errorMessage = <p>{this.props.error.message}</p>;
+    }
+
     return (
       <div className={classes.DefaultForm}>
+      {errorMessage}
         {form}
         <br />
         <Button btnType="Danger" click={this.switchSingInHandler}>
@@ -100,6 +105,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-const LoginWithErrorHandler = withErrorHandler(Login, axios)
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginWithErrorHandler);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
