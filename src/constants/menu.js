@@ -7,6 +7,7 @@ export const MENU_ICON = {
   alt: 'icon-menu'
 };
 
+// For each element it's needed to create a label and route with a same name
 export const MENU_ELEMENTS = {
   labels: {
     home: 'Burger Builder',
