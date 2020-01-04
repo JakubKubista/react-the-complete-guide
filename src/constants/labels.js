@@ -18,6 +18,7 @@ export const MESSAGES = {
 export const BUTTONS = {
   order: 'ORDER',
   orderNow: 'ORDER NOW',
+  submit: 'SUBMIT',
   cancel: 'CANCEL',
   continue: 'CONTINUE',
   less: 'Less',
