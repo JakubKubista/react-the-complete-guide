@@ -5,7 +5,8 @@ import axios from '../../../axios-orders';
 import withErrorHandler from '../../../hoc/errorHandler';
 import * as actions from '../../../store/actions/index';
 
-import {ORDER_FORM} from '../../../constants/checkout';
+import { createArrayOfFormElements } from '../../../utils/index';
+import { ORDER_FORM } from '../../../constants/checkout';
 import Button from '../../../components/layout/button/button';
 import Spinner from '../../../components/layout/spinner/spinner';
 import Input from '../../../components/layout/form/input/input';
@@ -85,13 +86,7 @@ class ContactData extends Component {
   }
 
   render () {
-    const formElementsArray = [];
-    for (let key in this.state.orderForm) {
-      formElementsArray.push({
-        id: key,
-        config: this.state.orderForm[key]
-      })
-    }
+    const formElementsArray = createArrayOfFormElements(this.state.orderForm);
 
     let form = (
       <form onSubmit={this.orderHandler}>
