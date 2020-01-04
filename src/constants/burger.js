@@ -1,3 +1,12 @@
+export const INGREDIENT_NAMES = {
+    breadTop: 'bread-top',
+    salad: 'salad',
+    cheese: 'cheese',
+    meat: 'meat',
+    bacon: 'bacon',
+    breadBottom: 'bread-bottom'
+};
+
 export const INGREDIENT_PRICES = {
     salad: 0.5,
     cheese: 0.4,
@@ -6,8 +15,8 @@ export const INGREDIENT_PRICES = {
 };
 
 export const CONTROLS = [
-    { label: 'Salad', type: 'salad' },
-    { label: 'Bacon', type: 'bacon' },
-    { label: 'Cheese', type: 'cheese' },
-    { label: 'Meat', type: 'meat' },
+    { label: 'Salad', type: INGREDIENT_NAMES.salad },
+    { label: 'Cheese', type: INGREDIENT_NAMES.cheese },
+    { label: 'Meat', type: INGREDIENT_NAMES.meat },
+    { label: 'Bacon', type: INGREDIENT_NAMES.bacon },
 ];

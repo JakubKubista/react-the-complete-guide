@@ -1,4 +1,5 @@
 import React from 'react';
+import { MESSAGES } from '../../../../constants/labels';
 import classes from './input.scss';
 
 const Input = props => {
@@ -8,7 +9,7 @@ const Input = props => {
 
   if (props.invalid && props.shouldValidate && props.touched) {
     inputClasses.push(classes.Invalid);
-    validationError = <p className={classes.ValidationError}>Please enter a valid value</p>;
+    validationError = <p className={classes.ValidationError}>{MESSAGES.enterValidValue}</p>;
   }
 
   switch(props.elementType) {

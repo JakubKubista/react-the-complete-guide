@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import axios from '../../../axios-orders';
 import withErrorHandler from '../../../hoc/errorHandler';
 import * as actions from '../../../store/actions/index';
-
 import { createArrayOfFormElements } from '../../../utils/index';
 import { ORDER_FORM } from '../../../constants/checkout';
+import { MESSAGES, BUTTONS } from '../../../constants/labels';
+
 import Button from '../../../components/layout/button/button';
 import Spinner from '../../../components/layout/spinner/spinner';
 import Input from '../../../components/layout/form/input/input';
@@ -102,7 +104,7 @@ class ContactData extends Component {
             changed={(event) => this.inputChangedHandler(event, formElement.id)} />
         ))}
         <br />
-        <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
+        <Button btnType="Success" disabled={!this.state.formIsValid}>{BUTTONS.order}</Button>
       </form>
     );
     if (this.props.loading) {
@@ -111,7 +113,7 @@ class ContactData extends Component {
 
     return (
       <div className={classes.ContactData}>
-        <h4>Enter your Contact Data</h4>
+        <h4>{MESSAGES.enterContactData}</h4>
         {form}
       </div>
     )

@@ -6,6 +6,7 @@ import axios from '../../axios-orders';
 import Aux from '../../hoc/aux';
 import withErrorHandler from '../../hoc/errorHandler';
 import * as actions from '../../store/actions/index';
+import { MESSAGES } from '../../constants/labels';
 
 import Burger from '../../components/burger-builder/burger/burger';
 import BurgerControls from '../../components/burger-builder/burger-controls/burger-controls';
@@ -47,7 +48,7 @@ class BurgerBuilder extends Component {
       textAlign: 'center'
     };
 
-    let burger = this.props.error ? <div style={burgerStyle} >Ingredients cannot be loaded!</div> : <Spinner />;
+    let burger = this.props.error ? <div style={burgerStyle}>{MESSAGES.ingredientsNotLoaded}</div> : <Spinner />;
 
     if (this.props.ingredients) {
       burger = (

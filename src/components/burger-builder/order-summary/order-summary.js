@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+
+import { MESSAGES, BUTTONS } from '../../../constants/labels';
 import Button from '../../layout/button/button';
 
 class OrderSummary extends Component {
@@ -22,19 +24,19 @@ class OrderSummary extends Component {
 
     return (
       <Fragment>
-        <h3>Your Order</h3>
-        <p>A delicious burger with the following ingredients: </p>
+        <h3>{MESSAGES.yourOrder}</h3>
+        <p>{MESSAGES.burgerWithIngredients}</p>
         <ul>
           {ingredientSummary}
         </ul>
-        <p><strong>Total Price: {this.props.price.toFixed(2)}</strong></p>
-        <p>Continue to Checkout?</p>
+        <p><strong>{MESSAGES.totalPrice}: {this.props.price.toFixed(2)}</strong></p>
+        <p>{MESSAGES.continueToCheckout}</p>
         <Button
           btnType="Danger"
-          click={this.props.cancel}>CANCEL</Button>
+          click={this.props.cancel}>{BUTTONS.cancel}</Button>
         <Button
           btnType="Success"
-          click={this.props.continue}>CONTINUE</Button>
+          click={this.props.continue}>{BUTTONS.continue}</Button>
       </Fragment>
     );
   };

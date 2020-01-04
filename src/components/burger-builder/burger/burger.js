@@ -1,8 +1,10 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import classes from './burger.scss';
+import { INGREDIENT_NAMES } from '../../../constants/burger';
+import { MESSAGES } from '../../../constants/labels';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
+import classes from './burger.scss';
 
 // Component was called after Order now button (Pure not)
 class Burger extends PureComponent {
@@ -19,22 +21,17 @@ class Burger extends PureComponent {
               type={ingredientKey} />
           });
       })
-      .flat()
-    // The same like a .flat(1):
-    // .reduce(
-    //   (arr, el) => {
-    //     return arr.concat(el)
-    //   }, []);
+      .flat();
 
     if (transformedIngredients.length === 0) {
-      transformedIngredients = <p>Please start adding ingredients.</p>;
+      transformedIngredients = <p>{MESSAGES.noIngredients}</p>;
     }
 
     return (
       <div className={classes.Burger}>
-      <BurgerIngredient type="bread-top" />
+      <BurgerIngredient type={INGREDIENT_NAMES.BreadTop} />
       {transformedIngredients}
-      <BurgerIngredient type="bread-bottom" />
+      <BurgerIngredient type={INGREDIENT_NAMES.BreadBottom}  />
     </div>
     )
   }

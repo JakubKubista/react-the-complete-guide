@@ -1,37 +1,39 @@
 import React, { Component } from 'react';
-import classes from './burger-ingredient.scss';
 import PropTypes from 'prop-types';
+
+import { INGREDIENT_NAMES } from '../../../constants/burger';
+import classes from './burger-ingredient.scss';
 
 class BurgerIngredient extends Component {
   render() {
     let ingredient = null;
 
     switch (this.props.type) {
-      case 'bread-bottom':
-        ingredient = <div className={classes.BreadBottom}></div>
-        break;
-
-      case 'bread-top':
+      case INGREDIENT_NAMES.breadTop:
         ingredient = <div className={classes.BreadTop}>
           <div className={classes.Seeds1}></div>
           <div className={classes.Seeds2}></div>
         </div>
         break;
 
-      case 'meat':
-        ingredient = <div className={classes.Meat}></div>
+      case INGREDIENT_NAMES.salad:
+        ingredient = <div className={classes.Salad}></div>
         break;
 
-      case 'cheese':
+      case INGREDIENT_NAMES.cheese:
         ingredient = <div className={classes.Cheese}></div>
         break;
 
-      case 'bacon':
+      case INGREDIENT_NAMES.meat:
+        ingredient = <div className={classes.Meat}></div>
+        break;
+
+      case INGREDIENT_NAMES.bacon:
         ingredient = <div className={classes.Bacon}></div>
         break;
 
-      case 'salad':
-        ingredient = <div className={classes.Salad}></div>
+      case INGREDIENT_NAMES.breadBottom:
+        ingredient = <div className={classes.BreadBottom}></div>
         break;
 
       default:

@@ -1,4 +1,6 @@
 import React from 'react';
+
+import { BUTTONS } from '../../../../constants/labels';
 import classes from './burger-control.scss';
 
 const BurgerControl = props => (
@@ -7,10 +9,10 @@ const BurgerControl = props => (
     <button
       disabled={props.disabled}
       onClick={props.remove}
-      className={classes.Less}>Less</button>
+      className={classes.Less}>{BUTTONS.less}</button>
     <button
       onClick={props.add}
-      className={classes.More}>More</button>
+      className={classes.More}>{BUTTONS.more}</button>
   </div>
 );
 

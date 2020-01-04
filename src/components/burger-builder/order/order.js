@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
+import { MESSAGES } from '../../../constants/labels';
 import classes from './order.scss';
 
 const Order = props => {
@@ -22,8 +23,8 @@ const Order = props => {
 
   return (
     <div className={classes.Order}>
-    <p>Ingredients: {ingredientsOutput}</p>
-    <p>Price: <b>USD {Number.parseFloat(props.price).toFixed(2)}</b></p>
+    <p>{MESSAGES.ingredients}: {ingredientsOutput}</p>
+    <p>{MESSAGES.price}: <b>{MESSAGES.currencyUsd} {Number.parseFloat(props.price).toFixed(2)}</b></p>
   </div>
   )
 };

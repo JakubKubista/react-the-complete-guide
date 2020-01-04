@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classes from './burger-controls.scss';
+
+import { MESSAGES, BUTTONS } from '../../../constants/labels';
+import { CONTROLS } from '../../../constants/burger';
 import BurgerControl from './burger-control/burger-control';
-import {CONTROLS} from '../../../constants/burger';
+import classes from './burger-controls.scss';
 
 const BurgerControls = props => (
   <div className={classes.BurgerControls}>
-    <p>Current Price: <strong>{props.price.toFixed(2)}</strong></p>
+    <p>{MESSAGES.price}: <b>{MESSAGES.currencyUsd} {props.price.toFixed(2)}</b></p>
     {CONTROLS.map(control => (
       <BurgerControl
         key={control.type}
@@ -18,7 +20,7 @@ const BurgerControls = props => (
     <button
       className={classes.OrderButton}
       disabled={!props.purchasable}
-      onClick={props.order}>ORDER NOW</button>
+      onClick={props.order}>{BUTTONS.orderNow}</button>
   </div>
 );
 
