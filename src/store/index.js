@@ -8,10 +8,12 @@ import thunk from 'redux-thunk';
 
 import burgerBuilderReducer from './reducers/burgerBuilder';
 import orderReducer from './reducers/order';
+import loginReducer from './reducers/login';
 
 const reducer = combineReducers({
   burgerBuilder: burgerBuilderReducer,
-  order: orderReducer
+  order: orderReducer,
+  login: loginReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

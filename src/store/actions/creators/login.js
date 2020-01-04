@@ -36,9 +36,12 @@ export const authenticate = ({email, password, method}) => dispatch => {
 };
 
 export const loginSuccess = (loginData) => {
+  const {idToken, localId} = loginData;
+
   return {
     type: actionTypes.LOGIN_SUCCESS,
-    loginData
+    token: idToken,
+    userId: localId
   }
 };
 
