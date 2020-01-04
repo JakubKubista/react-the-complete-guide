@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+
+import axios from '../../axios-service';
+import withErrorHandler from '../../hoc/errorHandler';
 import * as actions from '../../store/actions/index';
 import { createArrayOfFormElements, updateValidatedForm } from '../../utils/index';
 import { BUTTONS } from '../../constants/labels';
@@ -85,4 +88,6 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+const LoginWithErrorHandler = withErrorHandler(Login, axios)
+
+export default connect(null, mapDispatchToProps)(LoginWithErrorHandler);
