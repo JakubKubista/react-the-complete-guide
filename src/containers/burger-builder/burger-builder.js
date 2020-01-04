@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import axios from '../../axios-orders';
+import axios from '../../axios-service';
 import Aux from '../../hoc/aux';
 import withErrorHandler from '../../hoc/errorHandler';
 import * as actions from '../../store/actions/index';

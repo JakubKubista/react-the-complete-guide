@@ -1,8 +1,8 @@
 import * as actionTypes from '../types';
-import axios from '../../../axios-orders';
+import axios from '../../../axios-service';
 
 export const ingredientInit = () => dispatch => {
-  axios.get('https://react-guide-burger.firebaseio.com/ingredients.json')
+  axios.get('/ingredients.json')
   .then(response => {
     dispatch(
       ingredientSet(response.data)
