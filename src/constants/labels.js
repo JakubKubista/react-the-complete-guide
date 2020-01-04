@@ -21,6 +21,9 @@ export const BUTTONS = {
   submit: 'SUBMIT',
   cancel: 'CANCEL',
   continue: 'CONTINUE',
+  signUp: 'SIGN UP',
+  signIn: 'SIGN IN',
+  switchTo: 'SWITCH TO',
   less: 'Less',
   more: 'More'
 };

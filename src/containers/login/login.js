@@ -12,7 +12,8 @@ import classes from '../../assets/styles/default-form.scss';
 
 class Login extends Component {
   state = {
-    loginForm: LOGIN_FORM
+    loginForm: LOGIN_FORM,
+    signIn: false
   }
 
   inputChangedHandler = (event, inputName) => {
@@ -30,10 +31,19 @@ class Login extends Component {
   submitHandler = (event) => {
     event.preventDefault();
 
-    const email = this.state.loginForm.email.value;
-    const password = this.state.loginForm.password.value;
+    const properties = {
+      email: this.state.loginForm.email.value,
+      password: this.state.loginForm.password.value,
+      method: this.state.signIn
+    }
 
-    this.props.onAuthenticate(email, password);
+    this.props.authenticate(properties);
+  }
+
+  switchSingInHandler = () => {
+    this.setState(prevState => {
+      return {signIn: !prevState.signIn};
+    })
   }
 
   render () {
@@ -52,14 +62,16 @@ class Login extends Component {
             touched={formElement.config.touched}
             changed={(event) => this.inputChangedHandler(event, formElement.id)} />
         ))}
-        <br />
-        <Button btnType="Success">{BUTTONS.submit}</Button>
+        <Button btnType="Success">{this.state.signIn ? BUTTONS.signIn : BUTTONS.signUp}</Button>
       </form>
     );
 
     return (
       <div className={classes.DefaultForm}>
         {form}
+        <Button btnType="Danger" click={this.switchSingInHandler}>
+          {BUTTONS.switchTo} {this.state.signIn ? BUTTONS.signUp : BUTTONS.signIn}
+        </Button>
       </div>
     )
   }
@@ -67,7 +79,7 @@ class Login extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuthenticate: (email, password) => dispatch(actions.authenticate(email, password)),
+    authenticate: (properties) => dispatch(actions.authenticate(properties))
   }
 };
 
