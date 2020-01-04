@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classes from './toolbar.scss';
-import MENU from '../../../constants/menu';
+import { MENU_ICON } from '../../../constants/menu';
 import Logo from '../logo/logo';
 import Menu from '../menu/menu';
 
@@ -9,9 +9,9 @@ const Toolbar = props => (
   <header className={classes.Toolbar}>
     <div onClick={props.clickDrawer}>
       <img
-        src={MENU.ICON.src}
-        style={MENU.ICON.style}
-        alt={MENU.ICON.alt} />
+        src={MENU_ICON.src}
+        style={MENU_ICON.style}
+        alt={MENU_ICON.alt} />
     </div>
     <div className={classes.Logo}>
       <Logo />

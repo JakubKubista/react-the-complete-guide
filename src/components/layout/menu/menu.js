@@ -1,13 +1,26 @@
 import React from 'react';
 import classes from './menu.scss';
-import MENU from '../../../constants/menu';
+import { MENU_ELEMENTS } from '../../../constants/menu';
 import MenuItem from './menu-item/menu-item';
 
-const Menu = () => (
-  <ul className={classes.Menu}>
-    <MenuItem link="/" exact>{MENU.ELEMENTS.home}</MenuItem>
-    <MenuItem link="/orders">{MENU.ELEMENTS.orders}</MenuItem>
-  </ul>
-);
+const Menu = () => {
+  const menuItems = [];
+  for (var element in MENU_ELEMENTS.routes) {
+    menuItems.push(
+      <MenuItem
+        key={MENU_ELEMENTS.routes[element]}
+        link={MENU_ELEMENTS.routes[element]}
+        exact>
+          {MENU_ELEMENTS.labels[element]}
+      </MenuItem>
+    );
+  }
+
+  return (
+    <ul className={classes.Menu}>
+      {menuItems}
+   </ul>
+  )
+};
 
 export default Menu;
