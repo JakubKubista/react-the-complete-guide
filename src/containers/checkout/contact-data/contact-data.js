@@ -21,7 +21,20 @@ class ContactData extends Component {
     validity: false
   }
 
-  orderHandler = (event) => {
+  inputChangedHandler = (event, inputName) => {
+    const updatedForm = updateValidatedForm(
+      this.state.orderForm,
+      inputName,
+      event.target.value
+    );
+
+    this.setState({
+      orderForm: updatedForm,
+      validity: isFormValid(updatedForm)
+    })
+  }
+
+  submitHandler = (event) => {
     event.preventDefault();
     const customer = {};
     for (let formElementIdentifier in this.state.orderForm) {
@@ -36,24 +49,11 @@ class ContactData extends Component {
     this.props.onPurchaseOrder(order);
   }
 
-  inputChangedHandler = (event, inputName) => {
-    const updatedForm = updateValidatedForm(
-      this.state.orderForm,
-      inputName,
-      event.target.value
-    );
-
-    this.setState({
-      orderForm: updatedForm,
-      validity: isFormValid(updatedForm)
-    })
-  }
-
   render () {
     const formElementsArray = createArrayOfFormElements(this.state.orderForm);
 
     let form = (
-      <form onSubmit={this.orderHandler}>
+      <form onSubmit={this.submitHandler}>
         {formElementsArray.map(formElement => (
           <Input
             key={formElement.id}
