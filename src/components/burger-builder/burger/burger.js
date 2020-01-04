@@ -29,9 +29,9 @@ class Burger extends PureComponent {
 
     return (
       <div className={classes.Burger}>
-      <BurgerIngredient type={INGREDIENT_NAMES.BreadTop} />
+      <BurgerIngredient type={INGREDIENT_NAMES.breadTop} />
       {transformedIngredients}
-      <BurgerIngredient type={INGREDIENT_NAMES.BreadBottom}  />
+      <BurgerIngredient type={INGREDIENT_NAMES.breadBottom}  />
     </div>
     )
   }
