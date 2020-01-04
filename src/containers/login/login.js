@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-
 import axios from '../../axios-service';
 import withErrorHandler from '../../hoc/errorHandler';
 import * as actions from '../../store/actions/index';
 import { createArrayOfFormElements, updateValidatedForm } from '../../utils/index';
 import { BUTTONS } from '../../constants/labels';
 import { LOGIN_FORM } from '../../constants/login';
+
+import Spinner from '../../components/layout/spinner/spinner';
 import Input from '../../components/layout/form/input/input';
 import Button from '../../components/layout/button/button';
 
@@ -70,6 +71,10 @@ class Login extends Component {
       </form>
     );
 
+    if (this.props.loading) {
+      form = <Spinner />;
+    }
+
     return (
       <div className={classes.DefaultForm}>
         {form}
@@ -82,6 +87,13 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    error: state.login.error,
+    loading: state.login.loading
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     authenticate: (properties) => dispatch(actions.authenticate(properties))
@@ -90,4 +102,4 @@ const mapDispatchToProps = dispatch => {
 
 const LoginWithErrorHandler = withErrorHandler(Login, axios)
 
-export default connect(null, mapDispatchToProps)(LoginWithErrorHandler);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginWithErrorHandler);
