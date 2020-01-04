@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import axios from '../../../axios-orders';
 import withErrorHandler from '../../../hoc/errorHandler';
 import * as actions from '../../../store/actions/index';
-import { createArrayOfFormElements } from '../../../utils/index';
+import { createArrayOfFormElements, updateValidatedForm, isFormValid } from '../../../utils/index';
 import { ORDER_FORM } from '../../../constants/checkout';
 import { MESSAGES, BUTTONS } from '../../../constants/labels';
 
@@ -18,7 +18,7 @@ import classes from '../../../assets/styles/default-form.scss';
 class ContactData extends Component {
   state = {
     orderForm: ORDER_FORM,
-    formIsValid: false
+    validity: false
   }
 
   orderHandler = (event) => {
@@ -36,54 +36,16 @@ class ContactData extends Component {
     this.props.onPurchaseOrder(order);
   }
 
-  checkValidity(value, rules) {
-    let isValid = true;
-
-    if (!rules) {
-      return true;
-    }
-
-    if (rules.required && isValid) {
-      isValid = value.trim() !== '';
-    }
-
-    if (rules.minLength && isValid) {
-      isValid = rules.minLength <= value.length;
-    }
-
-    if (rules.maxLength && isValid) {
-      isValid = rules.maxLength >= value.length;
-    }
-
-    if (rules.type && isValid) {
-      isValid = rules.type === 'number' && !isNaN(value);
-    }
-
-    return isValid;
-  }
-
   inputChangedHandler = (event, inputIdentifier) => {
-    const updatedOrderForm = {
-      ...this.state.orderForm
-    }
-
-    const updatedFormElement = {
-      ...updatedOrderForm[inputIdentifier]
-    }
-
-    updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
-    updatedFormElement.touched = true;
-    updatedOrderForm[inputIdentifier] = updatedFormElement;
-
-    let formIsValid = true;
-    for (let inputIdentifier in updatedOrderForm) {
-      formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
-    }
+    const updatedForm = updateValidatedForm(
+      this.state.orderForm,
+      inputIdentifier,
+      event.target.value
+    );
 
     this.setState({
-      orderForm: updatedOrderForm,
-      formIsValid: formIsValid
+      orderForm: updatedForm,
+      validity: isFormValid(updatedForm)
     })
   }
 
@@ -104,7 +66,7 @@ class ContactData extends Component {
             changed={(event) => this.inputChangedHandler(event, formElement.id)} />
         ))}
         <br />
-        <Button btnType="Success" disabled={!this.state.formIsValid}>{BUTTONS.order}</Button>
+        <Button btnType="Success" disabled={!this.state.validity}>{BUTTONS.order}</Button>
       </form>
     );
     if (this.props.loading) {
