@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
+import axios from '../../axios-orders';
+import withErrorHandler from '../../hoc/errorHandler';
+import * as actions from '../../store/actions/index';
 import { createArrayOfFormElements, updateValidatedForm, isFormValid } from '../../utils/index';
 import { BUTTONS } from '../../constants/labels';
 import { LOGIN_FORM } from '../../constants/login';
 import Input from '../../components/layout/form/input/input';
 import Button from '../../components/layout/button/button';
+
 import classes from '../../assets/styles/default-form.scss';
 
 class Login extends Component {
@@ -26,11 +31,21 @@ class Login extends Component {
     })
   }
 
+  submitHandler = (event) => {
+    event.preventDefault();
+    const inputs = {
+      email: this.state.loginForm.email.value,
+      password: this.state.loginForm.password.value
+    }
+
+    this.props.onAuthenticate(inputs);
+  }
+
   render () {
     const formElementsArray = createArrayOfFormElements(this.state.loginForm);
 
     let form = (
-      <form>
+      <form onSubmit={this.submitHandler}>
         {formElementsArray.map(formElement => (
           <Input
             key={formElement.id}
@@ -55,4 +70,12 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuthenticate: (inputs) => dispatch(actions.authenticate(inputs)),
+  }
+};
+
+const LoginWithErrorHandler = withErrorHandler(Login, axios)
+
+export default connect(null, mapDispatchToProps)(LoginWithErrorHandler);

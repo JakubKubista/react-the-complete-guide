@@ -11,3 +11,7 @@ export {
   purchaseOrder,
   ordersFetch
 } from './creators/order';
+
+export {
+  authenticate
+} from './creators/login';
