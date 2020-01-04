@@ -35,6 +35,15 @@ const ingredientRemove = (state, action) => {
   return updateObject(state, {...updatedStates});
 }
 
+const getIngredientsPrice = (ingredients) => {
+  let price = 0;
+  for (var name in INGREDIENT_PRICES) {
+    price += ingredients[name] * INGREDIENT_PRICES[name];
+  }
+
+  return price;
+}
+
 const ingredientSet = (state, action) => {
   const updatedStates = {
     // We cannot use ingredients: action.ingredients,
@@ -45,7 +54,7 @@ const ingredientSet = (state, action) => {
       meat: action.ingredients.meat,
       bacon: action.ingredients.bacon
     },
-    price: 0,
+    price: getIngredientsPrice(action.ingredients),
     error: false
   }
   return updateObject(state, {...updatedStates});
