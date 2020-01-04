@@ -62,6 +62,7 @@ class Login extends Component {
             touched={formElement.config.touched}
             changed={(event) => this.inputChangedHandler(event, formElement.id)} />
         ))}
+        <br />
         <Button btnType="Success">{this.state.signIn ? BUTTONS.signIn : BUTTONS.signUp}</Button>
       </form>
     );
@@ -69,6 +70,7 @@ class Login extends Component {
     return (
       <div className={classes.DefaultForm}>
         {form}
+        <br />
         <Button btnType="Danger" click={this.switchSingInHandler}>
           {BUTTONS.switchTo} {this.state.signIn ? BUTTONS.signUp : BUTTONS.signIn}
         </Button>

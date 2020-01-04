@@ -13,13 +13,15 @@ export const authenticate = ({email, password, method}) => dispatch => {
     loginInit()
   );
 
+  const url = method ? SING_IN : SING_UP;
+
   const authData = {
     email,
     password,
     returnSecureToken: true
   }
 
-  axios.post(method ? SING_IN : SING_UP, authData)
+  axios.post(url, authData)
   .then(response => {
     console.log(response);
     dispatch(
