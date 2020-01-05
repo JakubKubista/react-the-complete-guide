@@ -70,12 +70,14 @@ export const ordersFetchFail = (error) => {
   }
 };
 
-export const ordersFetch = (token) => dispatch => {
+export const ordersFetch = (token, userId) => dispatch => {
+  const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
+
   dispatch(
     ordersFetchInit()
   );
 
-  axios.get('/orders.json?auth=' + token)
+  axios.get('/orders.json' + queryParams)
   .then(response => {
     const fetchedOrders = [];
     // eslint-disable-next-line no-unused-vars
