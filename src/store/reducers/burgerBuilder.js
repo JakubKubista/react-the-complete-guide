@@ -6,7 +6,8 @@ const initialState = {
   ingredients: null,
   price: 0,
   purchasing: false,
-  error: false
+  error: false,
+  changed: false
 }
 
 /* Ingredient helper */
@@ -17,7 +18,8 @@ const ingredientAdd = (state, action) => {
       ...state.ingredients,
       [action.name]: state.ingredients[action.name] + 1
     },
-    price: state.price + INGREDIENT_PRICES[action.name]
+    price: state.price + INGREDIENT_PRICES[action.name],
+    changed: true
   }
 
   return updateObject(state, {...updatedStates});
@@ -29,7 +31,8 @@ const ingredientRemove = (state, action) => {
       ...state.ingredients,
       [action.name]: state.ingredients[action.name] - 1
     },
-    price: state.price - INGREDIENT_PRICES[action.name]
+    price: state.price - INGREDIENT_PRICES[action.name],
+    changed: true
   }
 
   return updateObject(state, {...updatedStates});
@@ -55,7 +58,8 @@ const ingredientSet = (state, action) => {
       bacon: action.ingredients.bacon
     },
     price: getIngredientsPrice(action.ingredients),
-    error: false
+    error: false,
+    changed: false
   }
   return updateObject(state, {...updatedStates});
 }

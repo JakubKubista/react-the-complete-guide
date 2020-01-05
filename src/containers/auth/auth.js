@@ -52,7 +52,9 @@ class Auth extends Component {
 
   authRedirect = () => {
     if (this.props.isSignedIn) {
-      return <Redirect to={ROUTES.home} />
+      const route = this.props.burgerChanged ? ROUTES.checkout : ROUTES.home;
+
+      return <Redirect to={route} />
     }
 
     return null;
@@ -109,7 +111,8 @@ const mapStateToProps = state => {
   return {
     error: state.auth.error,
     loading: state.auth.loading,
-    isSignedIn: state.auth && state.auth.token !== null
+    isSignedIn: state.auth && state.auth.token !== null,
+    burgerChanged: state.burgerBuilder.changed
   };
 };
 
