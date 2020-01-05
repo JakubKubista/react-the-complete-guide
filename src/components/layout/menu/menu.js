@@ -12,6 +12,8 @@ const Menu = (props) => {
       element = props.isSignedIn ? MENU_ITEMS[name].signOut : MENU_ITEMS[name].signIn;
     }
 
+    if (name === 'orders' && !props.isSignedIn) continue;
+
     menuItems.push(
       <MenuItem
         key={element.route}
