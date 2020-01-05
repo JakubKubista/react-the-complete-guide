@@ -15,7 +15,7 @@ import classes from '../../assets/styles/default-form.scss';
 class Auth extends Component {
   state = {
     authForm: AUTH_FORM,
-    signIn: false
+    signIn: true
   }
 
   inputChangedHandler = (event, inputName) => {

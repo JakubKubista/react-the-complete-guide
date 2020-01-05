@@ -36,7 +36,17 @@ const errorHandler = (WrappedComponent, axios) => {
     }
 
     errorMessage = () => {
-      return this.state.error.response.data.error.message ? this.state.error.response.data.error.message : this.state.error.message;
+      let errorMessage = '';
+
+      if (this.state.error.response.data.error.message) {
+        errorMessage = this.state.error.response.data.error.message;
+      } else if (this.state.error.response.data.error) {
+        errorMessage = this.state.error.response.data.error;
+      } else {
+        errorMessage = this.state.error.message;
+      }
+
+      return errorMessage;
     }
 
     render () {
