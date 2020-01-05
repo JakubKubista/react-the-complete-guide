@@ -6,6 +6,7 @@ import axios from '../../axios-service';
 import Aux from '../../hoc/aux';
 import withErrorHandler from '../../hoc/errorHandler';
 import * as actions from '../../store/actions/index';
+import { ROUTES } from '../../constants/routes';
 import { MESSAGES } from '../../constants/labels';
 
 import Burger from '../../components/burger-builder/burger/burger';
@@ -14,9 +15,41 @@ import Modal from '../../components/layout/modal/modal';
 import OrderSummary from '../../components/burger-builder/order-summary/order-summary';
 import Spinner from '../../components/layout/spinner/spinner';
 
+const burgerBuilderStyle = {
+  position: 'relative',
+  top: '100px',
+  textAlign: 'center'
+};
+
 class BurgerBuilder extends Component {
   componentDidMount() {
     this.props.onIngredientInit();
+  }
+
+  initBurger = () => {
+    let burger = null;
+
+    if (this.props.error) {
+      burger = <div style={burgerBuilderStyle}>
+        {MESSAGES.ingredientsNotLoaded}
+      </div>;
+    } else {
+      burger = <Spinner />;
+    }
+
+    return burger;
+  }
+
+  disabledIngredientsButton = () => {
+    const disabled = {
+      ...this.props.ingredients
+    }
+
+    for (let key in disabled) {
+      disabled[key] = disabled[key] <= 0;
+    }
+
+    return disabled;
   }
 
   isPurchasable() {
@@ -28,27 +61,12 @@ class BurgerBuilder extends Component {
   purchasingContinueHandler = () => {
     this.props.onPurchasingOff();
     this.props.onPurchaseInit();
-    this.props.history.push('/checkout');
+    this.props.history.push(ROUTES.checkout);
   }
 
   render() {
-    const disabled = {
-      ...this.props.ingredients
-    }
-
-    for (let key in disabled) {
-      disabled[key] = disabled[key] <= 0;
-    }
-
+    let burger = this.initBurger();
     let orderSummary = null;
-
-    let burgerStyle = {
-      position: 'relative',
-      top: '100px',
-      textAlign: 'center'
-    };
-
-    let burger = this.props.error ? <div style={burgerStyle}>{MESSAGES.ingredientsNotLoaded}</div> : <Spinner />;
 
     if (this.props.ingredients) {
       burger = (
@@ -58,7 +76,7 @@ class BurgerBuilder extends Component {
         <BurgerControls
           add={this.props.onIngredientAdded}
           remove={this.props.onIngredientRemoved}
-          disabled={disabled}
+          disabled={this.disabledIngredientsButton()}
           purchasable={this.isPurchasable()}
           purchasing={this.props.purchasing}
           price={this.props.price}
