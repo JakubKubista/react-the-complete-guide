@@ -58,6 +58,14 @@ class BurgerBuilder extends Component {
     return sum > 0;
   }
 
+  orderHandler = () => {
+    if (this.props.isSignedIn) {
+      this.props.onPurchasingOn();
+    } else {
+      this.props.history.push(ROUTES.signIn);
+    }
+  }
+
   purchasingContinueHandler = () => {
     this.props.onPurchasingOff();
     this.props.onPurchaseInit();
@@ -80,7 +88,8 @@ class BurgerBuilder extends Component {
           purchasable={this.isPurchasable()}
           purchasing={this.props.purchasing}
           price={this.props.price}
-          order={this.props.onPurchasingOn} />
+          order={this.orderHandler}
+          isSignedIn={this.props.isSignedIn} />
       </Aux>);
 
       orderSummary = <OrderSummary
@@ -108,7 +117,8 @@ const mapStateToProps = state => {
     ingredients: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.price,
     purchasing: state.burgerBuilder.purchasing,
-    error: state.burgerBuilder.error
+    error: state.burgerBuilder.error,
+    isSignedIn: state.auth && state.auth.token !== null
   };
 };
 

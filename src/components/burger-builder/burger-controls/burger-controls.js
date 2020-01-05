@@ -20,7 +20,7 @@ const BurgerControls = props => (
     <button
       className={classes.OrderButton}
       disabled={!props.purchasable}
-      onClick={props.order}>{BUTTONS.orderNow}</button>
+      onClick={props.order}>{props.isSignedIn ? BUTTONS.orderNow : BUTTONS.signInToOrder}</button>
   </div>
 );
 

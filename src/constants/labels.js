@@ -24,6 +24,7 @@ export const BUTTONS = {
   signUp: 'SIGN UP',
   signIn: 'SIGN IN',
   switchTo: 'SWITCH TO',
+  signInToOrder: 'SIGN IN TO ORDER',
   less: 'Less',
   more: 'More'
 };
