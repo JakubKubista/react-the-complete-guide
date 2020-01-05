@@ -46,7 +46,7 @@ class ContactData extends Component {
       customer: customer
     }
 
-    this.props.onPurchaseOrder(order);
+    this.props.onPurchaseOrder(order, this.props.token);
   }
 
   render () {
@@ -86,13 +86,14 @@ const mapStateToProps = state => {
   return {
     ingredients: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.price,
-    loading: state.order.loading
+    loading: state.order.loading,
+    token: state.auth.token
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onPurchaseOrder: (orderData) => dispatch(actions.purchaseOrder(orderData))
+    onPurchaseOrder: (orderData, token) => dispatch(actions.purchaseOrder(orderData, token))
   }
 }
 

@@ -10,7 +10,7 @@ import Order from '../../components/burger-builder/order/order';
 
 class Orders extends Component {
   componentDidMount() {
-    this.props.onOrdersFetch();
+    this.props.onOrdersFetch(this.props.token);
   }
 
   render () {
@@ -34,13 +34,14 @@ class Orders extends Component {
 const mapStateToProps = state => {
   return {
     orders: state.order.orders,
-    loading: state.order.loading
+    loading: state.order.loading,
+    token: state.auth.token
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrdersFetch: () => dispatch(actions.ordersFetch())
+    onOrdersFetch: (token) => dispatch(actions.ordersFetch(token))
   };
 };
 

@@ -15,12 +15,12 @@ export const purchaseOrderStart = () => {
   }
 };
 
-export const purchaseOrder = (orderData) => dispatch => {
+export const purchaseOrder = (orderData, token) => dispatch => {
   dispatch(
     purchaseOrderStart()
   );
 
-  axios.post('/orders.json', orderData)
+  axios.post('/orders.json?auth=' + token, orderData)
   .then(response => {
     dispatch(
       purchaseSuccess(response.data.name, orderData)
@@ -70,12 +70,12 @@ export const ordersFetchFail = (error) => {
   }
 };
 
-export const ordersFetch = () => dispatch => {
+export const ordersFetch = (token) => dispatch => {
   dispatch(
     ordersFetchInit()
   );
 
-  axios.get('/orders.json')
+  axios.get('/orders.json?auth=' + token)
   .then(response => {
     const fetchedOrders = [];
     // eslint-disable-next-line no-unused-vars
