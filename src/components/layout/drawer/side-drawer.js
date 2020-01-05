@@ -19,7 +19,9 @@ const SideDrawer = props => {
         <div className={classes.Logo}>
           <Logo />
         </div>
-        <Menu className={classes.Menu} />
+        <Menu
+          {...props.children.props}
+          className={classes.Menu} />
       </div>
     </Fragment>
   )

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import classes from './layout.scss';
+import { connect } from 'react-redux';
+
 import Aux from '../../hoc/aux';
 import Toolbar from '../../components/layout/toolbar/toolbar';
 import SideDrawer from '../../components/layout/drawer/side-drawer';
+import Menu from '../../components/layout/menu/menu';
+import classes from './layout.scss';
 
 class Layout extends Component {
   state = {
@@ -18,10 +21,20 @@ class Layout extends Component {
   render() {
     return (
       <Aux>
-        <Toolbar clickDrawer={this.sideDrawerToggleHandler} />
+        <Toolbar
+          clickDrawer={this.sideDrawerToggleHandler}>
+          <Menu
+            isSingedIn={this.props.isSingedIn}
+          />
+        </Toolbar>
         <SideDrawer
+          isSingedIn={this.props.isSingedIn}
           open={this.state.showSideDrawer}
-          close={this.sideDrawerToggleHandler} />
+          close={this.sideDrawerToggleHandler}>
+          <Menu
+            isSingedIn={this.props.isSingedIn}
+          />
+        </SideDrawer>
         <main className={classes.Content}>
           {this.props.children}
         </main>
@@ -30,4 +43,10 @@ class Layout extends Component {
   };
 };
 
-export default Layout;
+const mapStateToProps = state => {
+  return {
+    isSingedIn: state.auth && state.auth.token !== null
+  }
+}
+
+export default connect(mapStateToProps)(Layout);

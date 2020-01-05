@@ -8,15 +8,23 @@ export const MENU_ICON = {
 };
 
 // For each element it's needed to create a label and route with a same name
-export const MENU_ELEMENTS = {
-  labels: {
-    home: 'Burger Builder',
-    orders: 'Orders',
-    auth: 'Sing In'
+export const MENU_ITEMS = {
+  home: {
+    label: 'Burger Builder',
+    route: '/'
   },
-  routes: {
-    home: '/',
-    orders: '/orders',
-    auth: '/singin'
+  orders: {
+    label: 'Orders',
+    route: '/orders'
+  },
+  auth: {
+    singin: {
+      label: 'Sing In',
+      route: '/singin'
+    },
+    singout: {
+      label: 'Sing Out',
+      route: '/singout'
+    },
   }
 };

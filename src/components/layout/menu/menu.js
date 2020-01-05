@@ -1,17 +1,23 @@
 import React from 'react';
 import classes from './menu.scss';
-import { MENU_ELEMENTS } from '../../../constants/menu';
+import { MENU_ITEMS } from '../../../constants/menu';
 import MenuItem from './menu-item/menu-item';
 
-const Menu = () => {
+const Menu = (props) => {
   const menuItems = [];
-  for (var element in MENU_ELEMENTS.routes) {
+  for (var name in MENU_ITEMS) {
+    let element = MENU_ITEMS[name];
+
+    if (name === 'auth') {
+      element = props.isSingedIn ? MENU_ITEMS[name].singout : MENU_ITEMS[name].singin;
+    }
+
     menuItems.push(
       <MenuItem
-        key={MENU_ELEMENTS.routes[element]}
-        link={MENU_ELEMENTS.routes[element]}
+        key={element.route}
+        link={element.route}
         exact>
-          {MENU_ELEMENTS.labels[element]}
+          {element.label}
       </MenuItem>
     );
   }
