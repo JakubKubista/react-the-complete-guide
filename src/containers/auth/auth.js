@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import { createArrayOfFormElements, updateValidatedForm } from '../../utils/index';
+import { ROUTES } from '../../constants/routes';
 import { BUTTONS } from '../../constants/labels';
 import { AUTH_FORM } from '../../constants/containers/auth';
 
@@ -48,6 +50,22 @@ class Auth extends Component {
     })
   }
 
+  authRedirect = () => {
+    if (this.props.isSignedIn) {
+      return <Redirect to={ROUTES.home} />
+    }
+
+    return null;
+  }
+
+  errorMessage = () => {
+    if (this.props.error) {
+      return <p>{this.props.error.message}</p>;
+    }
+
+    return null;
+  }
+
   render() {
     const formElementsArray = createArrayOfFormElements(this.state.authForm);
 
@@ -73,15 +91,10 @@ class Auth extends Component {
       form = <Spinner />;
     }
 
-    let errorMessage = null;
-
-    if (this.props.error) {
-      errorMessage = <p>{this.props.error.message}</p>;
-    }
-
     return (
       <div className={classes.DefaultForm}>
-      {errorMessage}
+        {this.authRedirect()}
+        {this.errorMessage()}
         {form}
         <br />
         <Button btnType="Danger" click={this.switchSignInHandler}>
@@ -95,7 +108,8 @@ class Auth extends Component {
 const mapStateToProps = state => {
   return {
     error: state.auth.error,
-    loading: state.auth.loading
+    loading: state.auth.loading,
+    isSignedIn: state.auth && state.auth.token !== null
   };
 };
 
