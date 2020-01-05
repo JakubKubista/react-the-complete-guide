@@ -6,6 +6,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This project has been created with love by [JakubKubista](https://github.com/JakubKubista) via [React - The Complete Guide](https://www.udemy.com/react-the-complete-guide-incl-redux/).
 
+This project is using [Firebase database](https://react-guide-burger.firebaseio.com/) for storing data.
+
 ## Available Scripts
 
 In the project directory, you can run:
