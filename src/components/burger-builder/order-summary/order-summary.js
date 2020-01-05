@@ -4,10 +4,6 @@ import { MESSAGES, BUTTONS } from '../../../constants/labels';
 import Button from '../../layout/button/button';
 
 class OrderSummary extends Component {
-  componentDidUpdate() {
-    console.log('[OrderSummary] componentDidUpdate')
-  }
-
   render() {
     const ingredientSummary = Object.keys(this.props.ingredients)
       .map(ingredientKey => {
