@@ -1,6 +1,6 @@
 import * as actionTypes from '../types';
 import axios from '../../../axios-service';
-import { AUTH_SING_UP, AUTH_SING_IN } from '../../../constants/urls';
+import { AUTH_SIGN_UP, AUTH_SIGN_IN } from '../../../constants/urls';
 
 export const authInit = () => {
   return {
@@ -13,7 +13,7 @@ export const authenticate = ({email, password, method}) => dispatch => {
     authInit()
   );
 
-  const url = method ? AUTH_SING_IN : AUTH_SING_UP;
+  const url = method ? AUTH_SIGN_IN : AUTH_SIGN_UP;
 
   const authData = {
     email,
@@ -65,6 +65,6 @@ export const checkAuthTimeout = (expirationTime) => dispatch => {
 
 export const authSingOut = () => {
   return {
-    type: actionTypes.AUTH_SING_OUT
+    type: actionTypes.AUTH_SIGN_OUT
   }
 }

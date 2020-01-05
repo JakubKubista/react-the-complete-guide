@@ -57,7 +57,7 @@ const authReducer = (state = initialState, action) => {
     case actionTypes.AUTH_FAIL:
       return authFail(state, action);
 
-    case actionTypes.AUTH_SING_OUT:
+    case actionTypes.AUTH_SIGN_OUT:
       return authSingOut(state);
 
     default:
