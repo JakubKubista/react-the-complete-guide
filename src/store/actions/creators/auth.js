@@ -23,12 +23,13 @@ export const authenticate = ({email, password, method}) => dispatch => {
 
   axios.post(url, authData)
   .then(response => {
-    console.log(response.data);
+    addToLocalStorage(response.data);
+
     dispatch(
       authSuccess(response.data)
     );
     dispatch(
-      checkAuthTimeout(response.data.expiresIn)
+      authCheckTimeout(response.data.expiresIn)
     );
   })
   .catch(error => {
@@ -55,7 +56,7 @@ export const authFail = (error) => {
   };
 };
 
-export const checkAuthTimeout = (expirationTime) => dispatch => {
+export const authCheckTimeout = (expirationTime) => dispatch => {
   setTimeout(() => {
     dispatch(
       authSignOut()
@@ -64,7 +65,56 @@ export const checkAuthTimeout = (expirationTime) => dispatch => {
 };
 
 export const authSignOut = () => {
+  removeFromLocalStorage();
+
   return {
     type: actionTypes.AUTH_SIGN_OUT
   }
-}
+};
+
+/* LOCAL STORAGE */
+
+export const authCheckLocalStorage = () => dispatch => {
+  const {
+    idToken,
+    expirationDate,
+    localId
+  } = getFromLocalStorage();
+
+  if (idToken && expirationDate > new Date()) {
+    const expirationSecondsLeft = (expirationDate.getTime() - new Date().getTime()) / 1000;
+
+    dispatch(
+      authSuccess({idToken, localId})
+    );
+    dispatch(
+      authCheckTimeout(expirationSecondsLeft)
+    );
+  } else {
+    dispatch(
+      authSignOut()
+    );
+  }
+};
+
+const addToLocalStorage = ({idToken, expiresIn, localId}) => {
+  const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+
+  localStorage.setItem('token', idToken);
+  localStorage.setItem('expirationDate', expirationDate);
+  localStorage.setItem('userId', localId);
+};
+
+const removeFromLocalStorage = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('expirationDate');
+  localStorage.removeItem('userId');
+};
+
+const getFromLocalStorage = () => {
+  return {
+    idToken: localStorage.getItem('token'),
+    expirationDate: new Date(localStorage.getItem('expirationDate')),
+    localId: localStorage.getItem('userId')
+  };
+};

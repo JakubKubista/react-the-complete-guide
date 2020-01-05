@@ -14,5 +14,6 @@ export {
 
 export {
   authenticate,
-  authSignOut
+  authSignOut,
+  authCheckLocalStorage
 } from './creators/auth';
