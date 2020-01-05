@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/types';
-import {INGREDIENT_PRICES} from '../../constants/burger';
+import {INGREDIENT_PRICES} from '../../constants/containers/burger';
 import { updateObject } from '../../utils/index';
 
 const initialState = {

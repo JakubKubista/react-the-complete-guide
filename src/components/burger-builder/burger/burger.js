@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { INGREDIENT_NAMES } from '../../../constants/burger';
+import { INGREDIENT_NAMES } from '../../../constants/containers/burger';
 import { MESSAGES } from '../../../constants/labels';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import classes from './burger.scss';

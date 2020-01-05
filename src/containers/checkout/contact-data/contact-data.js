@@ -6,7 +6,7 @@ import axios from '../../../axios-service';
 import withErrorHandler from '../../../hoc/errorHandler';
 import * as actions from '../../../store/actions/index';
 import { createArrayOfFormElements, updateValidatedForm, isFormValid } from '../../../utils/index';
-import { ORDER_FORM } from '../../../constants/checkout';
+import { ORDER_FORM } from '../../../constants/containers/checkout';
 import { MESSAGES, BUTTONS } from '../../../constants/labels';
 
 import Button from '../../../components/layout/button/button';
@@ -49,7 +49,7 @@ class ContactData extends Component {
     this.props.onPurchaseOrder(order, this.props.token);
   }
 
-  render () {
+  render() {
     const formElementsArray = createArrayOfFormElements(this.state.orderForm);
 
     let form = (

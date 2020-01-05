@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import { createArrayOfFormElements, updateValidatedForm } from '../../utils/index';
 import { BUTTONS } from '../../constants/labels';
-import { AUTH_FORM } from '../../constants/auth';
+import { AUTH_FORM } from '../../constants/containers/auth';
 
 import Spinner from '../../components/layout/spinner/spinner';
 import Input from '../../components/layout/form/input/input';
@@ -42,13 +42,13 @@ class Auth extends Component {
     this.props.authenticate(properties);
   }
 
-  switchSingInHandler = () => {
+  switchSignInHandler = () => {
     this.setState(prevState => {
       return {signIn: !prevState.signIn};
     })
   }
 
-  render () {
+  render() {
     const formElementsArray = createArrayOfFormElements(this.state.authForm);
 
     let form = (
@@ -84,7 +84,7 @@ class Auth extends Component {
       {errorMessage}
         {form}
         <br />
-        <Button btnType="Danger" click={this.switchSingInHandler}>
+        <Button btnType="Danger" click={this.switchSignInHandler}>
           {BUTTONS.switchTo} {this.state.signIn ? BUTTONS.signUp : BUTTONS.signIn}
         </Button>
       </div>

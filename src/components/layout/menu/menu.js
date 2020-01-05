@@ -9,7 +9,7 @@ const Menu = (props) => {
     let element = MENU_ITEMS[name];
 
     if (name === 'auth') {
-      element = props.isSingedIn ? MENU_ITEMS[name].singout : MENU_ITEMS[name].singin;
+      element = props.isSignedIn ? MENU_ITEMS[name].signOut : MENU_ITEMS[name].signIn;
     }
 
     menuItems.push(

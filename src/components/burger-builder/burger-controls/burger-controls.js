@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { MESSAGES, BUTTONS } from '../../../constants/labels';
-import { CONTROLS } from '../../../constants/burger';
+import { CONTROLS } from '../../../constants/containers/burger';
 import BurgerControl from './burger-control/burger-control';
 import classes from './burger-controls.scss';
 

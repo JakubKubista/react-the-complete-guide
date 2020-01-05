@@ -1,3 +1,5 @@
+import { ROUTES } from './routes';
+
 export const MENU_ICON = {
   src: 'https://icon-library.net/images/white-hamburger-menu-icon/white-hamburger-menu-icon-24.jpg',
   style: {
@@ -11,20 +13,20 @@ export const MENU_ICON = {
 export const MENU_ITEMS = {
   home: {
     label: 'Burger Builder',
-    route: '/'
+    route: ROUTES.home
   },
   orders: {
     label: 'Orders',
-    route: '/orders'
+    route: ROUTES.orders
   },
   auth: {
-    singin: {
-      label: 'Sing In',
-      route: '/singin'
+    signIn: {
+      label: 'Sign In',
+      route: ROUTES.signIn
     },
-    singout: {
-      label: 'Sing Out',
-      route: '/singout'
+    signOut: {
+      label: 'Sign Out',
+      route: ROUTES.signOut
     },
   }
 };

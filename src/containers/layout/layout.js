@@ -24,15 +24,15 @@ class Layout extends Component {
         <Toolbar
           clickDrawer={this.sideDrawerToggleHandler}>
           <Menu
-            isSingedIn={this.props.isSingedIn}
+            isSignedIn={this.props.isSignedIn}
           />
         </Toolbar>
         <SideDrawer
-          isSingedIn={this.props.isSingedIn}
+          isSignedIn={this.props.isSignedIn}
           open={this.state.showSideDrawer}
           close={this.sideDrawerToggleHandler}>
           <Menu
-            isSingedIn={this.props.isSingedIn}
+            isSignedIn={this.props.isSignedIn}
           />
         </SideDrawer>
         <main className={classes.Content}>
@@ -45,7 +45,7 @@ class Layout extends Component {
 
 const mapStateToProps = state => {
   return {
-    isSingedIn: state.auth && state.auth.token !== null
+    isSignedIn: state.auth && state.auth.token !== null
   }
 }
 

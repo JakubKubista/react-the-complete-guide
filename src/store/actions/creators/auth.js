@@ -58,12 +58,12 @@ export const authFail = (error) => {
 export const checkAuthTimeout = (expirationTime) => dispatch => {
   setTimeout(() => {
     dispatch(
-      authSingOut()
+      authSignOut()
     );
   }, expirationTime * 1000);
 };
 
-export const authSingOut = () => {
+export const authSignOut = () => {
   return {
     type: actionTypes.AUTH_SIGN_OUT
   }

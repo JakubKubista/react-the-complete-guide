@@ -13,5 +13,6 @@ export {
 } from './creators/order';
 
 export {
-  authenticate
+  authenticate,
+  authSignOut
 } from './creators/auth';

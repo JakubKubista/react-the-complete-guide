@@ -37,7 +37,7 @@ const authFail = (state, action) => {
   return updateObject(state, {...updatedStates});
 }
 
-const authSingOut = (state) => {
+const authSignOut = (state) => {
   const updatedStates = {
     token: null,
     userId: null
@@ -58,7 +58,7 @@ const authReducer = (state = initialState, action) => {
       return authFail(state, action);
 
     case actionTypes.AUTH_SIGN_OUT:
-      return authSingOut(state);
+      return authSignOut(state);
 
     default:
       return state;
