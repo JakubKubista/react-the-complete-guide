@@ -38,8 +38,8 @@ export const authenticate = ({email, password, method}) => dispatch => {
   });
 };
 
-export const authSuccess = (loginData) => {
-  const {idToken, localId} = loginData;
+export const authSuccess = (authData) => {
+  const {idToken, localId} = authData;
 
   return {
     type: actionTypes.AUTH_SUCCESS,

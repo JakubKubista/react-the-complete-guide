@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import { createArrayOfFormElements, updateValidatedForm } from '../../utils/index';
 import { BUTTONS } from '../../constants/labels';
-import { LOGIN_FORM } from '../../constants/login';
+import { AUTH_FORM } from '../../constants/auth';
 
 import Spinner from '../../components/layout/spinner/spinner';
 import Input from '../../components/layout/form/input/input';
@@ -12,21 +12,21 @@ import Button from '../../components/layout/button/button';
 
 import classes from '../../assets/styles/default-form.scss';
 
-class Login extends Component {
+class Auth extends Component {
   state = {
-    loginForm: LOGIN_FORM,
+    authForm: AUTH_FORM,
     signIn: false
   }
 
   inputChangedHandler = (event, inputName) => {
     const updatedForm = updateValidatedForm(
-      this.state.loginForm,
+      this.state.authForm,
       inputName,
       event.target.value
     );
 
     this.setState({
-      loginForm: updatedForm
+      authForm: updatedForm
     })
   }
 
@@ -34,8 +34,8 @@ class Login extends Component {
     event.preventDefault();
 
     const properties = {
-      email: this.state.loginForm.email.value,
-      password: this.state.loginForm.password.value,
+      email: this.state.authForm.email.value,
+      password: this.state.authForm.password.value,
       method: this.state.signIn
     }
 
@@ -49,7 +49,7 @@ class Login extends Component {
   }
 
   render () {
-    const formElementsArray = createArrayOfFormElements(this.state.loginForm);
+    const formElementsArray = createArrayOfFormElements(this.state.authForm);
 
     let form = (
       <form onSubmit={this.submitHandler}>
@@ -105,4 +105,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
