@@ -8,7 +8,7 @@ const initialState = {
   loading: false
 }
 
-const loginInit = (state) => {
+const authInit = (state) => {
   const updatedStates = {
     error: null,
     loading: true
@@ -17,7 +17,7 @@ const loginInit = (state) => {
   return updateObject(state, {...updatedStates});
 }
 
-const loginSuccess = (state, action) => {
+const authSuccess = (state, action) => {
   const updatedStates = {
     token: action.token,
     userId: action.userId,
@@ -28,7 +28,7 @@ const loginSuccess = (state, action) => {
   return updateObject(state, {...updatedStates});
 }
 
-const loginFail = (state, action) => {
+const authFail = (state, action) => {
   const updatedStates = {
     error: action.error,
     loading: false
@@ -37,20 +37,32 @@ const loginFail = (state, action) => {
   return updateObject(state, {...updatedStates});
 }
 
-const loginReducer = (state = initialState, action) => {
+const authSingOut = (state) => {
+  const updatedStates = {
+    token: null,
+    userId: null
+  }
+
+  return updateObject(state, {...updatedStates});
+}
+
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.LOGIN_INIT:
-      return loginInit(state);
+    case actionTypes.AUTH_INIT:
+      return authInit(state);
 
-    case actionTypes.LOGIN_SUCCESS:
-      return loginSuccess(state, action);
+    case actionTypes.AUTH_SUCCESS:
+      return authSuccess(state, action);
 
-    case actionTypes.LOGIN_FAIL:
-      return loginFail(state, action);
+    case actionTypes.AUTH_FAIL:
+      return authFail(state, action);
+
+    case actionTypes.AUTH_SING_OUT:
+      return authSingOut(state);
 
     default:
       return state;
   }
 };
 
-export default loginReducer;
+export default authReducer;

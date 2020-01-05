@@ -14,4 +14,4 @@ export {
 
 export {
   authenticate
-} from './creators/login';
+} from './creators/auth';

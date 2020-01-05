@@ -15,6 +15,7 @@ export const ORDERS_FETCH_INIT = 'ORDERS_FETCH_INIT';
 export const ORDERS_FETCH_SUCCESS = 'ORDERS_FETCH_SUCCESS';
 export const ORDERS_FETCH_FAIL = 'ORDERS_FETCH_FAIL';
 
-export const LOGIN_INIT = 'LOGIN_INIT';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const AUTH_INIT = 'AUTH_INIT';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAIL = 'AUTH_FAIL';
+export const AUTH_SING_OUT = 'AUTH_SING_OUT';
