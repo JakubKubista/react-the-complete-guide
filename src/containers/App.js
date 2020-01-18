@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -9,9 +9,19 @@ import Layout from '../containers/layout/layout';
 import BurgerBuilder from './burger-builder/burger-builder';
 import SignOut from './auth/sign-out/sign-out';
 
-const Checkout = asyncComponent(() => (import('./checkout/checkout')));
-const Orders = asyncComponent(() => (import('./orders/orders')));
-const Auth = asyncComponent(() => (import('./auth/auth')));
+/*
+  Two options of lazyloading:
+  - Checkout and Orders are using HOC with state+then logic
+  - Auth using build-in React Suspense logic
+*/
+
+const Checkout = asyncComponent(() => import('./checkout/checkout'));
+const Orders = asyncComponent(() => import('./orders/orders'));
+const Auth = React.lazy(() => import('./auth/auth'));
+
+const suspense = (Component, props) => (<Suspense fallback={null}>
+  <Component {...props} />
+</Suspense>);
 
 class App extends Component {
   componentDidMount() {
@@ -20,7 +30,7 @@ class App extends Component {
 
   getRoutes = () => (
     <Switch>
-      <Route path={ROUTES.signIn} component={Auth} key={ROUTES.signIn}/>
+      <Route path={ROUTES.signIn} component={(props) => suspense(Auth, props)} key={ROUTES.signIn}/>
       <Route path={ROUTES.signOut} component={SignOut} key={ROUTES.signOut} />
       {this.props.isSignedIn && <Route path={ROUTES.checkout} component={Checkout} key={ROUTES.checkout} />}
       {this.props.isSignedIn && <Route path={ROUTES.orders} component={Orders} key={ROUTES.orders} />}
