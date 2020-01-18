@@ -22,15 +22,15 @@ class ContactData extends Component {
   }
 
   inputChangedHandler = (event, inputName) => {
-    const updatedForm = updateValidatedForm(
-      this.state.orderForm,
+    const updatedForm = updateValidatedForm({
+      form: this.state.orderForm,
       inputName,
-      event.target.value
-    );
+      inputValue: event.target.value
+    });
 
     this.setState({
       orderForm: updatedForm,
-      validity: isFormValid(updatedForm)
+      validity: isFormValid({form: updatedForm})
     })
   }
 

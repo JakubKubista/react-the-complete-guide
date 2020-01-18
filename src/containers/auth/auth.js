@@ -21,11 +21,11 @@ class Auth extends Component {
   }
 
   inputChangedHandler = (event, inputName) => {
-    const updatedForm = updateValidatedForm(
-      this.state.authForm,
+    const updatedForm = updateValidatedForm({
+      form: this.state.authForm,
       inputName,
-      event.target.value
-    );
+      inputValue: event.target.value
+    });
 
     this.setState({
       authForm: updatedForm
