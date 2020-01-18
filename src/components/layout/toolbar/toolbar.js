@@ -7,14 +7,14 @@ import Menu from '../menu/menu';
 
 const Toolbar = props => (
     <header className={classes.Toolbar}>
-      <div onClick={props.clickDrawer}>
+      <div onClick={props.clickDrawer}  className={classes.MobileOnly}>
         <img
           src={MENU_ICON.src}
           style={MENU_ICON.style}
           alt={MENU_ICON.alt} />
       </div>
       <div className={classes.Logo}>
-        <Logo />
+        <Logo/>
       </div>
       <div className={classes.DesktopOnly}>
         <Menu {...props.children.props} />
