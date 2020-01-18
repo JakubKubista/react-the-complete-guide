@@ -33,6 +33,7 @@ class Layout extends Component {
           close={this.sideDrawerToggleHandler}>
           <Menu
             isSignedIn={this.props.isSignedIn}
+            closeDrawer={this.sideDrawerToggleHandler}
           />
         </SideDrawer>
         <main className={classes.Content}>

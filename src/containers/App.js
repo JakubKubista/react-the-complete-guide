@@ -1,38 +1,43 @@
-import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import React, { Component, Suspense } from 'react';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from '../store/actions/index';
 import { ROUTES } from '../constants/routes';
+import asyncComponent from '../hoc/asyncComponent';
 import Layout from '../containers/layout/layout';
 import BurgerBuilder from './burger-builder/burger-builder';
-import Checkout from './checkout/checkout';
-import Orders from './orders/orders';
-import Auth from './auth/auth';
 import SignOut from './auth/sign-out/sign-out';
+
+/*
+  Two options of lazyloading:
+  - Checkout and Orders are using HOC with state+then logic
+  - Auth using build-in React Suspense logic
+*/
+
+const Checkout = asyncComponent(() => import('./checkout/checkout'));
+const Orders = asyncComponent(() => import('./orders/orders'));
+const Auth = React.lazy(() => import('./auth/auth'));
+
+const suspense = (Component, props) => (<Suspense fallback={null}>
+  <Component {...props} />
+</Suspense>);
 
 class App extends Component {
   componentDidMount() {
     this.props.onAuthCheckLocalStorage();
   };
 
-  getRoutes = () => {
-    let routes = [
-      <Route path={ROUTES.signIn} component={Auth} />,
-      <Route path={ROUTES.signOut} component={SignOut} />,
-      <Route path={ROUTES.home} exact component={BurgerBuilder} />,
-      <Redirect to={ROUTES.home} />
-    ];
-
-    if (this.props.isSignedIn) {
-      routes.unshift(
-        <Route path={ROUTES.checkout} component={Checkout} />,
-        <Route path={ROUTES.orders} component={Orders} />
-      )
-    }
-
-    return routes;
-  };
+  getRoutes = () => (
+    <Switch>
+      <Route path={ROUTES.signIn} component={(props) => suspense(Auth, props)} key={ROUTES.signIn}/>
+      <Route path={ROUTES.signOut} component={SignOut} key={ROUTES.signOut} />
+      {this.props.isSignedIn && <Route path={ROUTES.checkout} component={Checkout} key={ROUTES.checkout} />}
+      {this.props.isSignedIn && <Route path={ROUTES.orders} component={Orders} key={ROUTES.orders} />}
+      <Route path={ROUTES.home} exact component={BurgerBuilder} key={ROUTES.home} />
+      <Redirect to={ROUTES.home} key={'Redirect'} />
+    </Switch>
+  );
 
   render() {
     const routes = this.getRoutes();

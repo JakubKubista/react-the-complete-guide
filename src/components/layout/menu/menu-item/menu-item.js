@@ -8,6 +8,7 @@ const MenuItem = ( props ) => (
         <NavLink
           to={props.link}
           exact={props.exact}
+          onClick={props.closeDrawer}
           activeClassName={classes.active}>
             {props.children}
         </NavLink>

@@ -47,7 +47,7 @@ export const isElementValid = (value, rules) => {
   return isValid;
 };
 
-export const isFormValid = (form) => {
+export const isFormValid = ({form}) => {
   let validity = true;
   for (var inputName in form) {
     validity = form[inputName].valid && validity;
@@ -56,7 +56,7 @@ export const isFormValid = (form) => {
   return validity;
 };
 
-export const updateValidatedForm = (form, inputName, inputValue) => {
+export const updateValidatedForm = ({form, inputName, inputValue}) => {
   return {
     ...form,
     [inputName]: {

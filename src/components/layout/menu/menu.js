@@ -18,6 +18,7 @@ const Menu = (props) => {
       <MenuItem
         key={element.route}
         link={element.route}
+        closeDrawer={props.closeDrawer}
         exact>
           {element.label}
       </MenuItem>
