@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -16,23 +16,19 @@ class App extends Component {
     this.props.onAuthCheckLocalStorage();
   };
 
-  getRoutes = () => {
-    let routes = [
-      <Route path={ROUTES.signIn} component={Auth} />,
-      <Route path={ROUTES.signOut} component={SignOut} />,
-      <Route path={ROUTES.home} exact component={BurgerBuilder} />,
-      <Redirect to={ROUTES.home} />
-    ];
-
-    if (this.props.isSignedIn) {
-      routes.unshift(
-        <Route path={ROUTES.checkout} component={Checkout} />,
-        <Route path={ROUTES.orders} component={Orders} />
-      )
-    }
-
-    return routes;
-  };
+  getRoutes = () => (
+    <Fragment>
+      <Route path={ROUTES.signIn} component={Auth} key={ROUTES.signIn}/>
+      <Route path={ROUTES.signOut} component={SignOut} key={ROUTES.signOut} />
+      <Route path={ROUTES.home} exact component={BurgerBuilder} key={ROUTES.home} />
+      <Redirect to={ROUTES.home} key={'Redirect'} />
+      {this.props.isSignedIn && <Fragment>
+          <Route path={ROUTES.checkout} component={Checkout} key={ROUTES.checkout}  />
+          <Route path={ROUTES.orders} component={Orders} key={ROUTES.orders} />
+        </Fragment>
+      }
+    </Fragment>
+  );
 
   render() {
     const routes = this.getRoutes();
