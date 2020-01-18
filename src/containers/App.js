@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from '../store/actions/index';
@@ -17,17 +17,14 @@ class App extends Component {
   };
 
   getRoutes = () => (
-    <Fragment>
+    <Switch>
       <Route path={ROUTES.signIn} component={Auth} key={ROUTES.signIn}/>
       <Route path={ROUTES.signOut} component={SignOut} key={ROUTES.signOut} />
+      {this.props.isSignedIn && <Route path={ROUTES.checkout} component={Checkout} key={ROUTES.checkout} />}
+      {this.props.isSignedIn && <Route path={ROUTES.orders} component={Orders} key={ROUTES.orders} />}
       <Route path={ROUTES.home} exact component={BurgerBuilder} key={ROUTES.home} />
       <Redirect to={ROUTES.home} key={'Redirect'} />
-      {this.props.isSignedIn && <Fragment>
-          <Route path={ROUTES.checkout} component={Checkout} key={ROUTES.checkout}  />
-          <Route path={ROUTES.orders} component={Orders} key={ROUTES.orders} />
-        </Fragment>
-      }
-    </Fragment>
+    </Switch>
   );
 
   render() {
