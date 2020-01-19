@@ -46,7 +46,7 @@ describe('<Menu/>', () => {
       <MenuItem link={MENU_ITEMS.auth.signIn.route} exact>
         {MENU_ITEMS.auth.signIn.label}
       </MenuItem>
-    )).toEqual(true);
+    )).toBeTruthy();
   });
   it('should have <MenuItem /> with Sign Out', () => {
     wrapper.setProps({isSignedIn: true});
