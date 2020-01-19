@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import { BrowserRouter } from 'react-router-dom';
 import {
   createStore,
@@ -9,6 +11,8 @@ import {
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import App from './App';
+
+configure({adapter: new Adapter()});
 
 const initialState = {
   ingredients: null,

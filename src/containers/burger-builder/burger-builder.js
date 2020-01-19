@@ -21,7 +21,7 @@ const burgerBuilderStyle = {
   textAlign: 'center'
 };
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
   componentDidMount() {
     this.props.onIngredientInit();
   }
