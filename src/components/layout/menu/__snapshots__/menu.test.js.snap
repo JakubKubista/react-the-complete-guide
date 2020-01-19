@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Menu/> should match to snapshot 1`] = `
+<ul>
+  <li>
+    <a
+      aria-current="page"
+      className="active"
+      href="/"
+      onClick={[Function]}
+      style={Object {}}
+    >
+      Burger Builder
+    </a>
+  </li>
+  <li>
+    <a
+      aria-current={null}
+      href="/signin"
+      onClick={[Function]}
+    >
+      Sign In
+    </a>
+  </li>
+</ul>
+`;
