@@ -14,6 +14,7 @@ describe('<BurgerBuilder/>', () => {
 
   beforeEach(() => {
     wrapper = shallow(<BurgerBuilder onIngredientInit={() => {}} />);
+    wrapper.setProps({ingredients: {salad: 0}});
   })
 
   it('should match to snapshot', () => {
@@ -26,8 +27,14 @@ describe('<BurgerBuilder/>', () => {
   });
 
   it('should show render <BurgerControls /> if ingredients are set', () => {
-    wrapper.setProps({ingredients: {salad: 0}});
-
     expect(wrapper.find(BurgerControls)).toHaveLength(1);
+  });
+
+  it('should have correct ingredients state', () => {
+    const state = {ingredients: {salad: 4}};
+
+    wrapper.setState(state);
+
+    expect(wrapper.state()).toEqual(state);
   });
 });
