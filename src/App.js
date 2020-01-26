@@ -25,4 +25,4 @@ class App extends Component {
     }
 }
 
-export default AsyncPizza;
+export default App;
