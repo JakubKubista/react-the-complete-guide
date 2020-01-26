@@ -1,15 +1,9 @@
-import React, { Component } from 'react';
-import './App.css';
+import React from 'react';
 
-class App extends Component {
+import Ingredients from './components/Ingredients/Ingredients';
 
-  render() {
-    return (
-      <div className="App" >
-        <p>Hello World!</p>
-      </div>
-    );
-  }
-}
+const App = props => {
+  return <Ingredients />;
+};
 
 export default App;
