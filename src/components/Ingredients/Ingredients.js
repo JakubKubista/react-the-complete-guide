@@ -4,13 +4,23 @@ import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
 import Search from './Search';
 
+const API_URL = 'https://react-hooks-update-2cb33.firebaseio.com/ingredients.json';
+
 function Ingredients() {
   const [ ingredients, setIngredients ] = useState([]);
 
-  const addIngredientHandler = ingredient => {
+  const addIngredientHandler = async(ingredient) => {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify(ingredient),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    const data = await response.json();
+
     setIngredients(prevIngredients => [
       ...prevIngredients,
-      { id: Math.random().toString(), ...ingredient }
+      { id: data.name, ...ingredient }
     ]);
   };
 
