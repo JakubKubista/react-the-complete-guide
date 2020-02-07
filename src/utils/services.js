@@ -19,8 +19,7 @@ export const addIngredient = async(ingredient) => {
     headers: { 'Content-Type': 'application/json' }
   });
 
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const removeIngredient = async(id) => {
