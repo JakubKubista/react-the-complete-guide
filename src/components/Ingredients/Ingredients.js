@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
@@ -8,6 +8,26 @@ const API_URL = 'https://react-hooks-update-2cb33.firebaseio.com/ingredients.jso
 
 function Ingredients() {
   const [ ingredients, setIngredients ] = useState([]);
+
+  useEffect(() => {
+    loadIngredients();
+  }, []);
+
+  useEffect(() => {
+    console.log('Ingredients: useEffect');
+  });
+
+  const loadIngredients = async() => {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+
+    const parsedData = [];
+    for (const id in data) {
+      parsedData.push({...data[id], id});
+    }
+
+    setIngredients(parsedData);
+  }
 
   const addIngredientHandler = async(ingredient) => {
     const response = await fetch(API_URL, {
