@@ -25,11 +25,9 @@ function Ingredients() {
   };
 
   const removeIngredientHandler = id => {
-    const index = ingredients.map((ingredient) => ingredient.id).indexOf(id);
-    setIngredients(prevIngredients => [
-      ...prevIngredients.slice(0, index),
-      ...prevIngredients.slice(index + 1)
-    ]);
+    setIngredients(prevIngredients =>
+      prevIngredients.filter(ingredient => ingredient.id !== id)
+    );
   };
 
   return (
