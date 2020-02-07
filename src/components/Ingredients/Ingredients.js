@@ -6,7 +6,8 @@ import Search from './Search';
 
 import {
   loadIngredients,
-  addIngredient
+  addIngredient,
+  removeIngredient
 } from '../../utils/services';
 
 function Ingredients() {
@@ -31,7 +32,9 @@ function Ingredients() {
     ]);
   };
 
-  const removeIngredientHandler = id => {
+  const removeIngredientHandler = async(id) => {
+    await removeIngredient(id);
+
     setIngredients(prevIngredients =>
       prevIngredients.filter(ingredient => ingredient.id !== id)
     );

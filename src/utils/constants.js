@@ -1,1 +1,1 @@
-export const API_URL = 'https://react-hooks-update-2cb33.firebaseio.com/ingredients.json';
+export const API_URL = 'https://react-hooks-update-2cb33.firebaseio.com/ingredients';

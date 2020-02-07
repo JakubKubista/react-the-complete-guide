@@ -1,7 +1,7 @@
 import {API_URL} from './constants';
 
 export const loadIngredients = async() => {
-  const response = await fetch(API_URL);
+  const response = await fetch(API_URL + '.json');
   const data = await response.json();
 
   const parsedData = [];
@@ -10,10 +10,10 @@ export const loadIngredients = async() => {
   }
 
   return parsedData;
-}
+};
 
 export const addIngredient = async(ingredient) => {
-  const response = await fetch(API_URL, {
+  const response = await fetch(API_URL + '.json', {
     method: 'POST',
     body: JSON.stringify(ingredient),
     headers: { 'Content-Type': 'application/json' }
@@ -21,4 +21,13 @@ export const addIngredient = async(ingredient) => {
 
   const data = await response.json();
   return data;
-}
+};
+
+export const removeIngredient = async(id) => {
+  await fetch(API_URL + '/' + id + '.json', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+};
