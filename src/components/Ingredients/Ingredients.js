@@ -13,10 +13,6 @@ function Ingredients() {
     loadIngredients();
   }, []);
 
-  useEffect(() => {
-    console.log('Ingredients: useEffect');
-  });
-
   const loadIngredients = async() => {
     const response = await fetch(API_URL);
     const data = await response.json();
