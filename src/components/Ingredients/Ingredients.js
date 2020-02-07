@@ -4,35 +4,26 @@ import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
 import Search from './Search';
 
-const API_URL = 'https://react-hooks-update-2cb33.firebaseio.com/ingredients.json';
+import {
+  loadIngredients,
+  addIngredient
+} from '../../utils/services';
 
 function Ingredients() {
   const [ ingredients, setIngredients ] = useState([]);
 
   useEffect(() => {
-    loadIngredients();
+    loadIngredientsHandler();
   }, []);
 
-  const loadIngredients = async() => {
-    const response = await fetch(API_URL);
-    const data = await response.json();
+  const loadIngredientsHandler = async() => {
+    const data = await loadIngredients();
 
-    const parsedData = [];
-    for (const id in data) {
-      parsedData.push({...data[id], id});
-    }
-
-    setIngredients(parsedData);
+    setIngredients(data);
   }
 
   const addIngredientHandler = async(ingredient) => {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      body: JSON.stringify(ingredient),
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    const data = await response.json();
+    const data = await addIngredient(ingredient);
 
     setIngredients(prevIngredients => [
       ...prevIngredients,
