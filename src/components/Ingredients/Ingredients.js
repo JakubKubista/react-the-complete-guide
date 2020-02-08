@@ -1,9 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import React, { useReducer, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
 import ErrorModal from '../UI/ErrorModal';
 import Search from './Search';
+
+import {ingredientsReducer} from '../../store/reducers/ingredients';
+import {serviceReducer} from '../../store/reducers/service';
 
 import {
   addIngredient,
@@ -11,59 +14,60 @@ import {
 } from '../../utils/services';
 
 function Ingredients() {
-  const [ ingredients, setIngredients ] = useState([]);
-  const [ isLoading, setIsLoading ] = useState(false);
-  const [ error, setError ] = useState(null);
+  const [ ingredients, dispatchIngredients ] = useReducer( ingredientsReducer, []);
+  const [ service, dispatchService ] = useReducer( serviceReducer, { loading: false, error: null });
 
   const setIngredientsHandler = useCallback(ingredients => {
-    setIngredients(ingredients);
+    dispatchIngredients({type: 'SET', ingredients})
   }, []);
 
   const addIngredientHandler = async(ingredient) => {
-    setIsLoading(true);
-    const {data, errorMessage} = await addIngredient(ingredient);
-    setIsLoading(false);
+    dispatchService({type: 'SEND'});
+    const {data, errorMessage: error} = await addIngredient(ingredient);
 
-    data ?
-      setIngredients(prevIngredients => [
-        ...prevIngredients,
-        { id: data.name, ...ingredient }
-      ]) :
-      setError(errorMessage);
+    if (data) {
+      dispatchService({type: 'RESPONSE'});
+      dispatchIngredients({
+        type: 'ADD',
+        ingredient: { id: data.name, ...ingredient }
+      });
+    } else {
+      dispatchService({type: 'ERROR', error});
+    };
   };
 
   const removeIngredientHandler = async(id) => {
-    setIsLoading(true);
-    const {errorMessage} = await removeIngredient(id);
-    setIsLoading(false);
+    dispatchService({type: 'SEND'});
+    const {errorMessage: error} = await removeIngredient(id);
 
-    errorMessage ?
-      setError(errorMessage) :
-      setIngredients(prevIngredients =>
-      prevIngredients.filter(ingredient => ingredient.id !== id)
-    );
+
+    if (error) {
+      dispatchService({type: 'ERROR', error});
+    } else {
+      dispatchService({type: 'RESPONSE'});
+      dispatchIngredients({type: 'DELETE', id});
+    }
   };
 
   const clearError = useCallback(() => {
-    setError(null);
+    dispatchService({type: 'ERROR', error: null});
   }, []);
 
   return (
     <div className="App">
-      {error && <ErrorModal onClose={clearError}>
-        {error}
+      {service.error && <ErrorModal onClose={clearError}>
+        {service.error}
       </ErrorModal>}
 
       <IngredientForm
         onAddIngredient={addIngredientHandler}
-        isLoading={isLoading}
+        isLoading={service.loading}
       />
 
       <section>
         <Search
           onLoadIngredients={setIngredientsHandler}
-          setError={setError}
-          setIsLoading={setIsLoading}
+          dispatchService={dispatchService}
         />
 
         <IngredientList

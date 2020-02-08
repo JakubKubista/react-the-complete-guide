@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 
 import Card from '../UI/Card';
 import './Search.css';
@@ -10,24 +10,24 @@ const SEARCH_INPUT_THROTTLE_LENGTH = 500;
 const Search = React.memo(props => {
   const {
     onLoadIngredients,
-    setError,
-    setIsLoading
+    dispatchService
   } = props;
   const [input, setInput] = useState('');
   const inputRef = useRef();
 
-  useEffect(() => {
-    setIsLoading(true);
+  const loadIngredientsHandler = useCallback(() => {
+    dispatchService({type: 'SEND'});
     const timer = setTimeout(() => {
       if (input === inputRef.current.value) {
-
         const query = input.length === 0 ? '' : `?orderBy="title"&equalTo="${input}"`;
 
-        loadIngredients(query).then(({data, errorMessage}) => {
-          setIsLoading(false);
-          data ?
-            onLoadIngredients(data) :
-            setError(errorMessage)
+        loadIngredients(query).then(({data, errorMessage: error}) => {
+          if (data) {
+            dispatchService({type: 'RESPONSE'});
+            onLoadIngredients(data);
+          } else {
+            dispatchService({type: 'ERROR', error});
+          }
         });
       }
     }, SEARCH_INPUT_THROTTLE_LENGTH);
@@ -35,8 +35,11 @@ const Search = React.memo(props => {
     return () => {
       clearTimeout(timer);
     }
+  }, [input, inputRef, onLoadIngredients, dispatchService]);
 
-  }, [input, onLoadIngredients, inputRef, setError, setIsLoading]);
+  useEffect(() => {
+    loadIngredientsHandler();
+  }, [loadIngredientsHandler]);
 
   return (
     <section className="search">
