@@ -10,12 +10,16 @@ import useService from '../../hooks/service';
 
 const API_URL = 'https://react-hooks-update-2cb33.firebaseio.com/ingredients';
 
+const SET_INGREDIENTS = 'SET_INGREDIENTS';
+const ADD_INGREDIENT = 'ADD_INGREDIENT';
+const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
+
 function Ingredients() {
   const [ ingredients, dispatchIngredients ] = useReducer( ingredientsReducer, []);
-  const { loading, error, data, actionType, sendRequest } = useService();
+  const { loading, error, data, actionType, sendRequest, clearError } = useService();
 
   useEffect(() => {
-    if (!error && actionType === 'SET_INGREDIENTS') {
+    if (!error && actionType === SET_INGREDIENTS) {
       const ingredients = [];
       for (const id in data) {
         ingredients.push({...data[id], id});
@@ -29,7 +33,7 @@ function Ingredients() {
 
     await sendRequest({
       url: `${API_URL}.json${query}`,
-      actionType: 'SET_INGREDIENTS'
+      actionType: SET_INGREDIENTS
     });
   }, [sendRequest]);
 
@@ -37,7 +41,8 @@ function Ingredients() {
     const {name} = await sendRequest({
       url: `${API_URL}.json`,
       method: 'POST',
-      body: JSON.stringify(ingredient)
+      body: JSON.stringify(ingredient),
+      actionType: ADD_INGREDIENT
     });
 
     if (!error && name) {
@@ -48,10 +53,11 @@ function Ingredients() {
     }
   }, [error, sendRequest]);
 
-  const removeIngredientHandler = useCallback(async(id) => {
+  const deleteIngredientHandler = useCallback(async(id) => {
     await sendRequest({
       url: `${API_URL}/${id}.json`,
-      method: 'DELETE'
+      method: 'DELETE',
+      actionType: DELETE_INGREDIENT
     });
 
     if (!error) {
@@ -59,16 +65,12 @@ function Ingredients() {
     }
   }, [error, sendRequest]);
 
-  const clearError = useCallback(() => {
-    // dispatchService({type: 'ERROR', error: null});
-  }, []);
-
   const ingredientList = useMemo(() => (
     <IngredientList
       ingredients={ingredients}
-      onRemoveItem={removeIngredientHandler}
+      onRemoveItem={deleteIngredientHandler}
   />
-  ), [ingredients, removeIngredientHandler]);
+  ), [ingredients, deleteIngredientHandler]);
 
   return (
     <div className="App">

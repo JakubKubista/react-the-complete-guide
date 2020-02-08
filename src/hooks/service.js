@@ -29,13 +29,22 @@ const useService = () => {
       return data;
 
     } catch (error) {
-      dispatchService({type: 'ERROR', error});
+      const errorMessage = `${actionType}: ${error.message}`;
+
+      dispatchService({type: 'ERROR', error: errorMessage});
+
+      return {};
     }
+  }, []);
+
+  const clearError = useCallback(() => {
+    dispatchService({type: 'ERROR', error: null});
   }, []);
 
   return {
     ...service,
-    sendRequest
+    sendRequest,
+    clearError
   }
 };
 
