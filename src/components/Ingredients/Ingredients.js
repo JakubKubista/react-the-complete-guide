@@ -11,13 +11,16 @@ import {
 
 function Ingredients() {
   const [ ingredients, setIngredients ] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(false);
 
   const setIngredientsHandler = useCallback(ingredients => {
     setIngredients(ingredients);
   }, []);
 
   const addIngredientHandler = async(ingredient) => {
+    setIsLoading(true);
     const data = await addIngredient(ingredient);
+    setIsLoading(false);
 
     setIngredients(prevIngredients => [
       ...prevIngredients,
@@ -26,7 +29,9 @@ function Ingredients() {
   };
 
   const removeIngredientHandler = async(id) => {
+    setIsLoading(true);
     await removeIngredient(id);
+    setIsLoading(false);
 
     setIngredients(prevIngredients =>
       prevIngredients.filter(ingredient => ingredient.id !== id)
@@ -37,6 +42,7 @@ function Ingredients() {
     <div className="App">
       <IngredientForm
         onAddIngredient={addIngredientHandler}
+        isLoading={isLoading}
       />
 
       <section>
