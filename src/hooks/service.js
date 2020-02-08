@@ -1,14 +1,7 @@
 
 import { useReducer, useCallback } from 'react';
 
-import {serviceReducer} from '../store/reducers/service';
-
-const initState = {
-  loading: false,
-  error: null,
-  data: null,
-  actionType: null
-};
+import {serviceReducer, initState} from '../store/reducers/service';
 
 const useService = () => {
   const [ service, dispatchService ] = useReducer( serviceReducer, initState);

@@ -1,3 +1,10 @@
+export const initState = {
+  loading: false,
+  error: null,
+  data: null,
+  actionType: null
+};
+
 export const serviceReducer = (state, action) => {
   switch (action.type) {
     case 'SEND':
@@ -21,12 +28,7 @@ export const serviceReducer = (state, action) => {
       };
 
     case 'CLEAR':
-      return {
-        loading: false,
-        error: null,
-        data: null,
-        actionType: null
-      };
+      return initState;
 
     default:
       throw new Error('Ingredient Reducer:  Default action Error')
