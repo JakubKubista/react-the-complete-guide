@@ -13,7 +13,7 @@ const Search = React.memo(props => {
   const inputRef = useRef();
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if (input === inputRef.current.value) {
 
         const query = input.length === 0 ? '' : `?orderBy="title"&equalTo="${input}"`;
@@ -22,7 +22,11 @@ const Search = React.memo(props => {
           onLoadIngredients(data);
         });
       }
-    }, SEARCH_INPUT_THROTTLE_LENGTH)
+    }, SEARCH_INPUT_THROTTLE_LENGTH);
+
+    return () => {
+      clearTimeout(timer);
+    }
 
   }, [input, onLoadIngredients, inputRef]);
 
