@@ -24,9 +24,6 @@ export const addIngredient = async(ingredient) => {
 
 export const removeIngredient = async(id) => {
   await fetch(API_URL + '/' + id + '.json', {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    method: 'DELETE'
   });
 };
