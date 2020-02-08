@@ -1,29 +1,59 @@
 import {API_URL} from './constants';
 
 export const loadIngredients = async(query = '') => {
-  const response = await fetch(API_URL + '.json' + query);
-  const data = await response.json();
+  try {
+    const parsedData = [];
 
-  const parsedData = [];
-  for (const id in data) {
-    parsedData.push({...data[id], id});
+    const response = await fetch(API_URL + '.json' + query);
+    const data = await response.json();
+
+    for (const id in data) {
+      parsedData.push({...data[id], id});
+    }
+
+    return {
+      data: parsedData
+    };
+
+  } catch(error) {
+    return {
+      errorMessage: error.message
+    };
   }
-
-  return parsedData;
 };
 
 export const addIngredient = async(ingredient) => {
-  const response = await fetch(API_URL + '.json', {
-    method: 'POST',
-    body: JSON.stringify(ingredient),
-    headers: { 'Content-Type': 'application/json' }
-  });
+  try {
+    const response = await fetch(API_URL + '.json', {
+      method: 'POST',
+      body: JSON.stringify(ingredient),
+      headers: { 'Content-Type': 'application/json' }
+    });
 
-  return await response.json();
+    const data = await response.json();
+
+    return {
+      data
+    };
+
+  } catch(error) {
+    return {
+      errorMessage: error.message
+    };
+  }
 };
 
 export const removeIngredient = async(id) => {
-  await fetch(API_URL + '/' + id + '.json', {
-    method: 'DELETE'
-  });
+  try {
+    await fetch(API_URL + '/' + id + '.json', {
+      method: 'DELETE'
+    });
+
+    return {};
+
+  } catch(error) {
+    return {
+      errorMessage: error.message
+    };
+  }
 };

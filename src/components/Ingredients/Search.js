@@ -18,8 +18,10 @@ const Search = React.memo(props => {
 
         const query = input.length === 0 ? '' : `?orderBy="title"&equalTo="${input}"`;
 
-        loadIngredients(query).then((data) => {
-          onLoadIngredients(data);
+        loadIngredients(query).then(({data, errorMessage}) => {
+          data ?
+            onLoadIngredients(data) :
+            console.log(errorMessage);
         });
       }
     }, SEARCH_INPUT_THROTTLE_LENGTH);

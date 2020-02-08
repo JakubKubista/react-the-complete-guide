@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
+import ErrorModal from '../UI/ErrorModal';
 import Search from './Search';
 
 import {
@@ -12,6 +13,7 @@ import {
 function Ingredients() {
   const [ ingredients, setIngredients ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
+  const [ error, setError ] = useState(null);
 
   const setIngredientsHandler = useCallback(ingredients => {
     setIngredients(ingredients);
@@ -19,21 +21,25 @@ function Ingredients() {
 
   const addIngredientHandler = async(ingredient) => {
     setIsLoading(true);
-    const data = await addIngredient(ingredient);
+    const {data, errorMessage} = await addIngredient(ingredient);
     setIsLoading(false);
 
-    setIngredients(prevIngredients => [
-      ...prevIngredients,
-      { id: data.name, ...ingredient }
-    ]);
+    data ?
+      setIngredients(prevIngredients => [
+        ...prevIngredients,
+        { id: data.name, ...ingredient }
+      ]) :
+      setError(errorMessage);
   };
 
   const removeIngredientHandler = async(id) => {
     setIsLoading(true);
-    await removeIngredient(id);
+    const {errorMessage} = await removeIngredient(id);
     setIsLoading(false);
 
-    setIngredients(prevIngredients =>
+    errorMessage ?
+      setError(errorMessage) :
+      setIngredients(prevIngredients =>
       prevIngredients.filter(ingredient => ingredient.id !== id)
     );
   };
