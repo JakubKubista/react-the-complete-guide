@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback, useMemo } from 'react';
+import React, { useReducer, useCallback, useMemo, useEffect } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
@@ -6,53 +6,61 @@ import ErrorModal from '../UI/ErrorModal';
 import Search from './Search';
 
 import {ingredientsReducer} from '../../store/reducers/ingredients';
-import {serviceReducer} from '../../store/reducers/service';
+import useService from '../../hooks/service';
 
-import {
-  addIngredient,
-  removeIngredient
-} from '../../utils/services';
+const API_URL = 'https://react-hooks-update-2cb33.firebaseio.com/ingredients';
 
 function Ingredients() {
   const [ ingredients, dispatchIngredients ] = useReducer( ingredientsReducer, []);
-  const [ service, dispatchService ] = useReducer( serviceReducer, {
-    loading: false,
-    error: null
-  });
+  const { loading, error, data, actionType, sendRequest } = useService();
 
-  const setIngredientsHandler = useCallback(ingredients => {
-    dispatchIngredients({type: 'SET', ingredients});
-  }, []);
+  useEffect(() => {
+    if (!error && actionType === 'SET_INGREDIENTS') {
+      const ingredients = [];
+      for (const id in data) {
+        ingredients.push({...data[id], id});
+      }
+      dispatchIngredients({type: 'SET', ingredients});
+    }
+  }, [actionType, data, error]);
+
+  const setIngredientsHandler = useCallback(async(input) => {
+    const query = input.length === 0 ? '' : `?orderBy="title"&equalTo="${input}"`;
+
+    await sendRequest({
+      url: `${API_URL}.json${query}`,
+      actionType: 'SET_INGREDIENTS'
+    });
+  }, [sendRequest]);
 
   const addIngredientHandler = useCallback(async(ingredient) => {
-    dispatchService({type: 'SEND'});
-    const {data, errorMessage: error} = await addIngredient(ingredient);
+    const {name} = await sendRequest({
+      url: `${API_URL}.json`,
+      method: 'POST',
+      body: JSON.stringify(ingredient)
+    });
 
-    if (data) {
-      dispatchService({type: 'RESPONSE'});
+    if (!error && name) {
       dispatchIngredients({
         type: 'ADD',
-        ingredient: { id: data.name, ...ingredient }
+        ingredient: { id: name, ...ingredient }
       });
-    } else {
-      dispatchService({type: 'ERROR', error});
-    };
-  }, []);
+    }
+  }, [error, sendRequest]);
 
   const removeIngredientHandler = useCallback(async(id) => {
-    dispatchService({type: 'SEND'});
-    const {errorMessage: error} = await removeIngredient(id);
+    await sendRequest({
+      url: `${API_URL}/${id}.json`,
+      method: 'DELETE'
+    });
 
-    if (error) {
-      dispatchService({type: 'ERROR', error});
-    } else {
-      dispatchService({type: 'RESPONSE'});
+    if (!error) {
       dispatchIngredients({type: 'DELETE', id});
     }
-  }, []);
+  }, [error, sendRequest]);
 
   const clearError = useCallback(() => {
-    dispatchService({type: 'ERROR', error: null});
+    // dispatchService({type: 'ERROR', error: null});
   }, []);
 
   const ingredientList = useMemo(() => (
@@ -64,19 +72,18 @@ function Ingredients() {
 
   return (
     <div className="App">
-      {service.error && <ErrorModal onClose={clearError}>
-        {service.error}
+      {error && <ErrorModal onClose={clearError}>
+        {error}
       </ErrorModal>}
 
       <IngredientForm
         onAddIngredient={addIngredientHandler}
-        isLoading={service.loading}
+        isLoading={loading}
       />
 
       <section>
         <Search
           onLoadIngredients={setIngredientsHandler}
-          dispatchService={dispatchService}
         />
 
         {ingredientList}
