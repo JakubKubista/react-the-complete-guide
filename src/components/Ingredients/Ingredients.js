@@ -46,13 +46,19 @@ function Ingredients() {
 
   return (
     <div className="App">
+      {error && <ErrorModal>{error}</ErrorModal>}
+
       <IngredientForm
         onAddIngredient={addIngredientHandler}
         isLoading={isLoading}
       />
 
       <section>
-        <Search onLoadIngredients={setIngredientsHandler} />
+        <Search
+          onLoadIngredients={setIngredientsHandler}
+          setError={setError}
+        />
+
         <IngredientList
           ingredients={ingredients}
           onRemoveItem={removeIngredientHandler}

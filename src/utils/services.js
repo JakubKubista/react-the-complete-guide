@@ -17,7 +17,7 @@ export const loadIngredients = async(query = '') => {
 
   } catch(error) {
     return {
-      errorMessage: error.message
+      errorMessage: 'Load Ingredient: ' + error.message
     };
   }
 };
@@ -38,7 +38,7 @@ export const addIngredient = async(ingredient) => {
 
   } catch(error) {
     return {
-      errorMessage: error.message
+      errorMessage: 'Add Ingredient: ' + error.message
     };
   }
 };
@@ -53,7 +53,7 @@ export const removeIngredient = async(id) => {
 
   } catch(error) {
     return {
-      errorMessage: error.message
+      errorMessage: 'Remove Ingredient: ' + error.message
     };
   }
 };

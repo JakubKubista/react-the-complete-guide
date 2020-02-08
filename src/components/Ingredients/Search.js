@@ -8,7 +8,7 @@ import { loadIngredients } from '../../utils/services';
 const SEARCH_INPUT_THROTTLE_LENGTH = 500;
 
 const Search = React.memo(props => {
-  const {onLoadIngredients} = props;
+  const {onLoadIngredients, setError} = props;
   const [input, setInput] = useState('');
   const inputRef = useRef();
 
@@ -21,7 +21,7 @@ const Search = React.memo(props => {
         loadIngredients(query).then(({data, errorMessage}) => {
           data ?
             onLoadIngredients(data) :
-            console.log(errorMessage);
+            setError(errorMessage)
         });
       }
     }, SEARCH_INPUT_THROTTLE_LENGTH);
@@ -30,7 +30,7 @@ const Search = React.memo(props => {
       clearTimeout(timer);
     }
 
-  }, [input, onLoadIngredients, inputRef]);
+  }, [input, onLoadIngredients, inputRef, setError]);
 
   return (
     <section className="search">
