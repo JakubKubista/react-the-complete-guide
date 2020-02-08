@@ -1,7 +1,7 @@
 import {API_URL} from './constants';
 
-export const loadIngredients = async() => {
-  const response = await fetch(API_URL + '.json');
+export const loadIngredients = async(query = '') => {
+  const response = await fetch(API_URL + '.json' + query);
   const data = await response.json();
 
   const parsedData = [];

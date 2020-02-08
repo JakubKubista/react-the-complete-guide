@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
 import Search from './Search';
 
 import {
-  loadIngredients,
   addIngredient,
   removeIngredient
 } from '../../utils/services';
@@ -13,15 +12,9 @@ import {
 function Ingredients() {
   const [ ingredients, setIngredients ] = useState([]);
 
-  useEffect(() => {
-    loadIngredientsHandler();
+  const setIngredientsHandler = useCallback(ingredients => {
+    setIngredients(ingredients);
   }, []);
-
-  const loadIngredientsHandler = async() => {
-    const data = await loadIngredients();
-
-    setIngredients(data);
-  }
 
   const addIngredientHandler = async(ingredient) => {
     const data = await addIngredient(ingredient);
@@ -47,7 +40,7 @@ function Ingredients() {
       />
 
       <section>
-        <Search />
+        <Search onLoadIngredients={setIngredientsHandler} />
         <IngredientList
           ingredients={ingredients}
           onRemoveItem={removeIngredientHandler}
