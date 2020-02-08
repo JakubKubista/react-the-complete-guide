@@ -15,20 +15,19 @@ const Search = React.memo(props => {
   const [input, setInput] = useState('');
   const inputRef = useRef();
 
-  const loadIngredientsHandler = useCallback(() => {
+  const loadIngredientsHandler = useCallback(async() => {
     dispatchService({type: 'SEND'});
-    const timer = setTimeout(() => {
+    const timer = setTimeout(async() => {
       if (input === inputRef.current.value) {
         const query = input.length === 0 ? '' : `?orderBy="title"&equalTo="${input}"`;
+        const { data, errorMessage: error } = await loadIngredients(query);
 
-        loadIngredients(query).then(({data, errorMessage: error}) => {
-          if (data) {
-            dispatchService({type: 'RESPONSE'});
-            onLoadIngredients(data);
-          } else {
-            dispatchService({type: 'ERROR', error});
-          }
-        });
+        if (data) {
+          dispatchService({type: 'RESPONSE'});
+          onLoadIngredients(data);
+        } else {
+          dispatchService({type: 'ERROR', error});
+        }
       }
     }, SEARCH_INPUT_THROTTLE_LENGTH);
 

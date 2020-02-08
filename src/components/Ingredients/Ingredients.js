@@ -15,13 +15,16 @@ import {
 
 function Ingredients() {
   const [ ingredients, dispatchIngredients ] = useReducer( ingredientsReducer, []);
-  const [ service, dispatchService ] = useReducer( serviceReducer, { loading: false, error: null });
+  const [ service, dispatchService ] = useReducer( serviceReducer, {
+    loading: false,
+    error: null
+  });
 
   const setIngredientsHandler = useCallback(ingredients => {
-    dispatchIngredients({type: 'SET', ingredients})
+    dispatchIngredients({type: 'SET', ingredients});
   }, []);
 
-  const addIngredientHandler = async(ingredient) => {
+  const addIngredientHandler = useCallback(async(ingredient) => {
     dispatchService({type: 'SEND'});
     const {data, errorMessage: error} = await addIngredient(ingredient);
 
@@ -34,9 +37,9 @@ function Ingredients() {
     } else {
       dispatchService({type: 'ERROR', error});
     };
-  };
+  }, []);
 
-  const removeIngredientHandler = async(id) => {
+  const removeIngredientHandler = useCallback(async(id) => {
     dispatchService({type: 'SEND'});
     const {errorMessage: error} = await removeIngredient(id);
 
@@ -47,7 +50,7 @@ function Ingredients() {
       dispatchService({type: 'RESPONSE'});
       dispatchIngredients({type: 'DELETE', id});
     }
-  };
+  }, []);
 
   const clearError = useCallback(() => {
     dispatchService({type: 'ERROR', error: null});
