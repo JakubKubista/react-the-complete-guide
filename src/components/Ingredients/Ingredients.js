@@ -16,9 +16,7 @@ function Ingredients() {
   const [ error, setError ] = useState(null);
 
   const setIngredientsHandler = useCallback(ingredients => {
-    setIsLoading(true);
     setIngredients(ingredients);
-    setIsLoading(false);
   }, []);
 
   const addIngredientHandler = async(ingredient) => {
@@ -65,6 +63,7 @@ function Ingredients() {
         <Search
           onLoadIngredients={setIngredientsHandler}
           setError={setError}
+          setIsLoading={setIsLoading}
         />
 
         <IngredientList

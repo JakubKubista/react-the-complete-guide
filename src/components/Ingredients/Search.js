@@ -10,18 +10,21 @@ const SEARCH_INPUT_THROTTLE_LENGTH = 500;
 const Search = React.memo(props => {
   const {
     onLoadIngredients,
-    setError
+    setError,
+    setIsLoading
   } = props;
   const [input, setInput] = useState('');
   const inputRef = useRef();
 
   useEffect(() => {
+    setIsLoading(true);
     const timer = setTimeout(() => {
       if (input === inputRef.current.value) {
 
         const query = input.length === 0 ? '' : `?orderBy="title"&equalTo="${input}"`;
 
         loadIngredients(query).then(({data, errorMessage}) => {
+          setIsLoading(false);
           data ?
             onLoadIngredients(data) :
             setError(errorMessage)
@@ -33,7 +36,7 @@ const Search = React.memo(props => {
       clearTimeout(timer);
     }
 
-  }, [input, onLoadIngredients, inputRef, setError]);
+  }, [input, onLoadIngredients, inputRef, setError, setIsLoading]);
 
   return (
     <section className="search">
