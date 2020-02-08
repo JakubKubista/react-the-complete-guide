@@ -8,7 +8,10 @@ import { loadIngredients } from '../../utils/services';
 const SEARCH_INPUT_THROTTLE_LENGTH = 500;
 
 const Search = React.memo(props => {
-  const {onLoadIngredients, setError} = props;
+  const {
+    onLoadIngredients,
+    setError
+  } = props;
   const [input, setInput] = useState('');
   const inputRef = useRef();
 

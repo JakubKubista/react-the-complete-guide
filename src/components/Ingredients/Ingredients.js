@@ -16,7 +16,9 @@ function Ingredients() {
   const [ error, setError ] = useState(null);
 
   const setIngredientsHandler = useCallback(ingredients => {
+    setIsLoading(true);
     setIngredients(ingredients);
+    setIsLoading(false);
   }, []);
 
   const addIngredientHandler = async(ingredient) => {
@@ -44,9 +46,15 @@ function Ingredients() {
     );
   };
 
+  const clearError = useCallback(() => {
+    setError(null);
+  }, []);
+
   return (
     <div className="App">
-      {error && <ErrorModal>{error}</ErrorModal>}
+      {error && <ErrorModal onClose={clearError}>
+        {error}
+      </ErrorModal>}
 
       <IngredientForm
         onAddIngredient={addIngredientHandler}
