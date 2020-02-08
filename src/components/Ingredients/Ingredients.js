@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from 'react';
+import React, { useReducer, useCallback, useMemo } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
@@ -43,7 +43,6 @@ function Ingredients() {
     dispatchService({type: 'SEND'});
     const {errorMessage: error} = await removeIngredient(id);
 
-
     if (error) {
       dispatchService({type: 'ERROR', error});
     } else {
@@ -55,6 +54,13 @@ function Ingredients() {
   const clearError = useCallback(() => {
     dispatchService({type: 'ERROR', error: null});
   }, []);
+
+  const ingredientList = useMemo(() => (
+    <IngredientList
+      ingredients={ingredients}
+      onRemoveItem={removeIngredientHandler}
+  />
+  ), [ingredients, removeIngredientHandler]);
 
   return (
     <div className="App">
@@ -73,10 +79,7 @@ function Ingredients() {
           dispatchService={dispatchService}
         />
 
-        <IngredientList
-          ingredients={ingredients}
-          onRemoveItem={removeIngredientHandler}
-        />
+        {ingredientList}
       </section>
     </div>
   );

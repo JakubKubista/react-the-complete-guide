@@ -13,7 +13,6 @@ const IngredientForm = React.memo(props => {
 
     event.preventDefault();
     props.onAddIngredient(ingredient);
-    // ...
   };
 
   return (
