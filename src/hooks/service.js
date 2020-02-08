@@ -3,13 +3,15 @@ import { useReducer, useCallback } from 'react';
 
 import {serviceReducer} from '../store/reducers/service';
 
+const initState = {
+  loading: false,
+  error: null,
+  data: null,
+  actionType: null
+};
+
 const useService = () => {
-  const [ service, dispatchService ] = useReducer( serviceReducer, {
-    loading: false,
-    error: null,
-    data: null,
-    actionType: null
-  });
+  const [ service, dispatchService ] = useReducer( serviceReducer, initState);
 
   const sendRequest = useCallback(async({url, method, body, actionType}) => {
     dispatchService({type: 'SEND', innerType: actionType});
@@ -37,14 +39,14 @@ const useService = () => {
     }
   }, []);
 
-  const clearError = useCallback(() => {
-    dispatchService({type: 'ERROR', error: null});
+  const clearService = useCallback(() => {
+    dispatchService({type: 'CLEAR'});
   }, []);
 
   return {
     ...service,
     sendRequest,
-    clearError
+    clearService
   }
 };
 

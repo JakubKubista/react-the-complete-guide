@@ -16,7 +16,7 @@ const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 
 function Ingredients() {
   const [ ingredients, dispatchIngredients ] = useReducer( ingredientsReducer, []);
-  const { loading, error, data, actionType, sendRequest, clearError } = useService();
+  const { loading, error, data, actionType, sendRequest, clearService } = useService();
 
   useEffect(() => {
     if (!error && actionType === SET_INGREDIENTS) {
@@ -74,7 +74,7 @@ function Ingredients() {
 
   return (
     <div className="App">
-      {error && <ErrorModal onClose={clearError}>
+      {error && <ErrorModal onClose={clearService}>
         {error}
       </ErrorModal>}
 
