@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { throttle } from 'lodash';
 
 import Card from '../UI/Card';
 import './Search.css';
 
 import { loadIngredients } from '../../utils/services';
+
+const SEARCH_INPUT_THROTTLE_LENGTH = 1000;
 
 const Search = React.memo(props => {
   const {onLoadIngredients} = props;
@@ -17,6 +20,10 @@ const Search = React.memo(props => {
     });
   }, [input, onLoadIngredients]);
 
+  const onInputHandler = useCallback(throttle((value) => {
+    setInput(value);
+  }, SEARCH_INPUT_THROTTLE_LENGTH), []);
+
   return (
     <section className="search">
       <Card>
@@ -25,7 +32,7 @@ const Search = React.memo(props => {
           <input
             type="text"
             valie={input}
-            onChange={event => setInput(event.target.value)}
+            onChange={event => onInputHandler(event.target.value)}
           />
         </div>
       </Card>
