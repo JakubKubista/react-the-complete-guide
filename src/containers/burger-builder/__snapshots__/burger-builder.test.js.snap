@@ -16,7 +16,21 @@ Array [
     <p>
       A delicious burger with the following ingredients:
     </p>
-    <ul />
+    <ul>
+      <li
+        style={
+          Object {
+            "textTransform": "capitalize",
+          }
+        }
+      >
+        <span>
+          salad
+        </span>
+        : 
+        0
+      </li>
+    </ul>
     <p>
       <strong>
         Total Price
@@ -67,7 +81,7 @@ Array [
         Salad
       </div>
       <button
-        disabled={false}
+        disabled={true}
         onClick={[Function]}
       >
         Less

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { noop } from 'lodash';
 
 import axios from '../../axios-service';
@@ -24,19 +24,39 @@ const burgerBuilderStyle = {
 };
 
 export const BurgerBuilder = ({
-  history,
-  ingredients,
-  price,
-  purchasing,
-  error,
-  isSignedIn,
-  onIngredientInit,
-  onIngredientAdded,
-  onIngredientRemoved,
-  onPurchaseInit,
-  onPurchasingOn,
-  onPurchasingOff
+  history
 }) => {
+  const {
+    ingredients,
+    price,
+    purchasing,
+    error,
+    isSignedIn
+  } = useSelector(state => ({
+    ingredients: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.price,
+    purchasing: state.burgerBuilder.purchasing,
+    error: state.burgerBuilder.error,
+    isSignedIn: state.auth && state.auth.token !== null
+  }));
+
+  const dispatch = useDispatch();
+
+  const {
+    onIngredientInit,
+    onIngredientAdded,
+    onIngredientRemoved,
+    onPurchaseInit,
+    onPurchasingOn,
+    onPurchasingOff
+  } = ({
+    onIngredientInit: useCallback(() => dispatch(actions.ingredientInit()), [dispatch]),
+    onIngredientAdded: useCallback((name) => dispatch(actions.ingredientAdd(name)), [dispatch]),
+    onIngredientRemoved: useCallback((name) => dispatch(actions.ingredientRemove(name)), [dispatch]),
+    onPurchaseInit: useCallback(() => dispatch(actions.purchaseInit()), [dispatch]),
+    onPurchasingOn: useCallback(() => dispatch(actions.purchasingOn()), [dispatch]),
+    onPurchasingOff: useCallback(() => dispatch(actions.purchasingOff()), [dispatch])
+  });
 
   useEffect(() => {
     onIngredientInit();
@@ -129,64 +149,13 @@ export const BurgerBuilder = ({
 BurgerBuilder.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func
-  }),
-  ingredients: PropTypes.shape({
-    salad: PropTypes.number,
-    cheese: PropTypes.number,
-    meat: PropTypes.number,
-    bacon: PropTypes.number
-  }),
-  price: PropTypes.number,
-  purchasing: PropTypes.bool,
-  error: PropTypes.bool,
-  isSignedIn: PropTypes.bool,
-  onIngredientInit: PropTypes.func,
-  onIngredientAdded: PropTypes.func,
-  onIngredientRemoved: PropTypes.func,
-  onPurchaseInit: PropTypes.func,
-  onPurchasingOn: PropTypes.func,
-  onPurchasingOff: PropTypes.func,
+  })
 };
 
 BurgerBuilder.defaultProps = {
   history: {
     push: noop
-  },
-  ingredients: {},
-  price: 0,
-  purchasing: false,
-  error: null,
-  isSignedIn: false,
-  onIngredientAdded: noop,
-  onIngredientRemoved: noop,
-  onPurchaseInit: noop,
-  onPurchasingOn: noop,
-  onPurchasingOff: noop
-};
-
-const mapStateToProps = state => {
-  return {
-    ingredients: state.burgerBuilder.ingredients,
-    price: state.burgerBuilder.price,
-    purchasing: state.burgerBuilder.purchasing,
-    error: state.burgerBuilder.error,
-    isSignedIn: state.auth && state.auth.token !== null
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onIngredientInit: () => dispatch(actions.ingredientInit()),
-    onIngredientAdded: (name) => dispatch(actions.ingredientAdd(name)),
-    onIngredientRemoved: (name) => dispatch(actions.ingredientRemove(name)),
-    onPurchaseInit: () => dispatch(actions.purchaseInit()),
-    onPurchasingOn: () => dispatch(actions.purchasingOn()),
-    onPurchasingOff: () => dispatch(actions.purchasingOff())
   }
 };
 
-const BurgerBuilderWithErrorHandler = withErrorHandler(BurgerBuilder, axios)
-
-export default connect(mapStateToProps, mapDispatchToProps)(
-  BurgerBuilderWithErrorHandler
-);
+export default withErrorHandler(BurgerBuilder, axios);
