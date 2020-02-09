@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { noop } from 'lodash';
 import classes from './button.scss';
 
 const Button = ({
@@ -18,12 +19,13 @@ const Button = ({
 
 Button.propTypes = {
   btnType: PropTypes.string.isRequired,
-  click: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+  click: PropTypes.func,
   disabled: PropTypes.bool
 };
 
 Button.defaultProps = {
+  click: noop,
   disabled: false
 };
 
