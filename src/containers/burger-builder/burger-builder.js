@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { noop } from 'lodash';
 
 import axios from '../../axios-service';
 import Aux from '../../hoc/aux';
@@ -41,7 +42,7 @@ export const BurgerBuilder = ({
     onIngredientInit();
   }, [onIngredientInit]);
 
-  const initBurger = () => {
+  const initBurger = useCallback(() => {
     let burger = null;
 
     if (error) {
@@ -53,9 +54,9 @@ export const BurgerBuilder = ({
     }
 
     return burger;
-  }
+  }, [error]);
 
-  const disabledIngredientsButton = () => {
+  const disabledIngredientsButton = useCallback(() => {
     const disabled = {
       ...ingredients
     }
@@ -65,27 +66,27 @@ export const BurgerBuilder = ({
     }
 
     return disabled;
-  }
+  }, [ingredients]);
 
-  const isPurchasable = () => {
+  const isPurchasable = useCallback(() => {
     const sum = (Object.values(ingredients))
       .reduce((a, b) => a + b, 0);
     return sum > 0;
-  }
+  }, [ingredients]);
 
-  const orderHandler = () => {
+  const orderHandler = useCallback(() => {
     if (isSignedIn) {
       onPurchasingOn();
     } else {
       history.push(ROUTES.signIn);
     }
-  }
+  }, [history, isSignedIn, onPurchasingOn])
 
-  const purchasingContinueHandler = () => {
+  const purchasingContinueHandler = useCallback(() => {
     onPurchasingOff();
     onPurchaseInit();
     history.push(ROUTES.checkout);
-  }
+  }, [history, onPurchaseInit, onPurchasingOff])
 
   let burger = initBurger();
   let orderSummary = null;
@@ -127,28 +128,40 @@ export const BurgerBuilder = ({
 
 BurgerBuilder.propTypes = {
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired,
-  ingredients: PropTypes.shape({
-    salad: PropTypes.number.isRequired,
-    cheese: PropTypes.number.isRequired,
-    meat: PropTypes.number.isRequired,
-    bacon: PropTypes.number.isRequired
+    push: PropTypes.func
   }),
-  price: PropTypes.number.isRequired,
-  purchasing: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
-  isSignedIn: PropTypes.bool.isRequired,
-  onIngredientInit: PropTypes.func.isRequired,
-  onIngredientAdded: PropTypes.func.isRequired,
-  onIngredientRemoved: PropTypes.func.isRequired,
-  onPurchaseInit: PropTypes.func.isRequired,
-  onPurchasingOn: PropTypes.func.isRequired,
-  onPurchasingOff: PropTypes.func.isRequired,
+  ingredients: PropTypes.shape({
+    salad: PropTypes.number,
+    cheese: PropTypes.number,
+    meat: PropTypes.number,
+    bacon: PropTypes.number
+  }),
+  price: PropTypes.number,
+  purchasing: PropTypes.bool,
+  error: PropTypes.bool,
+  isSignedIn: PropTypes.bool,
+  onIngredientInit: PropTypes.func,
+  onIngredientAdded: PropTypes.func,
+  onIngredientRemoved: PropTypes.func,
+  onPurchaseInit: PropTypes.func,
+  onPurchasingOn: PropTypes.func,
+  onPurchasingOff: PropTypes.func,
 };
 
 BurgerBuilder.defaultProps = {
-  ingredients: null,
+  history: {
+    push: noop
+  },
+  ingredients: {},
+  price: 0,
+  purchasing: false,
+  error: null,
+  isSignedIn: false,
+  onIngredientAdded: noop,
+  onIngredientRemoved: noop,
+  onPurchaseInit: noop,
+  onPurchasingOn: noop,
+  onPurchasingOff: noop
 };
 
 const mapStateToProps = state => {

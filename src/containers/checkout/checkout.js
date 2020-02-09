@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -12,13 +12,14 @@ const Checkout = ({
   ingredients,
   purchased
 }) => {
-  const checkoutCancelHandler = () => {
-    history.goBack();
-  };
 
-  const checkoutContinueHandler = () => {
+  const checkoutCancelHandler = useCallback(() => {
+    history.goBack();
+  }, [history]);
+
+  const checkoutContinueHandler = useCallback(() => {
     history.replace('/checkout/contact-data');
-  };
+  }, [history]);
 
   return ingredients ?
     <div>

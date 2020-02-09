@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -14,9 +14,9 @@ const Layout = ({
 }) => {
   const [showSideDrawer, setShowSideDrawer] = useState(false);
 
-  const sideDrawerToggleHandler = () => {
+  const sideDrawerToggleHandler = useCallback(() => {
     setShowSideDrawer(!showSideDrawer);
-  };
+  }, [showSideDrawer]);
 
   return (
     <Aux>

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -31,7 +31,7 @@ const ContactData = ({
   const [ orderForm, setOrderForm ] = useState(ORDER_FORM);
   const [ validity, setValidity ] = useState(false);
 
-  const inputChangedHandler = (event, inputName) => {
+  const inputChangedHandler = useCallback((event, inputName) => {
     const updatedForm = updateValidatedForm({
       form: orderForm,
       inputName,
@@ -42,9 +42,9 @@ const ContactData = ({
     setValidity(
       isFormValid({form: updatedForm})
     );
-  };
+  }, [orderForm]);
 
-  const submitHandler = (event) => {
+  const submitHandler = useCallback((event) => {
     event.preventDefault();
     const customer = {};
     for (let formElementIdentifier in orderForm) {
@@ -58,7 +58,7 @@ const ContactData = ({
     };
 
     onPurchaseOrder(order, token);
-  };
+  }, [ingredients, onPurchaseOrder, orderForm, price, token, userId]);
 
   const formElementsArray = createArrayOfFormElements(orderForm);
 
