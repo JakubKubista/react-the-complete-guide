@@ -19,7 +19,7 @@ const Orders = ({
 
   useEffect(() => {
     onOrdersFetch(token, userId)
-  }, [onOrdersFetch, token, userId])
+  }, [onOrdersFetch, token, userId]);
 
   return loading ?
     <Spinner /> :
@@ -37,7 +37,7 @@ Orders.propTypes = {
   orders: PropTypes.array.isRequired,
   onOrdersFetch: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired
-}
+};
 
 const mapStateToProps = state => {
   return {

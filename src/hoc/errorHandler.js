@@ -10,11 +10,11 @@ const errorHandler = (WrappedComponent, axios) => {
     const reqInterceptors = axios.interceptors.request.use(request => {
       setError(null);
       return request;
-    })
+    });
 
     const resInterceptors = axios.interceptors.response.use(response => response, resError => {
       setError(resError);
-    })
+    });
 
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const errorHandler = (WrappedComponent, axios) => {
 
     const errorConfirmedHandler = () => {
       setError(null);
-    }
+    };
 
     const errorMessage = () => {
       let errorMessage = '';
@@ -40,7 +40,7 @@ const errorHandler = (WrappedComponent, axios) => {
       }
 
       return errorMessage;
-    }
+    };
 
     return (
       <Aux>
@@ -54,6 +54,6 @@ const errorHandler = (WrappedComponent, axios) => {
       </Aux>
     );
   };
-}
+};
 
 export default errorHandler;

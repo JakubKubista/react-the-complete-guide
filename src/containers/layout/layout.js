@@ -16,7 +16,7 @@ const Layout = ({
 
   const sideDrawerToggleHandler = () => {
     setShowSideDrawer(!showSideDrawer);
-  }
+  };
 
   return (
     <Aux>
@@ -45,12 +45,12 @@ const Layout = ({
 Layout.propTypes = {
   isSignedIn: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired
-}
+};
 
 const mapStateToProps = state => {
   return {
     isSignedIn: state.auth && state.auth.token !== null
   }
-}
+};
 
 export default connect(mapStateToProps)(Layout);

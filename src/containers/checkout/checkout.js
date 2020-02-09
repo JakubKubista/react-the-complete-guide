@@ -14,13 +14,13 @@ const Checkout = ({
 }) => {
   const checkoutCancelHandler = () => {
     history.goBack();
-  }
+  };
 
   const checkoutContinueHandler = () => {
     history.replace('/checkout/contact-data');
-  }
+  };
 
-  let checkout = <Redirect to="/" />
+  let checkout = <Redirect to="/" />;
 
   if (ingredients) {
     const purchasedRedirect = purchased && <Redirect to="/" />;
@@ -58,7 +58,7 @@ Checkout.propTypes = {
     bacon: PropTypes.number.isRequired
   }).isRequired,
   purchased: PropTypes.bool.isRequired
-}
+};
 
 const mapStateToProps = state => {
   return {

@@ -50,18 +50,18 @@ const App = ({
 App.propTypes = {
   onAuthCheckLocalStorage: PropTypes.func.isRequired,
   isSignedIn: PropTypes.bool.isRequired
-}
+};
 
 const mapStateToProps = state => {
   return {
     isSignedIn: state.auth && state.auth.token !== null
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     onAuthCheckLocalStorage: () => dispatch(actions.authCheckLocalStorage())
-  }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

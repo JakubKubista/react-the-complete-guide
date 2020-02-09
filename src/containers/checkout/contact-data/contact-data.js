@@ -81,7 +81,7 @@ class ContactData extends Component {
       </div>
     )
   }
-}
+};
 
 const mapStateToProps = state => {
   return {
@@ -97,6 +97,6 @@ const mapDispatchToProps = dispatch => {
   return {
     onPurchaseOrder: (orderData, token) => dispatch(actions.purchaseOrder(orderData, token))
   }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
