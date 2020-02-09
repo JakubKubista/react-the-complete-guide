@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import axios from '../../axios-service';
@@ -122,6 +123,32 @@ export const BurgerBuilder = ({
       {burger}
     </Aux>
   );
+};
+
+BurgerBuilder.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
+  ingredients: PropTypes.shape({
+    salad: PropTypes.number.isRequired,
+    cheese: PropTypes.number.isRequired,
+    meat: PropTypes.number.isRequired,
+    bacon: PropTypes.number.isRequired
+  }),
+  price: PropTypes.number.isRequired,
+  purchasing: PropTypes.bool.isRequired,
+  error: PropTypes.bool.isRequired,
+  isSignedIn: PropTypes.bool.isRequired,
+  onIngredientInit: PropTypes.func.isRequired,
+  onIngredientAdded: PropTypes.func.isRequired,
+  onIngredientRemoved: PropTypes.func.isRequired,
+  onPurchaseInit: PropTypes.func.isRequired,
+  onPurchasingOn: PropTypes.func.isRequired,
+  onPurchasingOff: PropTypes.func.isRequired,
+};
+
+BurgerBuilder.defaultProps = {
+  ingredients: null,
 };
 
 const mapStateToProps = state => {

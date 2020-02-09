@@ -38,9 +38,8 @@ const Checkout = ({
 
 Checkout.propTypes = {
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired
+    replace: PropTypes.func.isRequired
   }).isRequired,
   match: PropTypes.shape({
     path: PropTypes.string.isRequired,
