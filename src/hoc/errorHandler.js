@@ -1,66 +1,58 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Modal from '../components/layout/modal/modal';
 import Aux from './aux';
 
 const errorHandler = (WrappedComponent, axios) => {
-  return class extends Component {
-    state = {
-      error: null
+  return props => {
+    const [error, setError] = useState(null);
+
+    const reqInterceptors = axios.interceptors.request.use(request => {
+      setError(null);
+      return request;
+    })
+
+    const resInterceptors = axios.interceptors.response.use(response => response, resError => {
+      setError(resError);
+    })
+
+
+    useEffect(() => {
+      return () => {
+        axios.interceptors.request.eject(reqInterceptors);
+        axios.interceptors.response.eject(resInterceptors);
+      };
+    }, [reqInterceptors, resInterceptors])
+
+    const errorConfirmedHandler = () => {
+      setError(null);
     }
 
-    componentWillMount() {
-      this.reqInterceptors = axios.interceptors.request.use(request => {
-        this.setState({
-          error: null
-        })
-        return request;
-      })
-
-      this.resInterceptors = axios.interceptors.response.use(response => response, error => {
-        this.setState({
-          error: error
-        })
-      })
-    }
-
-    componentWillUnmount() {
-      axios.interceptors.request.eject(this.reqInterceptors);
-      axios.interceptors.response.eject(this.resInterceptors);
-    }
-
-    errorConfirmedHandler = () => {
-      this.setState({
-        error: null
-      })
-    }
-
-    errorMessage = () => {
+    const errorMessage = () => {
       let errorMessage = '';
 
-      if (this.state.error.response.data.error.message) {
-        errorMessage = this.state.error.response.data.error.message;
-      } else if (this.state.error.response.data.error) {
-        errorMessage = this.state.error.response.data.error;
+      if (error.response.data.error.message) {
+        errorMessage = error.response.data.error.message;
+      } else if (error.response.data.error) {
+        errorMessage = error.response.data.error;
       } else {
-        errorMessage = this.state.error.message;
+        errorMessage = error.message;
       }
 
       return errorMessage;
     }
 
-    render () {
-      return (
-        <Aux>
-          <Modal
-            show={this.state.error ? true : false}
-            modalClosed={this.errorConfirmedHandler}>
-            {this.state.error ? this.errorMessage() : null}
-          </Modal>
-          <WrappedComponent {...this.props} />
-        </Aux>
-      );
-    }
+    return (
+      <Aux>
+        <Modal
+          show={!!error}
+          modalClosed={errorConfirmedHandler}
+        >
+          {error && errorMessage()}
+        </Modal>
+        <WrappedComponent {...props} />
+      </Aux>
+    );
   };
 }
 
