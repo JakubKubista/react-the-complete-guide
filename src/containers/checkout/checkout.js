@@ -20,26 +20,20 @@ const Checkout = ({
     history.replace('/checkout/contact-data');
   };
 
-  let checkout = <Redirect to="/" />;
+  return ingredients ?
+    <div>
+      {purchased && <Redirect to="/" />}
 
-  if (ingredients) {
-    const purchasedRedirect = purchased && <Redirect to="/" />;
+      <CheckoutSummary
+        ingredients={ingredients}
+        cancel={checkoutCancelHandler}
+        continue={checkoutContinueHandler} />
 
-    checkout = (
-      <div>
-        {purchasedRedirect}
-        <CheckoutSummary
-          ingredients={ingredients}
-          cancel={checkoutCancelHandler}
-          continue={checkoutContinueHandler} />
-        <Route
-          path={match.path + '/contact-data'}
-          component={ContactData} />
-      </div>
-    );
-  }
-
-  return checkout
+      <Route
+        path={match.path + '/contact-data'}
+        component={ContactData} />
+    </div> :
+    <Redirect to="/" />;
 };
 
 Checkout.propTypes = {
