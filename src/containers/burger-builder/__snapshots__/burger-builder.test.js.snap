@@ -9,9 +9,143 @@ Array [
         "transform": "translateY(-100vh)",
       }
     }
-  />,
+  >
+    <h3>
+      Your Order
+    </h3>
+    <p>
+      A delicious burger with the following ingredients:
+    </p>
+    <ul>
+      <li
+        style={
+          Object {
+            "textTransform": "capitalize",
+          }
+        }
+      >
+        <span>
+          salad
+        </span>
+        : 
+        0
+      </li>
+    </ul>
+    <p>
+      <strong>
+        Total Price
+        : 
+        0.00
+      </strong>
+    </p>
+    <p>
+      Continue to Checkout?
+    </p>
+    <button
+      className=" "
+      disabled={false}
+      onClick={[Function]}
+    >
+      CANCEL
+    </button>
+    <button
+      className=" "
+      disabled={false}
+      onClick={[Function]}
+    >
+      CONTINUE
+    </button>
+  </div>,
   <div>
-    Loading...
+    <div>
+      <div />
+      <div />
+    </div>
+    <p>
+      Please start adding ingredients.
+    </p>
+    <div />
+  </div>,
+  <div>
+    <p>
+      Price
+      : 
+      <b>
+        USD
+         
+        0.00
+      </b>
+    </p>
+    <div>
+      <div>
+        Salad
+      </div>
+      <button
+        disabled={true}
+        onClick={[Function]}
+      >
+        Less
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        More
+      </button>
+    </div>
+    <div>
+      <div>
+        Cheese
+      </div>
+      <button
+        disabled={false}
+        onClick={[Function]}
+      >
+        Less
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        More
+      </button>
+    </div>
+    <div>
+      <div>
+        Meat
+      </div>
+      <button
+        disabled={false}
+        onClick={[Function]}
+      >
+        Less
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        More
+      </button>
+    </div>
+    <div>
+      <div>
+        Bacon
+      </div>
+      <button
+        disabled={false}
+        onClick={[Function]}
+      >
+        Less
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        More
+      </button>
+    </div>
+    <button
+      disabled={true}
+      onClick={[Function]}
+    >
+      SIGN IN TO ORDER
+    </button>
   </div>,
 ]
 `;

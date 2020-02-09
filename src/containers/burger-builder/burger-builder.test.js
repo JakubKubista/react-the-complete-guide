@@ -9,18 +9,29 @@ import BurgerControls from '../../components/burger-builder/burger-controls/burg
 
 configure({adapter: new Adapter()});
 
+jest.mock("react-redux", () => ({
+  useSelector: () => ({
+    ingredients: {salad: 0},
+    price: 0,
+    purchasing: false,
+    error: null,
+    isSignedIn: false
+  }),
+  useDispatch: () => jest.fn()
+}));
+
 describe('<BurgerBuilder/>', () => {
   let wrapper = null;
 
   beforeEach(() => {
-    wrapper = shallow(<BurgerBuilder onIngredientInit={() => {}} />);
-    wrapper.setProps({ingredients: {salad: 0}});
+    wrapper = shallow(<BurgerBuilder />);
   })
 
   it('should match to snapshot', () => {
+
     const renderer = create(
       <BrowserRouter>
-        <BurgerBuilder onIngredientInit={() => {}} />
+        <BurgerBuilder />
       </BrowserRouter>
     );
     expect(renderer.toJSON()).toMatchSnapshot();
@@ -30,7 +41,8 @@ describe('<BurgerBuilder/>', () => {
     expect(wrapper.find(BurgerControls)).toHaveLength(1);
   });
 
-  it('should have correct ingredients state', () => {
+  it.skip('should have correct ingredients state', () => {
+    // The component is stateless, but it's general reusable solution
     const state = {ingredients: {salad: 4}};
 
     wrapper.setState(state);

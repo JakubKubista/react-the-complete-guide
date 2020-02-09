@@ -1,19 +1,25 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { ROUTES } from '../../../constants/routes';
 import * as actions from '../../../store/actions/index';
 
-class SignOut extends Component {
-  componentDidMount () {
-    this.props.onSignOut();
-  }
+const SignOut = ({
+  onSignOut
+}) => {
 
-  render() {
-    return <Redirect to={ROUTES.home} />;
-  }
+  useEffect(() => {
+    onSignOut();
+  }, [onSignOut])
+
+  return <Redirect to={ROUTES.home} />;
 }
+
+SignOut.propTypes = {
+  onSignOut: PropTypes.func.isRequired
+};
 
 const mapDispatchToProps = dispatch => {
   return {

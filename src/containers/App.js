@@ -1,65 +1,102 @@
-import React, { Component, Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from '../store/actions/index';
 import { ROUTES } from '../constants/routes';
-import asyncComponent from '../hoc/asyncComponent';
-import Layout from '../containers/layout/layout';
+import Layout from './layout/layout';
 import BurgerBuilder from './burger-builder/burger-builder';
 import SignOut from './auth/sign-out/sign-out';
+import Spinner from '../components/layout/spinner/spinner';
 
-/*
-  Two options of lazyloading:
-  - Checkout and Orders are using HOC with state+then logic
-  - Auth using build-in React Suspense logic
-*/
-
-const Checkout = asyncComponent(() => import('./checkout/checkout'));
-const Orders = asyncComponent(() => import('./orders/orders'));
+const Checkout = React.lazy(() => import('./checkout/checkout'));
+const Orders = React.lazy(() => import('./orders/orders'));
 const Auth = React.lazy(() => import('./auth/auth'));
 
-const suspense = (Component, props) => (<Suspense fallback={null}>
-  <Component {...props} />
-</Suspense>);
+const App = ({
+  onAuthCheckLocalStorage,
+  isSignedIn
+}) => {
 
-class App extends Component {
-  componentDidMount() {
-    this.props.onAuthCheckLocalStorage();
-  };
+  useEffect(() => {
+    onAuthCheckLocalStorage();
+  }, [onAuthCheckLocalStorage])
 
-  getRoutes = () => (
+  const routes = (
     <Switch>
-      <Route path={ROUTES.signIn} component={(props) => suspense(Auth, props)} key={ROUTES.signIn}/>
-      <Route path={ROUTES.signOut} component={SignOut} key={ROUTES.signOut} />
-      {this.props.isSignedIn && <Route path={ROUTES.checkout} component={Checkout} key={ROUTES.checkout} />}
-      {this.props.isSignedIn && <Route path={ROUTES.orders} component={Orders} key={ROUTES.orders} />}
-      <Route path={ROUTES.home} exact component={BurgerBuilder} key={ROUTES.home} />
-      <Redirect to={ROUTES.home} key={'Redirect'} />
+      <Route
+        path={ROUTES.signIn}
+        render={props =>
+          <Auth {...props} />
+        }
+        key={ROUTES.signIn}
+      />
+
+      <Route
+        path={ROUTES.signOut}
+        component={SignOut}
+        key={ROUTES.signOut}
+      />
+
+      {isSignedIn && <Route
+          path={ROUTES.checkout}
+          render={props =>
+            <Checkout {...props} />
+          }
+          key={ROUTES.checkout}
+      />}
+
+      {isSignedIn && <Route
+        path={ROUTES.orders}
+        render={props =>
+          <Orders {...props} />
+        }
+        key={ROUTES.orders}
+      />}
+
+      <Route
+        path={ROUTES.home}
+        exact
+        component={BurgerBuilder}
+        key={ROUTES.home}
+      />
+
+      <Redirect
+        to={ROUTES.home}
+        key={'Redirect'}
+      />
     </Switch>
   );
 
-  render() {
-    const routes = this.getRoutes();
-
-    return (
-        <Layout >
+  return (
+      <Layout >
+        <Suspense fallback={<Spinner/>}>
           {routes}
-        </Layout>
-    );
-  };
+        </Suspense>
+      </Layout>
+  );
+};
+
+App.propTypes = {
+  onAuthCheckLocalStorage: PropTypes.func.isRequired,
+  isSignedIn: PropTypes.bool
+};
+
+App.defaultProps = {
+  isSignedIn: false
 };
 
 const mapStateToProps = state => {
   return {
     isSignedIn: state.auth && state.auth.token !== null
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     onAuthCheckLocalStorage: () => dispatch(actions.authCheckLocalStorage())
-  }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

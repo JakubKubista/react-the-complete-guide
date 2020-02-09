@@ -1,9 +1,10 @@
 import React from 'react';
-import classes from './spinner.scss';
+
 import { MESSAGES } from '../../../constants/labels';
+import classes from './spinner.scss';
 
 const spinner = () => (
   <div className={classes.Loader}>{MESSAGES.loading}</div>
 );
 
-export default spinner
+export default spinner;

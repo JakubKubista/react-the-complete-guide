@@ -1,41 +1,49 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { memoize } from 'lodash';
 import classes from './modal.scss';
 import Backdrop from '../backdrop/backdrop';
 
-const style = show => {
-  return {
+const getStyles = memoize(show => ({
     transform: show ? 'translateY(0)' : 'translateY(-100vh)',
     opacity: show ? '1' : '0'
-  };
+  }
+));
+
+const Modal = ({
+  children,
+  show,
+  modalClosed
+}) => {
+  const styles = getStyles(show);
+
+  return (
+    <Fragment>
+      <Backdrop
+        show={show}
+        clickOut={modalClosed} />
+      <div
+        className={classes.Modal}
+        style={styles}>
+        {children}
+      </div>
+  </Fragment>
+  );
 };
 
-class Modal extends Component {
+Modal.propTypes = {
+  children: PropTypes.node,
+  show: PropTypes.bool.isRequired,
+  modalClosed: PropTypes.func.isRequired,
+};
 
-  // More straightforward and less checks than PureComponent
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
-  }
+Modal.defaultProps = {
+  children: null,
+};
 
-  render() {
-    return (
-      <Fragment>
-        <Backdrop
-          show={this.props.show}
-          clickOut={this.props.modalClosed} />
-        <div
-          className={classes.Modal}
-          style={style(this.props.show)}>
-          {this.props.children}
-        </div>
-    </Fragment>
-    )
-  }
-}
+const preventLoad = (prevProps, nextProps) => (
+  nextProps.show === prevProps.show &&
+  nextProps.children === prevProps.children
+);
 
-  Modal.propTypes = {
-    show: PropTypes.bool,
-    modalClosed: PropTypes.func,
-  }
-
-export default Modal;
+export default React.memo(Modal, preventLoad);

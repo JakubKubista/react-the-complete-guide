@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { noop } from 'lodash';
 
 import axios from '../../axios-service';
 import Aux from '../../hoc/aux';
@@ -21,15 +23,49 @@ const burgerBuilderStyle = {
   textAlign: 'center'
 };
 
-export class BurgerBuilder extends Component {
-  componentDidMount() {
-    this.props.onIngredientInit();
-  }
+export const BurgerBuilder = ({
+  history
+}) => {
+  const {
+    ingredients,
+    price,
+    purchasing,
+    error,
+    isSignedIn
+  } = useSelector(state => ({
+    ingredients: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.price,
+    purchasing: state.burgerBuilder.purchasing,
+    error: state.burgerBuilder.error,
+    isSignedIn: state.auth && state.auth.token !== null
+  }));
 
-  initBurger = () => {
+  const dispatch = useDispatch();
+
+  const {
+    onIngredientInit,
+    onIngredientAdded,
+    onIngredientRemoved,
+    onPurchaseInit,
+    onPurchasingOn,
+    onPurchasingOff
+  } = ({
+    onIngredientInit: useCallback(() => dispatch(actions.ingredientInit()), [dispatch]),
+    onIngredientAdded: useCallback((name) => dispatch(actions.ingredientAdd(name)), [dispatch]),
+    onIngredientRemoved: useCallback((name) => dispatch(actions.ingredientRemove(name)), [dispatch]),
+    onPurchaseInit: useCallback(() => dispatch(actions.purchaseInit()), [dispatch]),
+    onPurchasingOn: useCallback(() => dispatch(actions.purchasingOn()), [dispatch]),
+    onPurchasingOff: useCallback(() => dispatch(actions.purchasingOff()), [dispatch])
+  });
+
+  useEffect(() => {
+    onIngredientInit();
+  }, [onIngredientInit]);
+
+  const initBurger = useCallback(() => {
     let burger = null;
 
-    if (this.props.error) {
+    if (error) {
       burger = <div style={burgerBuilderStyle}>
         {MESSAGES.ingredientsNotLoaded}
       </div>;
@@ -38,11 +74,11 @@ export class BurgerBuilder extends Component {
     }
 
     return burger;
-  }
+  }, [error]);
 
-  disabledIngredientsButton = () => {
+  const disabledIngredientsButton = useCallback(() => {
     const disabled = {
-      ...this.props.ingredients
+      ...ingredients
     }
 
     for (let key in disabled) {
@@ -50,89 +86,76 @@ export class BurgerBuilder extends Component {
     }
 
     return disabled;
-  }
+  }, [ingredients]);
 
-  isPurchasable() {
-    const sum = (Object.values(this.props.ingredients))
+  const isPurchasable = useCallback(() => {
+    const sum = (Object.values(ingredients))
       .reduce((a, b) => a + b, 0);
     return sum > 0;
-  }
+  }, [ingredients]);
 
-  orderHandler = () => {
-    if (this.props.isSignedIn) {
-      this.props.onPurchasingOn();
+  const orderHandler = useCallback(() => {
+    if (isSignedIn) {
+      onPurchasingOn();
     } else {
-      this.props.history.push(ROUTES.signIn);
+      history.push(ROUTES.signIn);
     }
+  }, [history, isSignedIn, onPurchasingOn])
+
+  const purchasingContinueHandler = useCallback(() => {
+    onPurchasingOff();
+    onPurchaseInit();
+    history.push(ROUTES.checkout);
+  }, [history, onPurchaseInit, onPurchasingOff])
+
+  let burger = initBurger();
+  let orderSummary = null;
+
+  if (ingredients) {
+    burger = (
+    <Aux>
+      <Burger ingredients={ingredients} />
+
+      <BurgerControls
+        add={onIngredientAdded}
+        remove={onIngredientRemoved}
+        disabled={disabledIngredientsButton()}
+        purchasable={isPurchasable()}
+        purchasing={purchasing}
+        price={price}
+        order={orderHandler}
+        isSignedIn={isSignedIn} />
+    </Aux>);
+
+    orderSummary = <OrderSummary
+      ingredients={ingredients}
+      price={price}
+      cancel={onPurchasingOff}
+      continue={purchasingContinueHandler} />
   }
 
-  purchasingContinueHandler = () => {
-    this.props.onPurchasingOff();
-    this.props.onPurchaseInit();
-    this.props.history.push(ROUTES.checkout);
-  }
-
-  render() {
-    let burger = this.initBurger();
-    let orderSummary = null;
-
-    if (this.props.ingredients) {
-      burger = (
-      <Aux>
-        <Burger ingredients={this.props.ingredients} />
-
-        <BurgerControls
-          add={this.props.onIngredientAdded}
-          remove={this.props.onIngredientRemoved}
-          disabled={this.disabledIngredientsButton()}
-          purchasable={this.isPurchasable()}
-          purchasing={this.props.purchasing}
-          price={this.props.price}
-          order={this.orderHandler}
-          isSignedIn={this.props.isSignedIn} />
-      </Aux>);
-
-      orderSummary = <OrderSummary
-        ingredients={this.props.ingredients}
-        price={this.props.price}
-        cancel={this.props.onPurchasingOff}
-        continue={this.purchasingContinueHandler} />
-    }
-
-    return (
-      <Aux>
-        <Modal
-          show={this.props.purchasing}
-          modalClosed={this.purchasingCancelHandler}>
-          {orderSummary}
-        </Modal>
-        {burger}
-      </Aux>
-    );
-  };
+  return (
+    <Aux>
+      <Modal
+        show={purchasing}
+        modalClosed={onPurchasingOff}>
+        {orderSummary}
+      </Modal>
+      {burger}
+    </Aux>
+  );
 };
 
-const mapStateToProps = state => {
-  return {
-    ingredients: state.burgerBuilder.ingredients,
-    price: state.burgerBuilder.price,
-    purchasing: state.burgerBuilder.purchasing,
-    error: state.burgerBuilder.error,
-    isSignedIn: state.auth && state.auth.token !== null
-  };
+BurgerBuilder.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func
+  })
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onIngredientInit: () => dispatch(actions.ingredientInit()),
-    onIngredientAdded: (name) => dispatch(actions.ingredientAdd(name)),
-    onIngredientRemoved: (name) => dispatch(actions.ingredientRemove(name)),
-    onPurchasingOn: () => dispatch(actions.purchasingOn()),
-    onPurchasingOff: () => dispatch(actions.purchasingOff()),
-    onPurchaseInit: () => dispatch(actions.purchaseInit())
+BurgerBuilder.defaultProps = {
+  history: {
+    push: noop
   }
 };
 
-const BurgerBuilderWithErrorHandler = withErrorHandler(BurgerBuilder, axios)
-
-export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilderWithErrorHandler);
+export default withErrorHandler(BurgerBuilder, axios);

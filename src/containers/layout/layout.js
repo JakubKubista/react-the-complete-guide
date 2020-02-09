@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Aux from '../../hoc/aux';
@@ -7,47 +8,55 @@ import SideDrawer from '../../components/layout/drawer/side-drawer';
 import Menu from '../../components/layout/menu/menu';
 import classes from './layout.scss';
 
-class Layout extends Component {
-  state = {
-    showSideDrawer: false
-  }
+const Layout = ({
+  isSignedIn,
+  children
+}) => {
+  const [showSideDrawer, setShowSideDrawer] = useState(false);
 
-  sideDrawerToggleHandler = () => {
-    this.setState((prevState) => {
-      return { showSideDrawer: !prevState.showSideDrawer }
-    })
-  }
+  const sideDrawerToggleHandler = useCallback(() => {
+    setShowSideDrawer(!showSideDrawer);
+  }, [showSideDrawer]);
 
-  render() {
-    return (
-      <Aux>
-        <Toolbar
-          clickDrawer={this.sideDrawerToggleHandler}>
-          <Menu
-            isSignedIn={this.props.isSignedIn}
-          />
-        </Toolbar>
-        <SideDrawer
-          isSignedIn={this.props.isSignedIn}
-          open={this.state.showSideDrawer}
-          close={this.sideDrawerToggleHandler}>
-          <Menu
-            isSignedIn={this.props.isSignedIn}
-            closeDrawer={this.sideDrawerToggleHandler}
-          />
-        </SideDrawer>
-        <main className={classes.Content}>
-          {this.props.children}
-        </main>
-      </Aux>
-    )
-  };
+  return (
+    <Aux>
+      <Toolbar
+        clickDrawer={sideDrawerToggleHandler}>
+        <Menu
+          isSignedIn={isSignedIn}
+        />
+      </Toolbar>
+
+      <SideDrawer
+        isSignedIn={isSignedIn}
+        open={showSideDrawer}
+        close={sideDrawerToggleHandler}>
+        <Menu
+          isSignedIn={isSignedIn}
+          closeDrawer={sideDrawerToggleHandler}
+        />
+      </SideDrawer>
+
+      <main className={classes.Content}>
+        {children}
+      </main>
+    </Aux>
+  );
+};
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+  isSignedIn: PropTypes.bool
+};
+
+Layout.defaultProps = {
+  isSignedIn: false
 };
 
 const mapStateToProps = state => {
   return {
     isSignedIn: state.auth && state.auth.token !== null
   }
-}
+};
 
 export default connect(mapStateToProps)(Layout);

@@ -1,47 +1,58 @@
-/* eslint-disable no-unused-vars */
-import React, { Component } from 'react';
+import React , { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ContactData from './contact-data/contact-data';
 import CheckoutSummary from '../../components/burger-builder/checkout-summary/checkout-summary';
 
-class Checkout extends Component {
-  checkoutCancelHandler = () => {
-    this.props.history.goBack();
-  }
+const Checkout = ({
+  history,
+  match,
+  ingredients,
+  purchased
+}) => {
 
-  checkoutContinueHandler = () => {
-    this.props.history.replace('/checkout/contact-data');
-  }
+  const checkoutCancelHandler = useCallback(() => {
+    history.goBack();
+  }, [history]);
 
-  render() {
-    let checkout = <Redirect to="/" />
+  const checkoutContinueHandler = useCallback(() => {
+    history.replace('/checkout/contact-data');
+  }, [history]);
 
-    if (this.props.ingredients) {
-      const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
+  return ingredients ?
+    <div>
+      {purchased && <Redirect to="/" />}
 
-      checkout = (
-        <div>
-          {purchasedRedirect}
-          <CheckoutSummary
-            ingredients={this.props.ingredients}
-            cancel={this.checkoutCancelHandler}
-            continue={this.checkoutContinueHandler} />
-          <Route
-            path={this.props.match.path + '/contact-data'}
-            component={ContactData} />
-        </div>
-      );
-    }
+      <CheckoutSummary
+        ingredients={ingredients}
+        cancel={checkoutCancelHandler}
+        continue={checkoutContinueHandler} />
 
-    return (
-      <div>
-        {checkout}
-      </div>
-    )
-  }
-}
+      <Route
+        path={match.path + '/contact-data'}
+        component={ContactData} />
+    </div> :
+    <Redirect to="/" />;
+};
+
+Checkout.propTypes = {
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired
+  }).isRequired,
+  match: PropTypes.shape({
+    path: PropTypes.string.isRequired,
+  }).isRequired,
+  ingredients: PropTypes.shape({
+    salad: PropTypes.number.isRequired,
+    cheese: PropTypes.number.isRequired,
+    meat: PropTypes.number.isRequired,
+    bacon: PropTypes.number.isRequired
+  }).isRequired,
+  purchased: PropTypes.bool.isRequired
+};
 
 const mapStateToProps = state => {
   return {
