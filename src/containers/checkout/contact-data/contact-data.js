@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import axios from '../../../axios-service';
@@ -84,6 +85,20 @@ const ContactData = ({
       {form}
     </div>
   )
+};
+
+ContactData.propTypes = {
+  ingredients: PropTypes.shape({
+    salad: PropTypes.number.isRequired,
+    cheese: PropTypes.number.isRequired,
+    meat: PropTypes.number.isRequired,
+    bacon: PropTypes.number.isRequired
+  }).isRequired,
+  price: PropTypes.number.isRequired,
+  userId: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  onPurchaseOrder: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => {
