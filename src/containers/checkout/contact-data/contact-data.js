@@ -6,7 +6,11 @@ import { connect } from 'react-redux';
 import axios from '../../../axios-service';
 import withErrorHandler from '../../../hoc/errorHandler';
 import * as actions from '../../../store/actions/index';
-import { createArrayOfFormElements, updateValidatedForm, isFormValid } from '../../../utils/index';
+import {
+  createArrayOfFormElements,
+  updateValidatedForm,
+  isFormValid
+} from '../../../utils/index';
 import { ORDER_FORM } from '../../../constants/containers/checkout';
 import { MESSAGES, BUTTONS } from '../../../constants/labels';
 
@@ -58,7 +62,7 @@ const ContactData = ({
 
   const formElementsArray = createArrayOfFormElements(orderForm);
 
-  let form = (
+  const form = !loading ?
     <form onSubmit={submitHandler}>
       {formElementsArray.map(formElement => (
         <Input
@@ -73,18 +77,15 @@ const ContactData = ({
       ))}
       <br />
       <Button btnType="Success" disabled={!validity}>{BUTTONS.order}</Button>
-    </form>
-  );
-  if (loading) {
-    form = <Spinner />;
-  }
+    </form> :
+    <Spinner />;
 
   return (
     <div className={classes.DefaultForm}>
       <h4>{MESSAGES.enterContactData}</h4>
       {form}
     </div>
-  )
+  );
 };
 
 ContactData.propTypes = {
@@ -113,8 +114,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onPurchaseOrder: (orderData, token) => dispatch(actions.purchaseOrder(orderData, token))
+    onPurchaseOrder: (orderData, token) =>
+      dispatch(actions.purchaseOrder(orderData, token))
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withErrorHandler(ContactData, axios)
+);
