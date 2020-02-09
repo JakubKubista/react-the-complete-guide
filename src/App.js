@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
-import classes from './App.css';
+import styled from 'styled-components';
 
+import classes from './App.css';
 import Person from './components/person'
 import Car from './components/car'
+
+const StyledButton = styled.button`
+  border: 1px solid blue;
+  padding: 16px;
+  background-color: ${props => props.alt ? 'red' : 'green'};
+  font: inherit;
+  color: #fff;
+
+  &:hover {
+    background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+    color: black;
+  }
+`;
 
 class App extends Component {
 
@@ -92,9 +106,9 @@ class App extends Component {
       <div className={classes.App}>
         <h1 >Test</h1>
         <p className={classesArr.join(' ')} >Works!</p>
-        <button
-          className={btnClass}
-          onClick={this.togglePersonsHandler}>Toggle</button>
+        <StyledButton
+          alt={this.state.showPersons}
+          onClick={this.togglePersonsHandler}>Toggle</StyledButton>
         {persons}
         <Car />
       </div>
