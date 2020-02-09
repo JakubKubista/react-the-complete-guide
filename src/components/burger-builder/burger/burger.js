@@ -34,7 +34,7 @@ const Burger = ({
     {transformedIngredients}
     <BurgerIngredient type={INGREDIENT_NAMES.breadBottom}  />
   </div>
-  )
+  );
 };
 
 Burger.propTypes = {

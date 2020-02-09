@@ -29,7 +29,7 @@ const Modal = ({
       </div>
   </Fragment>
   );
-}
+};
 
 Modal.propTypes = {
   children: PropTypes.node,
