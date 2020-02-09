@@ -80,7 +80,11 @@ const App = ({
 
 App.propTypes = {
   onAuthCheckLocalStorage: PropTypes.func.isRequired,
-  isSignedIn: PropTypes.bool.isRequired
+  isSignedIn: PropTypes.bool
+};
+
+App.defaultProps = {
+  isSignedIn: false
 };
 
 const mapStateToProps = state => {

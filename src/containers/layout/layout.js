@@ -26,6 +26,7 @@ const Layout = ({
           isSignedIn={isSignedIn}
         />
       </Toolbar>
+
       <SideDrawer
         isSignedIn={isSignedIn}
         open={showSideDrawer}
@@ -35,6 +36,7 @@ const Layout = ({
           closeDrawer={sideDrawerToggleHandler}
         />
       </SideDrawer>
+
       <main className={classes.Content}>
         {children}
       </main>
@@ -43,8 +45,12 @@ const Layout = ({
 };
 
 Layout.propTypes = {
-  isSignedIn: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  isSignedIn: PropTypes.bool
+};
+
+Layout.defaultProps = {
+  isSignedIn: false
 };
 
 const mapStateToProps = state => {
