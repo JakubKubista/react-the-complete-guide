@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
@@ -14,98 +15,96 @@ import Button from '../../components/layout/button/button';
 
 import classes from '../../assets/styles/default-form.scss';
 
-class Auth extends Component {
-  state = {
-    authForm: AUTH_FORM,
-    signIn: true
-  }
+const Auth = ({
+  isSignedIn,
+  burgerChanged,
+  error,
+  loading,
+  authenticate
+}) => {
+  const [authForm, setAuthForm] = useState(AUTH_FORM);
+  const [signIn, setSignIn] = useState(true);
 
-  inputChangedHandler = (event, inputName) => {
+  const inputChangedHandler = useCallback((event, inputName) => {
     const updatedForm = updateValidatedForm({
-      form: this.state.authForm,
+      form: authForm,
       inputName,
       inputValue: event.target.value
     });
 
-    this.setState({
-      authForm: updatedForm
-    })
-  }
+    setAuthForm(updatedForm);
+  }, [authForm]);
 
-  submitHandler = (event) => {
+  const submitHandler = useCallback((event) => {
     event.preventDefault();
 
     const properties = {
-      email: this.state.authForm.email.value,
-      password: this.state.authForm.password.value,
-      method: this.state.signIn
+      email: authForm.email.value,
+      password: authForm.password.value,
+      method: signIn
     }
 
-    this.props.authenticate(properties);
-  }
+    authenticate(properties);
+  }, [authForm.email.value, authForm.password.value, authenticate, signIn]);
 
-  switchSignInHandler = () => {
-    this.setState(prevState => {
-      return {signIn: !prevState.signIn};
-    })
-  }
+  const switchSignInHandler = useCallback(() => {
+    setSignIn(!signIn);
+  }, [signIn]);
 
-  authRedirect = () => {
-    if (this.props.isSignedIn) {
-      const route = this.props.burgerChanged ? ROUTES.checkout : ROUTES.home;
+  const authRedirect = useCallback(() => {
+    const route = burgerChanged ? ROUTES.checkout : ROUTES.home;
 
-      return <Redirect to={route} />
-    }
+    return <Redirect to={route} />
+  }, [burgerChanged]);
 
-    return null;
-  }
+  const errorMessage = useCallback(() => {
+    return <p>{error.message}</p>;
+  }, [error]);
 
-  errorMessage = () => {
-    if (this.props.error) {
-      return <p>{this.props.error.message}</p>;
-    }
+  const formElementsArray = createArrayOfFormElements(authForm);
 
-    return null;
-  }
+  const form = !loading ?
+    <form onSubmit={submitHandler}>
+      {formElementsArray.map(formElement => (
+        <Input
+          key={formElement.id}
+          elementType={formElement.config.elementType}
+          elementConfig={formElement.config.elementConfig}
+          value={formElement.config.value}
+          invalid={!formElement.config.valid}
+          shouldValidate={formElement.config.validation}
+          touched={formElement.config.touched}
+          changed={(event) => inputChangedHandler(event, formElement.id)} />
+      ))}
+      <br />
+      <Button btnType="Success">{signIn ? BUTTONS.signIn : BUTTONS.signUp}</Button>
+    </form> :
+    <Spinner />;
 
-  render() {
-    const formElementsArray = createArrayOfFormElements(this.state.authForm);
-
-    let form = (
-      <form onSubmit={this.submitHandler}>
-        {formElementsArray.map(formElement => (
-          <Input
-            key={formElement.id}
-            elementType={formElement.config.elementType}
-            elementConfig={formElement.config.elementConfig}
-            value={formElement.config.value}
-            invalid={!formElement.config.valid}
-            shouldValidate={formElement.config.validation}
-            touched={formElement.config.touched}
-            changed={(event) => this.inputChangedHandler(event, formElement.id)} />
-        ))}
-        <br />
-        <Button btnType="Success">{this.state.signIn ? BUTTONS.signIn : BUTTONS.signUp}</Button>
-      </form>
-    );
-
-    if (this.props.loading) {
-      form = <Spinner />;
-    }
-
-    return (
-      <div className={classes.DefaultForm}>
-        {this.authRedirect()}
-        {this.errorMessage()}
-        {form}
-        <br />
-        <Button btnType="Danger" click={this.switchSignInHandler}>
-          {BUTTONS.switchTo} {this.state.signIn ? BUTTONS.signUp : BUTTONS.signIn}
-        </Button>
-      </div>
-    )
-  }
+  return (
+    <div className={classes.DefaultForm}>
+      {isSignedIn && authRedirect()}
+      {error && errorMessage()}
+      {form}
+      <br />
+      <Button btnType="Danger" click={switchSignInHandler}>
+        {BUTTONS.switchTo} {signIn ? BUTTONS.signUp : BUTTONS.signIn}
+      </Button>
+    </div>
+  );
 }
+
+Auth.propTypes = {
+  isSignedIn: PropTypes.bool.isRequired,
+  burgerChanged: PropTypes.bool.isRequired,
+  error: PropTypes.object,
+  loading: PropTypes.bool.isRequired,
+  authenticate: PropTypes.func.isRequired
+};
+
+Auth.defaultProps = {
+  error: null
+};
 
 const mapStateToProps = state => {
   return {
