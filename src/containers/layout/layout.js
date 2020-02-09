@@ -7,7 +7,10 @@ import SideDrawer from '../../components/layout/drawer/side-drawer';
 import Menu from '../../components/layout/menu/menu';
 import classes from './layout.scss';
 
-const Layout = props => {
+const Layout = ({
+  isSignedIn,
+  children
+}) => {
   const [showSideDrawer, setShowSideDrawer] = useState(false);
 
   const sideDrawerToggleHandler = () => {
@@ -19,20 +22,20 @@ const Layout = props => {
       <Toolbar
         clickDrawer={sideDrawerToggleHandler}>
         <Menu
-          isSignedIn={props.isSignedIn}
+          isSignedIn={isSignedIn}
         />
       </Toolbar>
       <SideDrawer
-        isSignedIn={props.isSignedIn}
+        isSignedIn={isSignedIn}
         open={showSideDrawer}
         close={sideDrawerToggleHandler}>
         <Menu
-          isSignedIn={props.isSignedIn}
+          isSignedIn={isSignedIn}
           closeDrawer={sideDrawerToggleHandler}
         />
       </SideDrawer>
       <main className={classes.Content}>
-        {props.children}
+        {children}
       </main>
     </Aux>
   );
