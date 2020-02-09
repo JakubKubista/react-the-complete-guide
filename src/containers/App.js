@@ -24,13 +24,13 @@ const App = props => {
 
   const routes = (
     <Switch>
-      <Route path={ROUTES.signIn} render={() => <Auth />} key={ROUTES.signIn}/>
+      <Route path={ROUTES.signIn} render={props => <Auth {...props} />} key={ROUTES.signIn}/>
       <Route path={ROUTES.signOut} component={SignOut} key={ROUTES.signOut} />
       {props.isSignedIn &&
-        <Route path={ROUTES.checkout} render={() => <Checkout />} key={ROUTES.checkout} />
+        <Route path={ROUTES.checkout} render={props => <Checkout {...props} />} key={ROUTES.checkout} />
       }
       {props.isSignedIn &&
-        <Route path={ROUTES.orders} render={() => <Orders />} key={ROUTES.orders} />
+        <Route path={ROUTES.orders} render={props => <Orders {...props} />} key={ROUTES.orders} />
       }
       <Route path={ROUTES.home} exact component={BurgerBuilder} key={ROUTES.home} />
       <Redirect to={ROUTES.home} key={'Redirect'} />
