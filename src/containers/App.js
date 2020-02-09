@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -23,31 +23,31 @@ const suspense = (Component, props) => (<Suspense fallback={null}>
   <Component {...props} />
 </Suspense>);
 
-class App extends Component {
-  componentDidMount() {
-    this.props.onAuthCheckLocalStorage();
-  };
+const App = props => {
+  const {
+    onAuthCheckLocalStorage
+  } = props;
 
-  getRoutes = () => (
+  useEffect(() => {
+    onAuthCheckLocalStorage();
+  }, [onAuthCheckLocalStorage])
+
+  const routes = (
     <Switch>
       <Route path={ROUTES.signIn} component={(props) => suspense(Auth, props)} key={ROUTES.signIn}/>
       <Route path={ROUTES.signOut} component={SignOut} key={ROUTES.signOut} />
-      {this.props.isSignedIn && <Route path={ROUTES.checkout} component={Checkout} key={ROUTES.checkout} />}
-      {this.props.isSignedIn && <Route path={ROUTES.orders} component={Orders} key={ROUTES.orders} />}
+      {props.isSignedIn && <Route path={ROUTES.checkout} component={Checkout} key={ROUTES.checkout} />}
+      {props.isSignedIn && <Route path={ROUTES.orders} component={Orders} key={ROUTES.orders} />}
       <Route path={ROUTES.home} exact component={BurgerBuilder} key={ROUTES.home} />
       <Redirect to={ROUTES.home} key={'Redirect'} />
     </Switch>
   );
 
-  render() {
-    const routes = this.getRoutes();
-
-    return (
-        <Layout >
-          {routes}
-        </Layout>
-    );
-  };
+  return (
+      <Layout >
+        {routes}
+      </Layout>
+  );
 };
 
 const mapStateToProps = state => {
