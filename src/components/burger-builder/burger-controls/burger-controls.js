@@ -9,6 +9,7 @@ import classes from './burger-controls.scss';
 const BurgerControls = props => (
   <div className={classes.BurgerControls}>
     <p>{MESSAGES.price}: <b>{MESSAGES.currencyUsd} {props.price.toFixed(2)}</b></p>
+
     {CONTROLS.map(control => (
       <BurgerControl
         key={control.type}
@@ -17,6 +18,7 @@ const BurgerControls = props => (
         remove={() => props.remove(control.type)}
         disabled={props.disabled[control.type]} />
     ))}
+
     <button
       className={classes.OrderButton}
       disabled={!props.purchasable}
