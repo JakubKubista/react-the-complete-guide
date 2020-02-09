@@ -39,10 +39,10 @@ const Burger = ({
 
 Burger.propTypes = {
   ingredients: PropTypes.shape({
-    salad: PropTypes.number.isRequired,
-    cheese: PropTypes.number.isRequired,
-    meat: PropTypes.number.isRequired,
-    bacon: PropTypes.number.isRequired
+    salad: PropTypes.number,
+    cheese: PropTypes.number,
+    meat: PropTypes.number,
+    bacon: PropTypes.number
   }).isRequired
 }
 

@@ -24,9 +24,12 @@ const BurgerControl = ({
 
 BurgerControl.propTypes = {
   label: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   remove: PropTypes.func.isRequired,
   add: PropTypes.func.isRequired
+};
+BurgerControl.defaultProps = {
+  disabled: false
 };
 
 export default BurgerControl;

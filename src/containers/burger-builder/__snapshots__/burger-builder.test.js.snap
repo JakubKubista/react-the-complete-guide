@@ -29,12 +29,14 @@ Array [
     </p>
     <button
       className=" "
+      disabled={false}
       onClick={[Function]}
     >
       CANCEL
     </button>
     <button
       className=" "
+      disabled={false}
       onClick={[Function]}
     >
       CONTINUE
@@ -65,6 +67,7 @@ Array [
         Salad
       </div>
       <button
+        disabled={false}
         onClick={[Function]}
       >
         Less
@@ -80,6 +83,7 @@ Array [
         Cheese
       </div>
       <button
+        disabled={false}
         onClick={[Function]}
       >
         Less
@@ -95,6 +99,7 @@ Array [
         Meat
       </div>
       <button
+        disabled={false}
         onClick={[Function]}
       >
         Less
@@ -110,6 +115,7 @@ Array [
         Bacon
       </div>
       <button
+        disabled={false}
         onClick={[Function]}
       >
         Less
