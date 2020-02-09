@@ -1,47 +1,46 @@
 /* eslint-disable no-unused-vars */
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ContactData from './contact-data/contact-data';
 import CheckoutSummary from '../../components/burger-builder/checkout-summary/checkout-summary';
 
-class Checkout extends Component {
-  checkoutCancelHandler = () => {
-    this.props.history.goBack();
+const Checkout = ({
+  history,
+  match,
+  ingredients,
+  purchased
+}) => {
+  const checkoutCancelHandler = () => {
+    history.goBack();
   }
 
-  checkoutContinueHandler = () => {
-    this.props.history.replace('/checkout/contact-data');
+  const checkoutContinueHandler = () => {
+    history.replace('/checkout/contact-data');
   }
 
-  render() {
-    let checkout = <Redirect to="/" />
+  let checkout = <Redirect to="/" />
 
-    if (this.props.ingredients) {
-      const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
+  if (ingredients) {
+    const purchasedRedirect = purchased && <Redirect to="/" />;
 
-      checkout = (
-        <div>
-          {purchasedRedirect}
-          <CheckoutSummary
-            ingredients={this.props.ingredients}
-            cancel={this.checkoutCancelHandler}
-            continue={this.checkoutContinueHandler} />
-          <Route
-            path={this.props.match.path + '/contact-data'}
-            component={ContactData} />
-        </div>
-      );
-    }
-
-    return (
+    checkout = (
       <div>
-        {checkout}
+        {purchasedRedirect}
+        <CheckoutSummary
+          ingredients={ingredients}
+          cancel={checkoutCancelHandler}
+          continue={checkoutContinueHandler} />
+        <Route
+          path={match.path + '/contact-data'}
+          component={ContactData} />
       </div>
-    )
+    );
   }
-}
+
+  return checkout
+};
 
 const mapStateToProps = state => {
   return {
