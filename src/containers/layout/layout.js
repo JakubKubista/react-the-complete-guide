@@ -17,7 +17,7 @@ const Layout = props => {
   return (
     <Aux>
       <Toolbar
-        clickDrawer={sideDrawerToggleHandler}>§
+        clickDrawer={sideDrawerToggleHandler}>
         <Menu
           isSignedIn={props.isSignedIn}
         />
