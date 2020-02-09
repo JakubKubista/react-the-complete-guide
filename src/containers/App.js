@@ -4,24 +4,14 @@ import { connect } from 'react-redux';
 
 import * as actions from '../store/actions/index';
 import { ROUTES } from '../constants/routes';
-import asyncComponent from '../hoc/asyncComponent';
-import Layout from '../containers/layout/layout';
+import Layout from './layout/layout';
 import BurgerBuilder from './burger-builder/burger-builder';
 import SignOut from './auth/sign-out/sign-out';
+import Spinner from '../components/layout/spinner/spinner';
 
-/*
-  Two options of lazyloading:
-  - Checkout and Orders are using HOC with state+then logic
-  - Auth using build-in React Suspense logic
-*/
-
-const Checkout = asyncComponent(() => import('./checkout/checkout'));
-const Orders = asyncComponent(() => import('./orders/orders'));
+const Checkout = React.lazy(() => import('./checkout/checkout'));
+const Orders = React.lazy(() => import('./orders/orders'));
 const Auth = React.lazy(() => import('./auth/auth'));
-
-const suspense = (Component, props) => (<Suspense fallback={null}>
-  <Component {...props} />
-</Suspense>);
 
 const App = props => {
   const {
@@ -34,10 +24,14 @@ const App = props => {
 
   const routes = (
     <Switch>
-      <Route path={ROUTES.signIn} component={(props) => suspense(Auth, props)} key={ROUTES.signIn}/>
+      <Route path={ROUTES.signIn} render={() => <Auth />} key={ROUTES.signIn}/>
       <Route path={ROUTES.signOut} component={SignOut} key={ROUTES.signOut} />
-      {props.isSignedIn && <Route path={ROUTES.checkout} component={Checkout} key={ROUTES.checkout} />}
-      {props.isSignedIn && <Route path={ROUTES.orders} component={Orders} key={ROUTES.orders} />}
+      {props.isSignedIn &&
+        <Route path={ROUTES.checkout} render={() => <Checkout />} key={ROUTES.checkout} />
+      }
+      {props.isSignedIn &&
+        <Route path={ROUTES.orders} render={() => <Orders />} key={ROUTES.orders} />
+      }
       <Route path={ROUTES.home} exact component={BurgerBuilder} key={ROUTES.home} />
       <Redirect to={ROUTES.home} key={'Redirect'} />
     </Switch>
@@ -45,7 +39,9 @@ const App = props => {
 
   return (
       <Layout >
-        {routes}
+        <Suspense fallback={<Spinner/>}>
+          {routes}
+        </Suspense>
       </Layout>
   );
 };
