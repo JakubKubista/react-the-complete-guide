@@ -1,30 +1,44 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+
 import Logo from '../logo/logo';
 import Menu from '../menu/menu';
 import Backdrop from '../backdrop/backdrop';
 import classes from './side-drawer.scss';
 
-const SideDrawer = props => {
-  let attachedClasses = [classes.SideDrawer, classes.Close];
-  if (props.open) {
-    attachedClasses = [classes.SideDrawer, classes.Open];
-  }
+const SideDrawer = ({
+  children,
+  open,
+  close
+}) => {
+  const style = open ? classes.Open : classes.Close;
+  const attachedClasses = [classes.SideDrawer, style];
 
   return (
     <Fragment>
       <Backdrop
-        show={props.open}
-        clickOut={props.close} />
+        show={open}
+        clickOut={close}
+      />
+
       <div className={attachedClasses.join(' ')}>
         <div className={classes.Logo}>
           <Logo />
         </div>
+
         <Menu
-          {...props.children.props}
-          className={classes.Menu} />
+          {...children.props}
+          className={classes.Menu}
+        />
       </div>
     </Fragment>
-  )
+  );
+};
+
+SideDrawer.propTypes = {
+  children: PropTypes.node.isRequired,
+  open: PropTypes.bool.isRequired,
+  close: PropTypes.func.isRequired
 };
 
 export default SideDrawer;
