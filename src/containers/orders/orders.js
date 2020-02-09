@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from '../../axios-service';
 import withErrorHandler from '../../hoc/errorHandler';
@@ -28,6 +29,14 @@ const Orders = ({
         ingredients={order.ingredients}
         price={order.price} />
     );
+};
+
+Orders.propTypes = {
+  token: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
+  orders: PropTypes.array.isRequired,
+  onOrdersFetch: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => {

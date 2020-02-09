@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Aux from '../../hoc/aux';
@@ -40,6 +41,11 @@ const Layout = ({
     </Aux>
   );
 };
+
+Layout.propTypes = {
+  isSignedIn: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired
+}
 
 const mapStateToProps = state => {
   return {

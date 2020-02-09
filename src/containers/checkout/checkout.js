@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -41,6 +41,24 @@ const Checkout = ({
 
   return checkout
 };
+
+Checkout.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired
+  }).isRequired,
+  match: PropTypes.shape({
+    path: PropTypes.string.isRequired,
+  }).isRequired,
+  ingredients: PropTypes.shape({
+    salad: PropTypes.number.isRequired,
+    cheese: PropTypes.number.isRequired,
+    meat: PropTypes.number.isRequired,
+    bacon: PropTypes.number.isRequired
+  }).isRequired,
+  purchased: PropTypes.bool.isRequired
+}
 
 const mapStateToProps = state => {
   return {
